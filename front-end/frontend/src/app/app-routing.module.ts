@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+
 //components
-import { TaskComponent } from './components/task/task.component';
-import { PrivateTaskComponent } from './components/private-task/private-task.component';
-import { SignupComponent } from './components/signup/signup.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { PrivateTasksComponent } from './components/private-tasks/private-tasks.component';
 import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/task', pathMatch: 'full' },
-  { path: 'task', component: TaskComponent },
-  { path: 'private', component: PrivateTaskComponent },
+  { path: '', redirectTo:'/tasks', pathMatch: 'full'},
+  { path: 'tasks', component: TasksComponent },
+  { path: 'private', component: PrivateTasksComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: SigninComponent },
 
