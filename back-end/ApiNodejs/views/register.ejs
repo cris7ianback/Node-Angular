@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="p-4 pt-5">
+                <a href="/" class="img logo rounded-circle mb-5" style="background-image: url(img/session.png"></a>
+                <ul class="list-unstyled components mb-5">
+                    <li> <a href="/">HOME</a></li>
+                    <li> <a href="registrarPersonal">Registrar Personal</a></li>
+                    <li> <a href="registrarUsuario">Registrar Usuario</a></li>
+                    <li><a href="logout" id="btn2">Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 text-center">
+            <main class="form-signin">
+                <!-- <form action="" class="formulario" id="formulario"> -->
+                <form action="/registrarUsuario" method="POST" id="formulario">
+                    <img class="mb-4" src="img/session.png" alt="" width="72" height="57">
+                    <h1 class="h3 mb-3 fw-normal">Registrar Personal</h1>
+
+                    <!-- Grupo: User -->
+                    <div class="form-floating formulario__grupo" id="grupo__user">
+                        <label for="user" class="formulario__label">User</label>
+                        <div class="formulario__grupo-input">
+                            <input type="text" class="form-control" id="user" name="user"
+                                placeholder="Ingrese su Nombre & Apellido">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">El nombre tiene que ser de 4 a 16 dígitos y solo puede
+                            contener letras.</p>
+                    </div>
+                    <!-- Grupo: Email -->
+                    <div class="form-floating formulario__grupo" id="grupo__email">
+                        <label for="email" class="formulario__label">Email</label>
+                        <div class="formulario__grupo-input">
+                            <input type="text" class="form-control" id="email" name="email"
+                                placeholder="Ingrese su Nombre">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">El nombre tiene que ser de 4 a 16 dígitos y solo puede
+                            contener letras.</p>
+                    </div>
+
+                    <!-- Grupo: Password -->
+                    <div class="form-floating formulario__grupo" id="grupo__password">
+                        <label for="password" class="formulario__label">Password</label>
+                        <div class="formulario__grupo-input">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Ingrese su correo example@correo.cl">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos,
+                            guiones y guion bajo.</p>
+                    </div>
+
+                    <!-- Grupo: Rol -->
+                    <div class="form-floating formulario__grupo" id="grupo__id_role">
+                        <label for="id_role" class="formulario__label">Rol Usuario</label>
+                        <div class="formulario__grupo-input">
+                            <input type="text" class="form-control" id="id_role" name="id_role"
+                                placeholder="Ingrese su Password">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">El Rol tiene que ser de 4 a 16 dígitos y solo puede
+                            contener letras.</p>
+                    </div>
+
+                    <br>
+                    <div class="formulario__mensaje" id="formulario__mensaje">
+                        <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario
+                            correctamente. </p>
+                    </div>
+                    <br>
+
+                    <div>
+                        <button id="registrar" disabled type="submit" class="btn btn-success ">Registrar</button>
+                        <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado
+                            exitosamente!</p>
+                        <a href="/" class="btn btn-dark">Cancelar</a>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script src="js/validaciones2.js"></script>
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
