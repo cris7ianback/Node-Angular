@@ -123,18 +123,18 @@ module.exports = {
                         }
                         req.session.id_role = results[0].id_role;
                         //console.log(req.session.id_role);
-
+                        return res.status(200).json({token}); 
                         res.cookie('jwt', token, cookiesOptions);
-                        res.render('login', {
-                            alert: true,
-                            alertTitle: "Conexión exitosa",
-                            alertMessage: "¡LOGIN CORRECTO!",
-                            alertIcon: 'success',
-                            showConfirmButton: false,
-                            timer: 800,
-                            ruta: '/'
+                        // res.render('login', {
+                        //     alert: true,
+                        //     alertTitle: "Conexión exitosa",
+                        //     alertMessage: "¡LOGIN CORRECTO!",
+                        //     alertIcon: 'success',
+                        //     showConfirmButton: false,
+                        //     timer: 800,
+                        //     ruta: '/'
 
-                        });
+                        // });
                     }
                 });
             }

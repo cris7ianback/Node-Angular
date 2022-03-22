@@ -13,22 +13,32 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/private" routerLinkActive="active">Private</a>
-          </li>  
+          </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="/signin" routerLinkActive="active">SignIn</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"routerLink="/signup" routerLinkActive="active">SignUp</a>
-          </li>  
+          
+          <ng-container *ngIf="!authService.loggedIn(); else loggedIn">
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" routerLink="/login" routerLinkActive="active">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/registrarUsuario" routerLinkActive="active">Registrar</a>
+            </li>
+          </ng-container>
+          <ng-template #loggedIn>
+            <li class="nav-item">
+              <a class="nav-link"  style="cursor: pointer;" (click)="authService.logout()"> Logout</a>
+            </li>
+          </ng-template>
         </ul>
-        
+
       </div>
     </div>
   </div>
 </nav>
 <br>
 <br>
-
-<router-outlet></router-outlet>
+<div class="container p-5">
+  <router-outlet></router-outlet>
+</div>

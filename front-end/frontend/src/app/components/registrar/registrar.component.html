@@ -1,0 +1,35 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    Registrar
+                </div>
+                <div class="card-body">
+                    <form (submit)="registrarUsuario()">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <input type="text" [(ngModel)]="user.user" name="user" class="form-control"
+                                    placeholder="Usuario" required>
+                            </div>
+                            <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
+                                placeholder="Email" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
+                                placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" [(ngModel)]="user.id_role" name="id_role" class="form-control"
+                                placeholder="Rol" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Registrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

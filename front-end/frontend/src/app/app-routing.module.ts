@@ -5,15 +5,17 @@ import { RouterModule, Routes } from '@angular/router';
 //components
 import { TasksComponent } from './components/tasks/tasks.component';
 import { PrivateTasksComponent } from './components/private-tasks/private-tasks.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { SignupComponent } from './components/signup/signup.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo:'/tasks', pathMatch: 'full'},
+  { path: '', redirectTo: '/tasks', pathMatch: 'full' },
   { path: 'tasks', component: TasksComponent },
-  { path: 'private', component: PrivateTasksComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'signin', component: SigninComponent },
+  { path: 'private', component: PrivateTasksComponent, canActivate: [AuthGuard] },
+  { path: 'registrarUsuario', component: RegistrarComponent },
+  { path: 'login', component: LoginComponent },
 
 ];
 
@@ -22,3 +24,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
