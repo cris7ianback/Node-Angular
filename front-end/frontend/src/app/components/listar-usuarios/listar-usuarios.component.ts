@@ -24,16 +24,21 @@ export class ListarUsuariosComponent implements OnInit {
       },
       err =>console.log(err)
     );
-  }
 
-  eliminarUsuario( id_user:string){
-    this.taskServices.eliminarUsuario(id_user).subscribe(
-      res => {
-        console.log('Usuario Eliminado');
-        this.usuario();
-      },
+    }
+
+  eliminarUsuario( id_user: string){
+
+    this.taskServices.eliminarUsuario(id_user)
+    .subscribe(
+      res => { this.ngOnInit();},
       err => console.log(err)
     );
+        //console.log('Usuario Eliminado');
+//        this.taskServices.eliminarUsuario(id_user);
+      //},
+      //err => console.log(err)
+    //);
   }
 
 }

@@ -3,11 +3,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-registrar',
-  templateUrl: './registrar.component.html',
-  styleUrls: ['./registrar.component.css']
+  selector: 'app-registrar-usuario',
+  templateUrl: './registrar-usuario.html',
+  styleUrls: ['./registrar-usuario.component.css']
 })
-export class RegistrarComponent implements OnInit {
+export class RegistrarUsuarioComponent implements OnInit {
 
   user = {
     user: '',

@@ -27,4 +27,13 @@ export class ListarPersonalComponent implements OnInit {
 
   }
 
+  eliminarPersonal( id: string){
+
+    this.taskServices.eliminarPersonal(id)
+    .subscribe(
+      res => { this.ngOnInit();},
+      err => console.log(err)
+    );
+
+}
 }

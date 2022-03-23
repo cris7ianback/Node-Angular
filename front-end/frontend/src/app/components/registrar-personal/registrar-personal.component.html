@@ -1,0 +1,31 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    Registrar Personal
+                </div>
+                <div class="card-body">
+                    <form (submit)="registrarPersonal()">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre de personal"
+                                    required>
+                            </div>
+                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" autofocus
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="correo" class="form-control"
+                                placeholder="Correo: example@test.com" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            Registrar Personal
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

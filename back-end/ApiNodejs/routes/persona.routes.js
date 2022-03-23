@@ -21,13 +21,13 @@ router.get('/logout', controller.LogOut);
 //rutas Usuarios
 router.get('/listarUsuarios', controller.listarUsuarios);
 router.post('/registrarUsuario', controller.registrarUsuario);
-router.get('/eliminarUsuarios/:id_user', controller.eliminarUsuario)
+router.post('/eliminarUsuario/:id_user', controller.eliminarUsuario)
 
 //rutas Personal
 router.get('/listarPersonal', controller.listarPersonal);
 router.post('/registrarPersonal', controller.registrarPersonal);
 router.post('/actualizarPersonal/:id_persona', controller.actualizarPersonal);
-router.get('/eliminarPersonal/:id_persona',  controller.auntentificadorRol, controller.eliminarPersonal);
+router.post('/eliminarPersonal/:id_persona', controller.eliminarPersonal);
 router.get('/listarPersonalId/:id_persona', controller.auntentificadorRol, controller.listarPersonalId);
 
 

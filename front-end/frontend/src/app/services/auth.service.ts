@@ -14,9 +14,11 @@ export class AuthService {
 
   login( user: any ) { return this.http.post<any>(this.URL + 'login', user); }
   registrarUsuario(user: any) { return this.http.post<any>(this.URL + 'registrarUsuario', user) }
+  registrarPersonal(user: any) { return this.http.post<any>(this.URL + 'registrarPersonal', user) }
   loggedIn() { return !!localStorage.getItem('token'); }
   getToken() { return localStorage.getItem('token'); }
   logout() { localStorage.removeItem('token'); this.router.navigate(['login']);
   }
 
 }
+

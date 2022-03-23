@@ -48,6 +48,19 @@ module.exports = {
         });
 
     },
+
+    //Eliminar Usuario
+    eliminarUsuario: function (id_user, callback) {
+        console.log(id_user);
+        let sql = 'DELETE FROM users WHERE id_user =?';
+        conexion.query(sql, id_user, function (err, rows) {
+            if (err) throw err;
+            else {
+                return callback(rows[0]);
+            }
+        });
+
+    },
     //MODIFICAR PERSONAL
     actualizarPersonal: function (id_persona, nombre, apellido, correo, callback) {
         let sql = `UPDATE persona SET
