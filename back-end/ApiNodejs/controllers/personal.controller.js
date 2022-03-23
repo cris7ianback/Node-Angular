@@ -14,7 +14,14 @@ module.exports = {
     //CONSULTAR  TODO EL PERSONAL
     listarPersonal: function (req, res) {
         personalModule.listarPersonal(function (data) {
-            res.render('index', { results: data });
+            //res.render('index', { results: data });
+            res.send(data)
+        });
+    },
+    listarUsuarios: function (req, res) {
+        personalModule.listarUsuarios(function (data) {
+            //res.render('index', { results: data });
+            res.send(data)
         });
     },
     //CONSULTAR  PERSONAL POR ID
@@ -40,6 +47,14 @@ module.exports = {
     eliminarPersonal: function (req, res) {
         var id_persona = req.params.id_persona;
         personalModule.eliminarPersonal(id_persona, function (data) {
+            res.redirect('/');
+            console.log("Personal eliminado exitosamente");
+        });
+    },
+    //ELIMINAR USUARIO
+    eliminarUsuario: function (req, res) {
+        var id_user = req.params.id_user;
+        personalModule.eliminarUsuario(id_user, function (data) {
             res.redirect('/');
             console.log("Usuario eliminado exitosamente");
         });

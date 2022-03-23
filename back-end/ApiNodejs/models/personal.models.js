@@ -10,6 +10,14 @@ module.exports = {
             return callback(data);
         });
     },
+    //CONSULTAR USUARIOS
+    listarUsuarios: function (callback) {
+        var sql = 'SELECT * FROM users';
+        conexion.query(sql, function (err, data) {
+            if (err) throw err;
+            return callback(data);
+        });
+    },
     //CONSULTA POR ID
     listarPersonalId: function (id_persona, callback) {
         var sql = 'SELECT * FROM persona WHERE id_persona= ?';

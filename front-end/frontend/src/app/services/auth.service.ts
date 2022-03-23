@@ -12,25 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient,
               private router: Router) { }
 
-  login(user: any) {
-    return this.http.post<any>(this.URL + 'login', user);
-  }
-  registrarUsuario(user: any) {
-    return this.http.post<any>(this.URL + 'registrarUsuario', user)
-  }
-
-  loggedIn() {
-    return !!localStorage.getItem('token');
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
-
-  }
-
-  logout (){
-    localStorage.removeItem('token');
-    this.router.navigate(['login']);
+  login( user: any ) { return this.http.post<any>(this.URL + 'login', user); }
+  registrarUsuario(user: any) { return this.http.post<any>(this.URL + 'registrarUsuario', user) }
+  loggedIn() { return !!localStorage.getItem('token'); }
+  getToken() { return localStorage.getItem('token'); }
+  logout() { localStorage.removeItem('token'); this.router.navigate(['login']);
   }
 
 }

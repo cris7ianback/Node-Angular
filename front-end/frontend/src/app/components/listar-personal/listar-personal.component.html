@@ -1,0 +1,26 @@
+<h1>Lista de Personal</h1>
+<table class="table table-hover">
+    <thead>
+        <tr class="table table-dark">
+            <th scope="col">id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Correo</th>
+            <th scope="col"> Acciones</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr class="table-info" *ngFor="let persona of personal">
+            <td >{{persona.id_persona}}</td>
+            <td>{{persona.nombre}}</td>
+            <td>{{persona.apellido}}</td>
+            <td>{{persona.correo}}</td>
+            <td> 
+                <button class="btn btn-warning">Modificar</button> 
+                <button class="btn btn-danger">Eliminar</button>
+
+            </td>
+        </tr>
+    </tbody>
+</table> 
