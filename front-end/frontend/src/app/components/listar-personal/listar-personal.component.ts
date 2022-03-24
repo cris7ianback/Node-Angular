@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class ListarPersonalComponent implements OnInit {
 
-  personal:any = [];
-    
+  personal: any = [];
+
   constructor(private taskServices: TasksService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -27,13 +27,17 @@ export class ListarPersonalComponent implements OnInit {
 
   }
 
-  eliminarPersonal( id: string){
-
-    this.taskServices.eliminarPersonal(id)
-    .subscribe(
-      res => { this.ngOnInit();},
-      err => console.log(err)
-    );
-
+  eliminarPersonal(id_persona: any): void {
+    this.taskServices.eliminarPersonal(id_persona)
+      .subscribe(
+        res => {
+          console.log(res)
+        },
+        err => {
+          console.log(err)
+        });
+    window.location.reload();
+  }
 }
-}
+
+

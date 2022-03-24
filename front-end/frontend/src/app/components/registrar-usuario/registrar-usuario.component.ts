@@ -11,28 +11,29 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   user = {
     user: '',
-    email:'',
+    email: '',
     password: '',
     id_role: ''
+  
   }
 
-  constructor( private authService: AuthService,
-               private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  registrarUsuario(){
-   this.authService.registrarUsuario(this.user)
-   .subscribe(
-     res => {
-       console.log(res);
-       localStorage.setItem('token', res.token);
-       this.router.navigate(['private']);
-     },
-     err => console.log(err)
-   )
-
- }
+  registrarUsuario() {
+    this.authService.registrarUsuario(this.user)
+      .subscribe(
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+        
+        },
+        err => console.log(err)
+      )
+      window.location.href = "/listarUsuarios";
+  }
 
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,14 @@ export class TasksService {
 
   constructor(private http: HttpClient) { }
 
-
+  //personal
   listarPersonal() { return this.http.get<any>(this.URL + 'listarPersonal'); }
+  eliminarPersonal(id_persona: any) { return this.http.get(`${this.URL}eliminarPersonal/${id_persona}`); }
+
+
+  //Usuarios
   listarUsuarios() { return this.http.get<any>(this.URL + 'listarUsuarios'); }
-  //eliminarUsuario(id_user: string) { return this.http.post<any>(this.URL + 'eliminarUsuario/' + id_user) }
-  eliminarUsuario(id: string) {return this.http.delete(`${this.URL}eliminarUsuario/${id}`);}
-  eliminarPersonal(id: string) {return this.http.delete(`${this.URL}eliminarUsuario/${id}`);}
-  
- }
+  eliminarUsuario(id_user: string) { return this.http.get(`${this.URL}eliminarUsuario/${id_user}`); }
+
+}
 

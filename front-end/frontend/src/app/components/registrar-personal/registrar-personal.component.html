@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="row">
         <div class="col-md-4 mx-auto">
             <div class="card">
@@ -10,14 +9,14 @@
                     <form (submit)="registrarPersonal()">
                         <div class="form-group">
                             <div class="form-group">
-                                <input type="text" name="nombre" class="form-control" placeholder="Nombre de personal"
+                                <input type="text" [(ngModel)]="personal.nombre" name="nombre" class="form-control" placeholder="Nombre de personal"
                                     required>
                             </div>
-                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" autofocus
+                            <input type="text" [(ngModel)]="personal.apellido" name="apellido" class="form-control" placeholder="Apellido" autofocus
                                 required>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="correo" class="form-control"
+                            <input type="email" [(ngModel)]="personal.correo" name="correo" class="form-control"
                                 placeholder="Correo: example@test.com" required>
                         </div>
                         <button type="submit" class="btn btn-success">

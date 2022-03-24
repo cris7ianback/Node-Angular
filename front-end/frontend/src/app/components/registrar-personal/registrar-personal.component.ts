@@ -11,28 +11,28 @@ export class RegistrarPersonalComponent implements OnInit {
 
   personal = {
     nombre: '',
-    apellido:'',
+    apellido: '',
     correo: '',
-    
+
   }
 
-  constructor( private authService: AuthService,
-               private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  registrarPersonal(){
-   this.authService.registrarPersonal(this.personal)
-   .subscribe(
-     res => {
-       console.log(res);
-       //localStorage.setItem('token', res.token);
-       this.router.navigate(['listarPersonal']);
-     },
-     err => console.log(err)
-   )
+  registrarPersonal() {
+    this.authService.registrarPersonal(this.personal)
+      .subscribe(
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
 
- }
+        },
+        err => console.log(err)
+      )
+    window.location.href = "/listarPersonal";
+  }
 
 }
