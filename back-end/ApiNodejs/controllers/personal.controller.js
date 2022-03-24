@@ -37,7 +37,7 @@ module.exports = {
         var nombre = req.body.nombre;
         var apellido = req.body.apellido;
         var correo = req.body.correo;
-       // res.redirect('/');
+        res.redirect('/');
         personalModule.registrarPersonal(nombre, apellido, correo, function (data) {
             //res.send(data);
             console.log("Personal Ingresado Exitosamente");
@@ -47,7 +47,7 @@ module.exports = {
     eliminarPersonal: function (req, res) {
         var id_persona = req.params.id_persona;
         personalModule.eliminarPersonal(id_persona, function (data) {
-           // res.redirect('/');
+            res.redirect('/');
             console.log("Personal eliminado exitosamente");
         });
     },
@@ -55,7 +55,7 @@ module.exports = {
     eliminarUsuario: function (req, res) {
         var id_user = req.params.id_user;
         personalModule.eliminarUsuario(id_user, function (data) {
-            //res.redirect('/');
+            res.redirect('/');
             console.log("Usuario eliminado exitosamente");
         });
     },
@@ -90,23 +90,15 @@ module.exports = {
     login: async (req, res) => {
         try {
             //limpiar Cookie & Token.
-            res.clearCookie('jwt');
-            res.clearCookie('connect.sid');
-            
+            // res.clearCookie('jwt');
+            // res.clearCookie('connect.sid');
+            console.log(req.body);
             const email = req.body.email;
             const password = req.body.password;
             
 
             if (!email || !password) {
-                res.render('login', {
-                    alert: true,
-                    alertTitle: "Advertencia",
-                    alertMessage: "Ingrese un usuario y password",
-                    alertIcon: 'info',
-                    showConfirmButton: true,
-                    timer: false,
-                    ruta: 'login'
-                });
+               
                 
             } else {
                 conexion.query('SELECT * From users WHERE email = ?', 

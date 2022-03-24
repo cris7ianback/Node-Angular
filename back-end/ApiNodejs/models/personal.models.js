@@ -47,7 +47,6 @@ module.exports = {
             }
         });
     },
-
     //Eliminar Usuario
     eliminarUsuario: function (id_user, callback) {
         console.log(id_user);
@@ -95,20 +94,3 @@ module.exports = {
         });
     }
 };
-
-
-// const controller = {};
-
-// controller.list = (req, res) => {
-//     req.getConnection((err, conn) => {
-//         conexion.query('SELECT * FROM persona', (err, personal) => {
-//             if (err) {
-//                 res.json(err);
-//             }
-//             res.render('personal', {
-//                 data: personal
-//             });
-//         });
-//     });
-
-// };

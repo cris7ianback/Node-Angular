@@ -14,22 +14,26 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor( private authService : AuthService,
+  constructor( private authService: AuthService,
                private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
   }
 
-  login (){
+  login() {
+
+//    console.log('prueba')
     this.authService.login(this.user)
-    .subscribe(
-      res => {
-        console.log(res);
-        localStorage.setItem('token', res.token);
-       this.router.navigate(['/listarPersonal']);
-      },
-      err => console.log
-    )
+    .subscribe(       
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('role', res.role);
+          this.router.navigate(['/listarPersonal']);
+        },
+        err => console.log(err)
+      )
+      
   }
 
 
