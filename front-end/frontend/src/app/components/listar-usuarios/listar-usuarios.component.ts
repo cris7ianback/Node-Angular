@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TasksService } from 'src/app/services/tasks.service';
 import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -11,12 +11,13 @@ export class ListarUsuariosComponent implements OnInit {
 
   usuario: any =[];
 
-  constructor( private taskServices: TasksService,
-    private router: Router) { }
+  constructor( 
+               private usuarioService: UsuarioService,
+               private router: Router) { }
 
   ngOnInit(): void {
 
-    this.taskServices.listarUsuarios()
+    this.usuarioService.listarUsuarios()
     .subscribe(
       res => {
         console.log(res)
@@ -28,7 +29,7 @@ export class ListarUsuariosComponent implements OnInit {
     }
 
   eliminarUsuario(id_user: any): void {
-    this.taskServices.eliminarUsuario(id_user)
+    this.usuarioService.eliminarUsuario(id_user)
       .subscribe(
         res => {
           console.log(res)

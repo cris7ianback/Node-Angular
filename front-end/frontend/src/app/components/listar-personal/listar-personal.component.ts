@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TasksService } from 'src/app/services/tasks.service';
+import { PersonalService } from 'src/app/services/personal.service';
+
+import { Personal } from 'src/app/models/personal';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-listar-personal',
@@ -11,37 +14,53 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ListarPersonalComponent implements OnInit {
 
   personal: any = [];
+  //personal?: any;
+  ListarPersonal?: any;
+  currentPersonal: Personal = {}
+  currentIndex = -1;
+  id_persona?: string;
 
-  constructor(private taskServices: TasksService,
-    private router: Router) { }
+  constructor(private personalService: PersonalService,
+    private router: Router,
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
-  //   this.taskServices.listarPersonal()
-  //     .subscribe(
-  //       res => {
-  //         console.log(res)
-  //         this.personal = <any>res;
-  //       },
-  //       err => console.log(err)
-  //     )
-    this.taskServices.listarPersonal()
-    .subscribe(
-      res => this.personal = res,
-      err  => {
-        if (err instanceof HttpErrorResponse){
-          if (err.status === 401){
-            this.router.navigate(['/signin']);
+    //   this.taskServices.listarPersonal()
+    //     .subscribe(
+    //       res => {
+    //         console.log(res)
+    //         this.personal = <any>res;
+    //       },
+    //       err => console.log(err)
+    //     )
+
+    this.personalService.listarPersonal()
+      .subscribe(
+        res => this.personal = res,
+        err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 401) {
+              this.router.navigate(['/signin']);
+            }
           }
         }
-      }
-    )
+      )
+  }
 
-  
-}
+  setActivePersonal(personal: Personal, index: number): void {
+    this.currentPersonal = personal;
+    this.currentIndex = index;
+  }
+
+  refreshList(): void {
+    window.location.reload();
+    this.currentPersonal = {};
+    this.currentIndex = -1;
+  }
 
   eliminarPersonal(id_persona: any): void {
-    this.taskServices.eliminarPersonal(id_persona)
+    this.personalService.eliminarPersonal(id_persona)
       .subscribe(
         res => {
           console.log(res)
@@ -51,6 +70,10 @@ export class ListarPersonalComponent implements OnInit {
         });
     window.location.reload();
   }
-}
+  modificarPersonal(id_persona: any) {
+    this.router.navigate(['/modificarPersonal/:id_persona']);
 
+  }
+
+}
 

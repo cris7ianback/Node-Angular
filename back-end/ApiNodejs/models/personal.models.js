@@ -60,37 +60,37 @@ module.exports = {
 
     },
     //MODIFICAR PERSONAL
-    actualizarPersonal: function (id_persona, nombre, apellido, correo, callback) {
+    modificarPersonal: function (id_persona, nombre, apellido, correo, callback) {
         let sql = `UPDATE persona SET
                 nombre= '${nombre}',
                 apellido = '${apellido}',
                 correo = '${correo}'
                 WHERE id_persona = '${id_persona}'`;
+                conexion.query(sql, function (err, rows, fields) {
+                    if (err) throw err;
+                    return callback(rows);
+        });
+    },
+
+    registrarUsuario: function (user, email, password, id_role, callback) {
+        let sql = `INSERT INTO users (user, email, password, id_role) values ('${user})','${email})','${password})','${id_role})')`;
         conexion.query(sql, function (err, rows, fields) {
             if (err) throw err;
-            return callback(rows);
-        });
-    },
-
-    registrarUsuario: function (user, email, password, id_role, callback){
-        let sql = `INSERT INTO users (user, email, password, id_role) values ('${user})','${email})','${password})','${id_role})')`;
-        conexion.query(sql, function(err, rows, fields){
-            if(err) throw err;
-            else{
-                console.log(rows);
-                return callback (rows);
-            }
-        });
-    },
-
-    findUser: function (user, email, callback){
-        conexion.query('SELECT user, email FROM users WHERE username=? or email=?',
-        [user, email],
-        (err,rows, fields)=>{
-            if (err) throw err;
             else {
-                return callback (rows[0]);
+                console.log(rows);
+                return callback(rows);
             }
         });
+    },
+
+    findUser: function (user, email, callback) {
+        conexion.query('SELECT user, email FROM users WHERE username=? or email=?',
+            [user, email],
+            (err, rows, fields) => {
+                if (err) throw err;
+                else {
+                    return callback(rows[0]);
+                }
+            });
     }
 };

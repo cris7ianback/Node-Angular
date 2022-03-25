@@ -28,12 +28,12 @@ export class RegistrarPersonalComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          this.router.navigate(['listarPersonal']);
-
         },
         err => console.log(err)
       )
-    window.location.href = "/listarPersonal";
+       this.router.navigate(['/listarPersonal']);
+
+    //window.location.href = "/listarPersonal";
   }
 
 }

@@ -11,14 +11,13 @@
     </thead>
     
     <tbody>
-        <tr class="table-info" *ngFor="let persona of personal">
+        <tr class="table-info" *ngFor="let persona of personal; let i index" [class.active]="setActivePersonal(personal, i)">
             <td>{{persona.id_persona}}</td>
             <td>{{persona.nombre}}</td>
             <td>{{persona.apellido}}</td>
             <td>{{persona.correo}}</td>
             <td> 
-                <button class="btn btn-warning">Modificar</button> 
-                
+                <button class="btn btn-warning" routerLink="/modificarPersonal/{{ currentPersonal.id_persona }} ">Modificar</button> 
                 <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)">Eliminar</button>
 
             </td>

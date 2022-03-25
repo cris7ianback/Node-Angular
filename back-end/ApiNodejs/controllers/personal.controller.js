@@ -28,8 +28,8 @@ module.exports = {
     listarPersonalId: function (req, res) {
         let id_persona = req.params.id_persona;
         personalModule.listarPersonalId(id_persona, function (data) {
-            res.render('actualizarPersonal', { user: data })
-            //res.send(data);
+           // res.render('modificarPersonal', { user: data })
+            res.send(data);
         });
     },
     //INGRESAR PERSONAL
@@ -60,12 +60,12 @@ module.exports = {
         });
     },
     //ACTUALIZAR PERSONAL
-    actualizarPersonal: function (req, res) {
+    modificarPersonal: function (req, res) {
         var id_persona = req.params.id_persona;
         var nombre = req.body.nombre;
         var apellido = req.body.apellido;
         var correo = req.body.correo;
-        personalModule.actualizarPersonal(id_persona, nombre, apellido, correo, function (data) {
+        personalModule.modificarPersonal(id_persona, nombre, apellido, correo, function (data) {
             res.redirect('/');
             console.log("Datos Actualizados Correctamente");
         });
