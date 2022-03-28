@@ -1,32 +1,60 @@
 <div class="container">
-
     <h2>Moficiar Personal</h2>
     <div class="row">
         <div class="col-md-4 mx-auto">
             <div class="card">
                 <div class="card-header">
-                     Modificar Personal
+                    Modificar Personal
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form> 
                         <div class="form-group">
                             <div class="form-group">
-                                <input type="text" name="nombre" class="form-control" placeholder="Nombre de personal"
-                                    required>
+                                <input type="text" [(ngModel)]="personal.id_persona" name="id_persona"
+                                    class="form-control" placeholder="id_persona" required>
                             </div>
-                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" autofocus
-                                required>
+                            <div class="form-group">
+                                <input type="text" [(ngModel)]="personal.nombre" name="nombre" class="form-control"
+                                    placeholder="Nombre de personal" required>
+                            </div>
+                            <input type="text" [(ngModel)]="personal.apellido" name="apellido" class="form-control"
+                                placeholder="Apellido" autofocus required>
                         </div>
                         <div class="form-group">
-                            <input type="email" name="correo" class="form-control"
+                            <input type="email" name="correo" [(ngModel)]="personal.correo" class="form-control"
                                 placeholder="Correo: example@test.com" required>
                         </div>
-                        <button type="submit" class="btn btn-success">
-                            Registrar Personal
+                        <button  type="submit" class="btn btn-success">
+                            Actualizar Personal
                         </button>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Modificar Personal</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <form>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input [(ngModel)]="personal.nombre" type="text" class="form-control" name="nombre" required />
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input [(ngModel)]="personal.apellido" class="form-control" name="apellido" required />
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input [(ngModel)]="personal.correo" class="form-control" name="correo" required />
+                </div>
+                <br>
+                <button  class="btn btn-primary">Modificar</button>
+
+            </form>
         </div>
     </div>
 </div>

@@ -19,9 +19,10 @@ export class ListarPersonalComponent implements OnInit {
   currentPersonal: Personal = {}
   currentIndex = -1;
   id_persona?: string;
+  mensaje: any;
 
-  constructor(private personalService: PersonalService,
-    private router: Router,
+  constructor( private personalService: PersonalService,
+               private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -60,9 +61,11 @@ export class ListarPersonalComponent implements OnInit {
   }
 
   eliminarPersonal(id_persona: any): void {
+    console.log ('Persona eliminada:' , id_persona)
     this.personalService.eliminarPersonal(id_persona)
       .subscribe(
         res => {
+          //this.refreshList();
           console.log(res)
         },
         err => {
@@ -70,10 +73,26 @@ export class ListarPersonalComponent implements OnInit {
         });
     window.location.reload();
   }
+  modificarPersona2(id_persona: any) {
+    this.router.navigate(['/modificarPersonal/'+ id_persona]);
+
+  }
+
   modificarPersonal(id_persona: any) {
     this.router.navigate(['/modificarPersonal/:id_persona']);
 
   }
+
+  // modificarPersonal (): void {
+  //   this.personalService.modificarPersonal(this.currentPersonal.id_persona, this.currentPersonal)
+  //   .subscribe ({
+  //     next: (res) => {
+  //       console.log(res);
+  //       this.mensaje = res.mensaje ? res.mensage : ' este usuario fue actualizado.'
+  //     },
+  //     error : (e) => console.error(e)
+  //   })
+  // }
 
 }
 

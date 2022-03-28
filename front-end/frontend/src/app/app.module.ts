@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 
 
 
@@ -42,6 +43,7 @@ import { ModificarPersonalComponent } from './components/modificar-personal/modi
   ],
   providers: [
     AuthGuard,
+    FormBuilder,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

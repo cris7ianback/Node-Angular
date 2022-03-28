@@ -66,7 +66,7 @@ module.exports = {
         var apellido = req.body.apellido;
         var correo = req.body.correo;
         personalModule.modificarPersonal(id_persona, nombre, apellido, correo, function (data) {
-            res.redirect('/');
+            res.send(data);
             console.log("Datos Actualizados Correctamente");
         });
     },
@@ -90,58 +90,38 @@ module.exports = {
     login: async (req, res) => {
         try {
             //limpiar Cookie & Token.
-            // res.clearCookie('jwt');
-            // res.clearCookie('connect.sid');
+            res.clearCookie('jwt');
+            res.clearCookie('connect.sid');
             console.log(req.body);
             const email = req.body.email;
             const password = req.body.password;
             
 
             if (!email || !password) {
-               
-                
+                              
             } else {
                 conexion.query('SELECT * From users WHERE email = ?', 
                 [email],
                  async (error, results) => {
-                    //console.log(results[0]);
+                console.log(results[0]);
                     if (results.length == 0 || !(await bcryptjs.compare(password, results[0].password))) {
-                        res.render('login', {
-                            alert: true,
-                            alertTitle: "Error",
-                            alertMessage: "Usuario y/o Password incorrectas",
-                            alertIcon: 'error',
-                            showConfirmButton: true,
-                            timer: false,
-                            ruta: 'login'
-                        });
-                        //console.log("Usuario incorrecto!");
+                        res.status(401).send ('No Autorizado');
 
                     } else {
                         const id = results[0].id;
+                        const id_role = results[0].id_role;
                         const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
                             expiresIn: process.env.JWT_TIEMPO_EXPIRA
                         });
-                      //const token = jwt.sign({id:id}, process.env.JWT_SECRETO);
-                      //  console.log("TOKEN:   " + token + "   usuario:" + email);
-                        const cookiesOptions = {
+                                        const cookiesOptions = {
                             expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES * 24 * 60 * 60 * 1000),
                             httpOnly: true
                         }
-                        req.session.id_role = results[0].id_role;
-                        //console.log(req.session.id_role);
+                  
+                        role = results [0].id_role;
+                      
+                        const roleHash = await bcryptjs.hash(role,8);
                         return res.status(200).json({token}); 
-                        res.cookie('jwt', token, cookiesOptions);
-                        // res.render('login', {
-                        //     alert: true,
-                        //     alertTitle: "Conexión exitosa",
-                        //     alertMessage: "¡LOGIN CORRECTO!",
-                        //     alertIcon: 'success',
-                        //     showConfirmButton: false,
-                        //     timer: 800,
-                        //     ruta: '/'
-
-                        // });
                     }
                 });
             }
@@ -183,9 +163,7 @@ module.exports = {
                 showConfirmButton: true,
                 timer: false,
                 ruta: '/register'
-            });
-                //res.redirect('/');
-                //return next();
+            });        
 
         } catch (error) {
             console.log(error);
@@ -196,19 +174,7 @@ module.exports = {
     //CIERRA DE SESIÓN
     LogOut: async (req, res) => {
         res.clearCookie('jwt');
-        res.clearCookie('connect.sid');
-            //return res.redirect('/login');
-        // res.render('index', {
-        //     alert: true,
-        //     alertTitle: "Logout",
-        //     alertMessage: "Logout exitoso",
-        //     alertIcon: 'success',
-        //     showConfirmButton: false,
-        //     timer: 800,
-        //     ruta: '/'
-
-        // });
-        
+        res.clearCookie('connect.sid');       
     },
 
     validarUsuario: async (req, res) => {

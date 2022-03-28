@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PersonalService } from 'src/app/services/personal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Component, OnInit } from '@angular/core';
+import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -22,10 +21,12 @@ export class ModificarPersonalComponent implements OnInit {
     correo: ''
   }
 
-  constructor(private personalService: PersonalService,
-              private router: Router,
-              private activeRoute: ActivatedRoute,
-              private fb: FormBuilder) {
+  constructor(
+    private personalService: PersonalService,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
 
     this.personalForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -35,49 +36,51 @@ export class ModificarPersonalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.mensaje = '';
 
-    const id_entrada = <string>this.activeRoute.snapshot.params['id'];
-    console.log('id de entrada: ' + id_entrada);
+    const id_entrada = <string>this.activeRoute.snapshot.params['id_persona'];
+    console.log('id de persona: ' + id_entrada);
 
     if (id_entrada) {
       console.log(id_entrada);
       this.personalService.listarPersonalId(id_entrada).subscribe(
         res => {
-
           this.personal = res;
           console.log(res);
         },
         err => console.log(err)
       );
     }
-    
   }
-
 
   listarPersonalId(id_entrada: any): void {
-    this.personalService.listarPersonalId(id_entrada).subscribe(
-      data => {
-        this.currentPersonal = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      });
+    this.personalService.listarPersonalId(id_entrada)
+      .subscribe(
+        data => {
+          this.currentPersonal = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
-  modificarPersonal(){
+  modificarPersonal() {
     this.personalService.modificarPersonal(this.personal.id_persona, this.personal)
-    .subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      });
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        });
 
-      this.router.navigate(['/'])
+    this.router.navigate(['/listarPersonal']);
+    // this.router.navigate(['modificarPersonal/'+this.personal.id_persona])
+  }
+
+  modificarPersonal2(id_persona: string) {
+    this.router.navigate(['/modificarPersonal/' + id_persona])
   }
 
 }

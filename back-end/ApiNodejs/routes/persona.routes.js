@@ -27,7 +27,7 @@ router.get('/eliminarUsuario/:id_user', controller.eliminarUsuario);
 //rutas Personal
 router.get ('/listarPersonal', controller.listarPersonal);
 router.post('/registrarPersonal', controller.registrarPersonal);
-router.get ('/listarPersonalId/:id_persona', controller.auntentificadorRol, controller.listarPersonalId);
+router.get ('/listarPersonalId/:id_persona',controller.listarPersonalId);
 router.get ('/eliminarPersonal/:id_persona', controller.eliminarPersonal );
 router.get ('/modificarPersonal/:id_persona', controller.modificarPersonal);
 router.get ('/listarPersonalId/:id_persona', controller.listarPersonalId);

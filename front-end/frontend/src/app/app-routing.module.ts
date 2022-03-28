@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'registrarPersonal', component: RegistrarPersonalComponent },
   { path: 'login', component: LoginComponent },
   { path: 'modificarPersonal/:id_persona', component: ModificarPersonalComponent },
+  
 
 ];
 

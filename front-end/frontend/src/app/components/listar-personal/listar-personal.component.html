@@ -9,18 +9,22 @@
             <th scope="col"> Acciones</th>
         </tr>
     </thead>
-    
     <tbody>
-        <tr class="table-info" *ngFor="let persona of personal; let i index" [class.active]="setActivePersonal(personal, i)">
+        <tr class="table-info" *ngFor="let persona of personal; let i index"
+            [class.active]="setActivePersonal(persona, i)">
             <td>{{persona.id_persona}}</td>
             <td>{{persona.nombre}}</td>
             <td>{{persona.apellido}}</td>
             <td>{{persona.correo}}</td>
-            <td> 
-                <button class="btn btn-warning" routerLink="/modificarPersonal/{{ currentPersonal.id_persona }} ">Modificar</button> 
+            <td>
+               
+                <button class="btn btn-warning"
+                    routerLink="/modificarPersonal/{{currentPersonal.id_persona }}">Modificar</button>
                 <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)">Eliminar</button>
-
-            </td>
+                <td>
+                    <button (click)="modificarPersona2(persona.id_persona)" type="button" class="btn btn-primary">Editar</button>
+                </td>
+            
         </tr>
     </tbody>
-</table> 
+</table>
