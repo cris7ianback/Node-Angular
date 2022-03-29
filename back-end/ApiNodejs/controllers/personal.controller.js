@@ -30,6 +30,12 @@ module.exports = {
             res.send(data);
         });
     },
+    listarUsuariosId: function (req, res) {
+        let id_user = req.params.id_user;
+        personalModule.listarUsuariosId(id_user, function (data) {
+            res.send(data);
+        });
+    },
     //INGRESAR PERSONAL
     registrarPersonal: function (req, res) {
         var nombre = req.body.nombre;
@@ -68,6 +74,17 @@ module.exports = {
             console.log("Datos Actualizados Correctamente");
         });
     },
+    modificarUsuario: function (req, res) {
+        let id_user = req.params.id_user;
+        let user = req.body.user;
+        let email = req.body.email;
+        let password = req.body.password;
+        let id_role = req.body.id_role;
+        personalModule.modificarUsuario(id_user, user, email, password,id_role, function (data) {
+            res.send(data);
+            console.log("Datos Actualizados Correctamente");
+        });
+    },
     //REGISTRAR USUARIO
     registrarUsuario: async (req, res) => {
         try {
@@ -95,8 +112,7 @@ module.exports = {
             const password = req.body.password;
             
 
-            if (!email || !password) {
-                              
+            if (!email || !password) {                 
             } else {
                 conexion.query('SELECT * From users WHERE email = ?', 
                 [email],
@@ -227,5 +243,7 @@ module.exports = {
         }
 
     }
+
+    
 };
 

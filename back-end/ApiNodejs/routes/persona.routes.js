@@ -15,13 +15,14 @@ router.use(function (res, req, next) {
 
 //rutas para metodos 
 router.post('/login', controller.login);
-router.get('/logout', controller.LogOut);
-
+router.get ('/logout', controller.LogOut);
 
 //rutas Usuarios
-router.get('/listarUsuarios', controller.listarUsuarios);
+router.get ('/listarUsuarios', controller.listarUsuarios);
 router.post('/registrarUsuario', controller.registrarUsuario);
-router.get('/eliminarUsuario/:id_user', controller.eliminarUsuario);
+router.get ('/eliminarUsuario/:id_user', controller.eliminarUsuario);
+router.put ('/modificarUsuario/:id_user', controller.modificarUsuario);
+router.get ('/listarUsuariosId/:id_user', controller.listarUsuariosId);
 
 //rutas Personal
 router.get ('/listarPersonal', controller.listarPersonal);

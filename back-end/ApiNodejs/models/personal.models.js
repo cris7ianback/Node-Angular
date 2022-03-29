@@ -26,6 +26,13 @@ module.exports = {
             return callback(data[0]);
         });
     },
+    listarUsuariosId: function (id_persona, callback) {
+        var sql = 'SELECT * FROM users WHERE id_user= ?';
+        conexion.query(sql, id_persona, function (err, data) {
+            if (err) throw err;
+            return callback(data[0]);
+        });
+    },
     //INGRESAR PERSONAL
     registrarPersonal: function (nombre, apellido, correo, callback) {
         let sql = `INSERT INTO persona(nombre, apellido, correo) values('${nombre}', '${apellido}', '${correo}')`;
@@ -66,6 +73,18 @@ module.exports = {
                 apellido = '${apellido}',
                 correo = '${correo}'
                 WHERE id_persona = '${id_persona}'`;
+                conexion.query(sql, function (err, rows, fields) {
+                    if (err) throw err;
+                    return callback(rows);
+        });
+    },
+    modificarUsuario: function (id_user, user, email, password, id_role, callback) {
+        let sql = `UPDATE users SET
+                user = '${user}',
+                email = '${email}',
+                password = '${password}',
+                id_role = '${id_role}'
+                WHERE id_user = '${id_user}'`;
                 conexion.query(sql, function (err, rows, fields) {
                     if (err) throw err;
                     return callback(rows);

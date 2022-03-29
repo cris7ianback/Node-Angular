@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -44,13 +44,13 @@ export class ModificarPersonalComponent implements OnInit {
     if (id_entrada) {
       console.log(id_entrada);
       this.personalService.listarPersonalId(id_entrada)
-      .subscribe(
-        res => {
-          this.personal = res;
-          console.log(res);
-        },
-        err => console.log(err)
-      );
+        .subscribe(
+          res => {
+            this.personal = res;
+            console.log(res);
+          },
+          err => console.log(err)
+        );
     }
   }
 
@@ -74,10 +74,10 @@ export class ModificarPersonalComponent implements OnInit {
         },
         err => {
           console.log(err);
-          
+
         });
 
-    this.router.navigate(['/listarPersonal']);
-    // this.router.navigate(['modificarPersonal/'+this.personal.id_persona])
+    //this.router.navigate(['/listarPersonal']);
+    window.location.href = "/listarPersonal";
   }
 }

@@ -13,12 +13,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ListarPersonalComponent implements OnInit {
 
-  //personal: any = [];
-  personal?: any;
-  listarPersonal?: any;
   currentPersonal: Personal = {}
   currentIndex = -1;
+  listarPersonal?: any;
+  personal?: any;
   id_persona?: string;
+  //personal: any = [];
   
 
   constructor( private personalService: PersonalService,

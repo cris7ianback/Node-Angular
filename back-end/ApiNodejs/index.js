@@ -80,6 +80,4 @@ app.listen(3000, () => {
 });
 
 
-
- //Establecemos las rutas para las VISTAS usando un archivo aparte (router.js) y la clase Router()
  

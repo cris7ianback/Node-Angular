@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -9,24 +10,28 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ListarUsuariosComponent implements OnInit {
 
-  usuario: any =[];
-
-  constructor( 
-               private usuarioService: UsuarioService,
-               private router: Router) { }
+  currentUsuario: Users = {};
+  currentIndex = -1;
+  id_user?: string;
+  listarUsuarios?: any;
+  //usuarios: any = [];
+  usuario?:any;
+ 
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router) { }
 
   ngOnInit(): void {
 
     this.usuarioService.listarUsuarios()
-    .subscribe(
-      res => {
-        console.log(res)
-        this.usuario = <any>res;
-      },
-      err =>console.log(err)
-    );
-
-    }
+      .subscribe(
+        res => {
+          console.log(res)
+          this.usuario = <any>res;
+        },
+        err => console.log(err)
+      );
+  }
 
   eliminarUsuario(id_user: any): void {
     this.usuarioService.eliminarUsuario(id_user)
@@ -37,7 +42,16 @@ export class ListarUsuariosComponent implements OnInit {
         error => {
           console.log(error);
         });
-        window.location.reload();
+    window.location.reload();
+  }
+
+  setActiveUsuario(users: Users, index: number): void {
+    this.currentUsuario = users;
+    this.currentIndex = index;
+  }
+
+  modificarUsuario(id_user: any){
+    this.router.navigate(['modificarPersonal/:id_user']);
   }
 
 }

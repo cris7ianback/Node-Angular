@@ -4,13 +4,13 @@
         <tr class="table table-dark">
             <th scope="col">User</th>
             <th scope="col">email</th>
-            <th scope="col">Role</th>
-            <th scope="col"> Acciones</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Acciones</th>
         </tr>
     </thead>
 
     <tbody>
-        <tr class="table-info" *ngFor="let user of usuario">
+        <tr class="table-info" *ngFor="let user of usuario; let i index" [class.active]="setActiveUsuario(user, i)">
             <td hidden>{{user.id_user}}</td>
             <td>{{user.user}}</td>
             <td>{{user.email}}</td>
@@ -18,7 +18,8 @@
 
 
             <td>
-                <button class="btn btn-warning">Modificar</button>
+                <button class="btn btn-warning"
+                    routerLink="/modificarUsuario/{{currentUsuario.id_user}}">Modificar</button>
                 <button class="btn btn-danger" (click)="eliminarUsuario(user.id_user)">Eliminar</button>
 
             </td>
