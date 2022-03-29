@@ -1,11 +1,11 @@
 const express = require('express');
 
-
 const {body, validationResult} = require('express-validator');
 
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+
 
 
 const app = express();
@@ -78,6 +78,7 @@ app.use(function (req, res, next) {
 app.listen(3000, () => {
   console.log('SERVER UP running in http://localhost:3000');
 });
+
 
 
  //Establecemos las rutas para las VISTAS usando un archivo aparte (router.js) y la clase Router()

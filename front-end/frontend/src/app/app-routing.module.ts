@@ -14,7 +14,7 @@ import { ModificarPersonalComponent } from './components/modificar-personal/modi
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
   { path: 'listarPersonal', component: ListarPersonalComponent },
   { path: 'listarUsuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'registrarUsuario', component: RegistrarUsuarioComponent },

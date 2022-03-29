@@ -5,14 +5,13 @@ const router = express.Router();
 const controller = require("../controllers/personal.controller");
 
 
-
-// rutas para vistas
-//router.get('/', controller.AutentificacionUsuario, controller.listarPersonal, (req, res) => { res.render('index', { user: req.user }); });
-//router.get('/login', (req, res) => { res.render('login', { alert: false }); });
-//router.get('/registrarUsuario', controller.auntentificadorRol, (req, res) => { res.render('register'); });
-//router.get('/registrarPersonal', controller.auntentificadorRol, (req, res) => { res.render('registrarPersonal'); });
-//router.get('/actualizarPersonal', (req, res) => { res.render('actualizarPersonal', { alert: false }); });
-
+router.use(function (res, req, next) {
+    res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+});
 
 //rutas para metodos 
 router.post('/login', controller.login);
@@ -27,9 +26,13 @@ router.get('/eliminarUsuario/:id_user', controller.eliminarUsuario);
 //rutas Personal
 router.get ('/listarPersonal', controller.listarPersonal);
 router.post('/registrarPersonal', controller.registrarPersonal);
-router.get ('/listarPersonalId/:id_persona',controller.listarPersonalId);
 router.get ('/eliminarPersonal/:id_persona', controller.eliminarPersonal );
-router.get ('/modificarPersonal/:id_persona', controller.modificarPersonal);
+router.put ('/modificarPersonal/:id_persona', controller.modificarPersonal);
 router.get ('/listarPersonalId/:id_persona', controller.listarPersonalId);
 
+
+
 module.exports = router;
+
+
+

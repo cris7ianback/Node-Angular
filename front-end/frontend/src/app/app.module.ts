@@ -1,10 +1,8 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,  FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
-
 
 
 import { AppComponent } from './app.component';
@@ -17,9 +15,6 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ListarUsuariosComponent } from './components/listar-usuarios/listar-usuarios.component';
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { ModificarPersonalComponent } from './components/modificar-personal/modificar-personal.component';
-
-
-
 
 
 @NgModule({
@@ -39,6 +34,7 @@ import { ModificarPersonalComponent } from './components/modificar-personal/modi
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule
 
   ],
   providers: [

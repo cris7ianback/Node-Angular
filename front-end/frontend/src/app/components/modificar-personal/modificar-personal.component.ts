@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ModificarPersonalComponent implements OnInit {
 
-  personalForm?: FormGroup;
+  personalForm: FormGroup;
   currentPersonal: Personal = {};
   mensaje = '';
   personal: Personal = {
@@ -19,7 +19,7 @@ export class ModificarPersonalComponent implements OnInit {
     nombre: '',
     apellido: '',
     correo: ''
-  }
+  };
 
   constructor(
     private personalService: PersonalService,
@@ -43,7 +43,8 @@ export class ModificarPersonalComponent implements OnInit {
 
     if (id_entrada) {
       console.log(id_entrada);
-      this.personalService.listarPersonalId(id_entrada).subscribe(
+      this.personalService.listarPersonalId(id_entrada)
+      .subscribe(
         res => {
           this.personal = res;
           console.log(res);
@@ -73,14 +74,10 @@ export class ModificarPersonalComponent implements OnInit {
         },
         err => {
           console.log(err);
+          
         });
 
     this.router.navigate(['/listarPersonal']);
     // this.router.navigate(['modificarPersonal/'+this.personal.id_persona])
   }
-
-  modificarPersonal2(id_persona: string) {
-    this.router.navigate(['/modificarPersonal/' + id_persona])
-  }
-
 }

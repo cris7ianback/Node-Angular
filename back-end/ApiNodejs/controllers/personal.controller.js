@@ -14,14 +14,12 @@ module.exports = {
     //CONSULTAR  TODO EL PERSONAL
     listarPersonal: function (req, res) {
         personalModule.listarPersonal(function (data) {
-            //res.render('index', { results: data });
-            res.send(data)
+            res.send(data);
         });
     },
     listarUsuarios: function (req, res) {
         personalModule.listarUsuarios(function (data) {
-            //res.render('index', { results: data });
-            res.send(data)
+            res.send(data);
         });
     },
     //CONSULTAR  PERSONAL POR ID
@@ -61,10 +59,10 @@ module.exports = {
     },
     //ACTUALIZAR PERSONAL
     modificarPersonal: function (req, res) {
-        var id_persona = req.params.id_persona;
-        var nombre = req.body.nombre;
-        var apellido = req.body.apellido;
-        var correo = req.body.correo;
+        let id_persona = req.params.id_persona;
+        let nombre = req.body.nombre;
+        let apellido = req.body.apellido;
+        let correo = req.body.correo;
         personalModule.modificarPersonal(id_persona, nombre, apellido, correo, function (data) {
             res.send(data);
             console.log("Datos Actualizados Correctamente");
@@ -116,7 +114,7 @@ module.exports = {
                                         const cookiesOptions = {
                             expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES * 24 * 60 * 60 * 1000),
                             httpOnly: true
-                        }
+                        };
                   
                         role = results [0].id_role;
                       

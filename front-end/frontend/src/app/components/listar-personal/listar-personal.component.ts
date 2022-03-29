@@ -13,17 +13,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ListarPersonalComponent implements OnInit {
 
-  personal: any = [];
-  //personal?: any;
-  ListarPersonal?: any;
+  //personal: any = [];
+  personal?: any;
+  listarPersonal?: any;
   currentPersonal: Personal = {}
   currentIndex = -1;
   id_persona?: string;
-  mensaje: any;
+  
 
   constructor( private personalService: PersonalService,
-               private router: Router,
-  ) { }
+               private router: Router ) { }
 
   ngOnInit(): void {
 
@@ -64,35 +63,33 @@ export class ListarPersonalComponent implements OnInit {
     console.log ('Persona eliminada:' , id_persona)
     this.personalService.eliminarPersonal(id_persona)
       .subscribe(
-        res => {
-          //this.refreshList();
-          console.log(res)
+        response => {
+         // this.refreshList();
+          console.log(response)
         },
         err => {
           console.log(err)
         });
     window.location.reload();
   }
-  modificarPersona2(id_persona: any) {
-    this.router.navigate(['/modificarPersonal/'+ id_persona]);
 
+  buscarPorNombre(): void {
+    this.personalService.buscarPorNombre(this.listarPersonal)
+    .subscribe(
+      data => {
+        this.listarPersonal = data;
+        console.log(data);
+      },
+      error =>{
+        console.log (error);
+      });
   }
-
   modificarPersonal(id_persona: any) {
-    this.router.navigate(['/modificarPersonal/:id_persona']);
+    this.router.navigate(['edit/:id_persona']);
 
   }
 
-  // modificarPersonal (): void {
-  //   this.personalService.modificarPersonal(this.currentPersonal.id_persona, this.currentPersonal)
-  //   .subscribe ({
-  //     next: (res) => {
-  //       console.log(res);
-  //       this.mensaje = res.mensaje ? res.mensage : ' este usuario fue actualizado.'
-  //     },
-  //     error : (e) => console.error(e)
-  //   })
-  // }
+
 
 }
 
