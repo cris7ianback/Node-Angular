@@ -11,6 +11,7 @@ import { Personal } from 'src/app/models/personal';
 })
 export class ModificarPersonalComponent implements OnInit {
 
+  formValue!: FormGroup;
   personalForm: FormGroup;
   currentPersonal: Personal = {};
   mensaje = '';
@@ -79,5 +80,16 @@ export class ModificarPersonalComponent implements OnInit {
 
     //this.router.navigate(['/listarPersonal']);
     window.location.href = "/listarPersonal";
+  
   }
+
+  EditarPersonal(personal: any) {
+    this.personal.id_persona = personal.id_persona;
+    this.formValue.controls['id_persona'].setValue(personal.id_persona);
+    this.formValue.controls['nombre'].setValue(personal.nombre);
+    this.formValue.controls['apellido'].setValue(personal.apellido);
+    this.formValue.controls['correo'].setValue(personal.correo);
+  }
+
+
 }

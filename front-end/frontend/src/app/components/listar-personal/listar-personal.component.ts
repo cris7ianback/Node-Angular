@@ -17,29 +17,31 @@ export class ListarPersonalComponent implements OnInit {
   currentPersonal: Personal = {}
   currentIndex = -1;
   listarPersonal?: any;
-  id_persona?: string;
+  id_persona?: any;
   personal: any = [];
   personalForm?: FormGroup;
   mensaje = '';
   formValue!: FormGroup;
-  
-  formBuilder: any;
-  
-  
 
-  constructor( private personalService: PersonalService,
-               private router: Router,
-               private activeRoute: ActivatedRoute,
-               private formbuilder: FormBuilder ) { }
+  personalObj: Personal = new Personal();
+
+  formBuilder: any;
+
+
+
+  constructor(private personalService: PersonalService,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private formbuilder: FormBuilder) { }
 
   ngOnInit(): void {
 
-   this.formValue = this.formbuilder.group({
-    id_persona: [''], 
-    nombre: [''],
-     apellido:[''],
-     correo:[''],
-   })
+    this.formValue = this.formbuilder.group({
+      id_persona: [''],
+      nombre: [''],
+      apellido: [''],
+      correo: [''],
+    })
 
     this.personalService.listarPersonal()
       .subscribe(
@@ -50,8 +52,7 @@ export class ListarPersonalComponent implements OnInit {
               this.router.navigate(['/signin']);
             }
           }
-        }
-      )
+        })
   }
 
   setActivePersonal(personal: Personal, index: number): void {
@@ -66,49 +67,50 @@ export class ListarPersonalComponent implements OnInit {
   }
 
   eliminarPersonal(id_persona: any): void {
-    console.log ('Persona eliminada:' , id_persona)
+    console.log('Persona eliminada:', id_persona)
     this.personalService.eliminarPersonal(id_persona)
       .subscribe(
         response => {
-         // this.refreshList();
+          // this.refreshList();
           console.log(response)
-         
         },
         err => {
           console.log(err)
         });
-        alert("usuario Eliminado")
+    alert("Usuario Eliminado")
     window.location.reload();
   }
 
   buscarPorNombre(): void {
     this.personalService.buscarPorNombre(this.listarPersonal)
-    .subscribe(
-      data => {
-        this.listarPersonal = data;
-        console.log(data);
-      },
-      error =>{
-        console.log (error);
-      });
+      .subscribe(
+        data => {
+          this.listarPersonal = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
   }
   modificarPersonal(id_persona: any) {
     this.router.navigate(['edit/:id_persona']);
 
   }
 
-  onEdit(personal: any){
+  editarPersonal(personal: any) {
+    this.personal.id_persona = personal.id_persona;
     this.formValue.controls['id_persona'].setValue(personal.id_persona);
     this.formValue.controls['nombre'].setValue(personal.nombre);
     this.formValue.controls['apellido'].setValue(personal.apellido);
     this.formValue.controls['correo'].setValue(personal.correo);
-    
   }
 
-  
-  
-
-
+  actualizarPersonal(){
+    this.personal.nombre = this.formValue.value.nombre;
+    this.personal.apellido = this.formValue.value.apellido;
+    this.personal.correo= this.formValue.value.correo;
+    this.api
+  }
 
 }
 

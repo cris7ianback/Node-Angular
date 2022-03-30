@@ -6,18 +6,17 @@
                     Ingresar
                 </div>
                 <div class="card-body">
-                    <form (ngSubmit)="login()" >
+                    <form (ngSubmit)="login()">
                         <div class="form-group">
                             <label for="email"> Email</label>
                             <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
                                 placeholder="Email" id="email">
-                            
+
                         </div>
                         <div class="form-group">
                             <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
                                 placeholder="password" id="password">
-                            
-                                
+
                         </div>
                         <button type="submit" class="btn btn-success">
                             Ingresar
@@ -28,46 +27,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- 
-
-<div class="form-container">
-    <h1>Contact us!</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <input type="text" formControlName="email" placeholder="Your email">
-      <div class="alert-danger" *ngIf="email.invalid && (name.dirty || email.touched)">
-        <div class="container-error-message" *ngIf="email.errors.required">
-          Name is required
-        </div>
-        <div class="container-error-message" *ngIf="email.errors.minlength">
-          Name must be at least 5 characters long.
-        </div>
-      </div>
-  
-      <input type="text" formControlName="email" placeholder="Your email">
-  
-      <div class="alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
-        <div class="container-error-message" *ngIf="email.errors.required">
-          Email is required
-        </div>
-        <div class="container-error-message" *ngIf="email.errors.minlength">
-          Email must be at least 5 characters long.
-        </div>
-        <div class="container-error-message"
-          *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.pattern">
-          Value has to be a valid email address.
-        </div>
-      </div>
-      <textarea formControlName="message" placeholder="Type your message"></textarea>
-      <div class="alert-danger" *ngIf="message.invalid && (message.dirty || message.touched)">
-        <div class="container-error-message" *ngIf="message.errors.required">
-          Message is required
-        </div>
-        <div class="container-error-message" *ngIf="message.errors.minlength">
-          Message must be at least 10 characters long.
-        </div>
-      </div>
-      <button type="submit" class="btn-send" [disabled]="!contactForm.valid">Send</button>
-    </form>
-  </div> -->
