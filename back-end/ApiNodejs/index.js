@@ -7,10 +7,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 
-
 const app = express();
 app.use(session({
-  secret: 'vitoco',
+  secret: 'cris7ianback',
   resave: false,
   saveUninitialized: false,
   //cookie: { secure : true }
@@ -66,6 +65,7 @@ app.use(cookieParser());
 
 //llamar al router
 app.use('/', require('./routes/persona.routes'));
+app.use('/', require('./routes/usuario.routes'));
 
 //Para eliminar la cache 
 app.use(function (req, res, next) {

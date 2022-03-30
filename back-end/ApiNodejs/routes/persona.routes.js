@@ -2,7 +2,7 @@ const { application } = require("express");
 const express = require("express");
 const conexion = require("../config/conexion");
 const router = express.Router();
-const controller = require("../controllers/personal.controller");
+const controllerPersonal = require("../controllers/personal.controller");
 
 
 router.use(function (res, req, next) {
@@ -14,24 +14,15 @@ router.use(function (res, req, next) {
 });
 
 //rutas para metodos 
-router.post('/login', controller.login);
-router.get ('/logout', controller.LogOut);
-
-//rutas Usuarios
-router.get ('/listarUsuarios', controller.listarUsuarios);
-router.post('/registrarUsuario', controller.registrarUsuario);
-router.get ('/eliminarUsuario/:id_user', controller.eliminarUsuario);
-router.put ('/modificarUsuario/:id_user', controller.modificarUsuario);
-router.get ('/listarUsuariosId/:id_user', controller.listarUsuariosId);
+router.post('/login', controllerPersonal.login);
+router.get ('/logout', controllerPersonal.LogOut);
 
 //rutas Personal
-router.get ('/listarPersonal', controller.listarPersonal);
-router.post('/registrarPersonal', controller.registrarPersonal);
-router.get ('/eliminarPersonal/:id_persona', controller.eliminarPersonal );
-router.put ('/modificarPersonal/:id_persona', controller.modificarPersonal);
-router.get ('/listarPersonalId/:id_persona', controller.listarPersonalId);
-
-
+router.get ('/listarPersonal', controllerPersonal.listarPersonal);
+router.post('/registrarPersonal', controllerPersonal.registrarPersonal);
+router.get ('/eliminarPersonal/:id_persona', controllerPersonal.eliminarPersonal );
+router.put ('/modificarPersonal/:id_persona', controllerPersonal.modificarPersonal);
+router.get ('/listarPersonalId/:id_persona', controllerPersonal.listarPersonalId);
 
 module.exports = router;
 

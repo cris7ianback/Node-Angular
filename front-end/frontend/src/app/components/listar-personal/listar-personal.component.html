@@ -41,7 +41,6 @@
         <h5 class="modal-title" id="exampleModalLabel">Modificar Personal</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <app-modificar-personal> </app-modificar-personal>
       <div class="modal-body">
         <form [formGroup]="formValue">
           <div class="mb-3">
@@ -63,7 +62,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" (click)="actualizarPersonal()" class="btn btn-primary">Guardar Cambios</button>
+        <button type="submit" (click)="modificarPersonal(id_persona)" class="btn btn-primary">Guardar Cambios</button>
       </div>
     </div>
   </div>

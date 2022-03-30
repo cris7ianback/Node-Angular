@@ -10,14 +10,6 @@ module.exports = {
             return callback(data);
         });
     },
-    //CONSULTAR USUARIOS
-    listarUsuarios: function (callback) {
-        var sql = 'SELECT * FROM users';
-        conexion.query(sql, function (err, data) {
-            if (err) throw err;
-            return callback(data);
-        });
-    },
     //CONSULTA POR ID
     listarPersonalId: function (id_persona, callback) {
         var sql = 'SELECT * FROM persona WHERE id_persona= ?';
@@ -26,14 +18,7 @@ module.exports = {
             return callback(data[0]);
         });
     },
-    listarUsuariosId: function (id_persona, callback) {
-        var sql = 'SELECT * FROM users WHERE id_user= ?';
-        conexion.query(sql, id_persona, function (err, data) {
-            if (err) throw err;
-            return callback(data[0]);
-        });
-    },
-    //INGRESAR PERSONAL
+    
     registrarPersonal: function (nombre, apellido, correo, callback) {
         let sql = `INSERT INTO persona(nombre, apellido, correo) values('${nombre}', '${apellido}', '${correo}')`;
         conexion.query(sql, function (err, rows, fields) {
@@ -53,18 +38,6 @@ module.exports = {
                 return callback(rows[0]);
             }
         });
-    },
-    //Eliminar Usuario
-    eliminarUsuario: function (id_user, callback) {
-        console.log(id_user);
-        let sql = 'DELETE FROM users WHERE id_user =?';
-        conexion.query(sql, id_user, function (err, rows) {
-            if (err) throw err;
-            else {
-                return callback(rows[0]);
-            }
-        });
-
     },
     //MODIFICAR PERSONAL
     modificarPersonal: function (id_persona, nombre, apellido, correo, callback) {

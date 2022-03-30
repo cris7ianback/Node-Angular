@@ -92,24 +92,34 @@ export class ListarPersonalComponent implements OnInit {
           console.log(error);
         });
   }
-  modificarPersonal(id_persona: any) {
-    this.router.navigate(['edit/:id_persona']);
+  // modificarPersonal(id_persona: any) {
+  //   this.router.navigate(['edit/:id_persona']);
 
-  }
+  // }
 
   editarPersonal(personal: any) {
-    this.personal.id_persona = personal.id_persona;
+    this.personalObj.id_persona = personal.id_persona;
     this.formValue.controls['id_persona'].setValue(personal.id_persona);
     this.formValue.controls['nombre'].setValue(personal.nombre);
     this.formValue.controls['apellido'].setValue(personal.apellido);
     this.formValue.controls['correo'].setValue(personal.correo);
   }
 
-  actualizarPersonal(){
-    this.personal.nombre = this.formValue.value.nombre;
-    this.personal.apellido = this.formValue.value.apellido;
-    this.personal.correo= this.formValue.value.correo;
-    this.api
+  modificarPersonal(personal:any){
+    this.personalObj.nombre = this.formValue.value.nombre;
+    this.personalObj.apellido = this.formValue.value.apellido;
+    this.personalObj.correo= this.formValue.value.correo;
+   // this.personal.updateEmployee(this.personalObj, this.personalObj.id_persona);
+    
+   this.personalService.modificarPersonal(this.personalObj, this.personalObj.id_persona)
+   .subscribe(res =>{
+     alert("Actualización Exitosa");
+     let ref = document.getElementById('cancel')
+     ref?.click();
+     this.formValue.reset();
+     this.listarPersonal();
+     
+   } )
   }
 
 }
