@@ -6,23 +6,20 @@
                     Ingresar
                 </div>
                 <div class="card-body">
-                    <form (ngSubmit)="login()" [formGroup]="loginForm">
+                    <form (ngSubmit)="login()" >
                         <div class="form-group">
                             <label for="email"> Email</label>
                             <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
                                 placeholder="Email" id="email">
-                            <span class="text-danger"
-                                *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">Email
-                                es requerido</span>
+                            
                         </div>
                         <div class="form-group">
                             <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
                                 placeholder="password" id="password">
-                            <span class="text-danger"
-                                *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">Password
-                                es requerido</span>
+                            
+                                
                         </div>
-                        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-success">
+                        <button type="submit" class="btn btn-success">
                             Ingresar
                         </button>
                     </form>
@@ -33,7 +30,7 @@
 </div>
 
 
-
+<!-- 
 
 <div class="form-container">
     <h1>Contact us!</h1>
@@ -73,4 +70,4 @@
       </div>
       <button type="submit" class="btn-send" [disabled]="!contactForm.valid">Send</button>
     </form>
-  </div>
+  </div> -->

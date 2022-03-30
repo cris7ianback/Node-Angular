@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
   { path: 'listarPersonal', component: ListarPersonalComponent,canActivate: [AuthGuard]   },
   { path: 'listarUsuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard] },
-  { path: 'registrarUsuario', component: RegistrarUsuarioComponent, canActivate: [AuthGuard]  },
+  { path: 'registrarUsuario', component: RegistrarUsuarioComponent,   },
   { path: 'registrarPersonal', component: RegistrarPersonalComponent, canActivate: [AuthGuard]  },
   { path: 'login', component: LoginComponent },
   { path: 'modificarPersonal/:id_persona', component: ModificarPersonalComponent, canActivate: [AuthGuard]  },

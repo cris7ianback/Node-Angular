@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 
 import { Personal } from 'src/app/models/personal';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -16,24 +17,29 @@ export class ListarPersonalComponent implements OnInit {
   currentPersonal: Personal = {}
   currentIndex = -1;
   listarPersonal?: any;
-  personal?: any;
   id_persona?: string;
-  //personal: any = [];
+  personal: any = [];
+  personalForm?: FormGroup;
+  mensaje = '';
+  formValue!: FormGroup;
+  
+  formBuilder: any;
+  
   
 
   constructor( private personalService: PersonalService,
-               private router: Router ) { }
+               private router: Router,
+               private activeRoute: ActivatedRoute,
+               private formbuilder: FormBuilder ) { }
 
   ngOnInit(): void {
 
-    //   this.taskServices.listarPersonal()
-    //     .subscribe(
-    //       res => {
-    //         console.log(res)
-    //         this.personal = <any>res;
-    //       },
-    //       err => console.log(err)
-    //     )
+   this.formValue = this.formbuilder.group({
+    id_persona: [''], 
+    nombre: [''],
+     apellido:[''],
+     correo:[''],
+   })
 
     this.personalService.listarPersonal()
       .subscribe(
@@ -66,10 +72,12 @@ export class ListarPersonalComponent implements OnInit {
         response => {
          // this.refreshList();
           console.log(response)
+         
         },
         err => {
           console.log(err)
         });
+        alert("usuario Eliminado")
     window.location.reload();
   }
 
@@ -88,6 +96,17 @@ export class ListarPersonalComponent implements OnInit {
     this.router.navigate(['edit/:id_persona']);
 
   }
+
+  onEdit(personal: any){
+    this.formValue.controls['id_persona'].setValue(personal.id_persona);
+    this.formValue.controls['nombre'].setValue(personal.nombre);
+    this.formValue.controls['apellido'].setValue(personal.apellido);
+    this.formValue.controls['correo'].setValue(personal.correo);
+    
+  }
+
+  
+  
 
 
 
