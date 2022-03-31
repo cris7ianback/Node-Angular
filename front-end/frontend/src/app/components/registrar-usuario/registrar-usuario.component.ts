@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registrar-usuario',
@@ -13,14 +14,24 @@ export class RegistrarUsuarioComponent implements OnInit {
     user: '',
     email: '',
     password: '',
-    id_role: ''
-  
-  }
+    id_role: ''  }
+
+    formAgUsuario: FormGroup = this.fb.group ({
+      user: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]], 
+      id_role: ['', [Validators.required, Validators.minLength(3)]] 
+    })
 
   constructor(private authService: AuthService,
-    private router: Router) { }
+              private router: Router,
+              private fb: FormBuilder) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  }
+
+  campoEsValido (campo:string){
+    return this.formAgUsuario.controls[campo].errors
+      &&   this.formAgUsuario.controls[campo].touched;
   }
 
   registrarUsuario() {
@@ -29,11 +40,15 @@ export class RegistrarUsuarioComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-        
         },
         err => console.log(err)
       )
-      window.location.href = "/listarUsuarios";
+      if (this.formAgUsuario.invalid) {
+        this.formAgUsuario.markAllAsTouched();
+        return;
+      }
+      this.router.navigate(['/listarUsuarios']);
+      //window.location.href = "/listarUsuarios";
   }
 
 }

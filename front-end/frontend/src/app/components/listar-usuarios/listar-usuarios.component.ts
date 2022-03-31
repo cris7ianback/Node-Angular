@@ -42,6 +42,8 @@ export class ListarUsuariosComponent implements OnInit {
         error => {
           console.log(error);
         });
+        alert("Usuario Eliminado")
+        
     window.location.reload();
   }
 

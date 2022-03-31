@@ -15,6 +15,11 @@ export class UsuarioService {
   listarUsuarios() {
     return this.http.get<Users>(URL + 'listarUsuarios');
   }
+
+  registrarUsuario(user: any) {
+    return this.http.post<any>(URL + 'registrarUsuario', user)
+  }
+
   //eliminar usuario
   eliminarUsuario(id_user: any) {
     return this.http.get(`${URL}eliminarUsuario/${id_user}`);

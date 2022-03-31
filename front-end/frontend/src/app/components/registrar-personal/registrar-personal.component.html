@@ -6,22 +6,37 @@
                     Registrar Personal
                 </div>
                 <div class="card-body">
-                    <form (submit)="registrarPersonal()">
+                    <form (submit)="registrarPersonal()" [formGroup]="formAgPersonal">
                         <div class="form-group">
                             <div class="form-group">
-                                <input type="text" [(ngModel)]="personal.nombre" name="nombre" class="form-control" placeholder="Nombre de personal"
-                                    required>
+                                <label>Nombre</label>
+                                <input type="text" [(ngModel)]="personal.nombre" 
+                                name="nombre" class="form-control"
+                                formControlName="nombre" 
+                                placeholder="escriba el nombre">
+                                <span class="form-text text-danger" *ngIf="campoEsValido('nombre')">
+                                    debe llenar el campo.
+                                </span>
                             </div>
-                            <input type="text" [(ngModel)]="personal.apellido" name="apellido" class="form-control" placeholder="Apellido" autofocus
-                                required>
+                            <label>Apellido</label>
+                            <input type="text" [(ngModel)]="personal.apellido" name="apellido" class="form-control"
+                                formControlName="apellido" placeholder="escriba el apellido">
+                                <span class="form-text text-danger" *ngIf="campoEsValido('apellido')">
+                                    debe llenar el campo.
+                                </span>
                         </div>
                         <div class="form-group">
+                            <label>Email</label>
                             <input type="email" [(ngModel)]="personal.correo" name="correo" class="form-control"
-                                placeholder="Correo: example@test.com" required>
+                                placeholder="Correo: example@test.com" formControlName="correo">
+                                <span class="form-text text-danger" *ngIf="campoEsValido('correo')">
+                                    debe utilizar el siguiente formato : example@test.com
+                                </span>
                         </div>
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-success" [disabled]="formAgPersonal.invalid">
                             Registrar Personal
-                        </button>
+                        </button>  
+                        <button class="btn btn-warning"  routerLink="/listarPersonal">Cancelar</button>
                     </form>
                 </div>
             </div>

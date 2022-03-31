@@ -7,26 +7,45 @@
                     Registrar Usuario
                 </div>
                 <div class="card-body">
-                    <form (submit)="registrarUsuario()">
+                    <form (submit)="registrarUsuario()" [formGroup]="formAgUsuario">
                         <div class="form-group">
                             <div class="form-group">
+                                <label>Usuario</label>
                                 <input type="text" [(ngModel)]="user.user" name="user" class="form-control"
-                                    placeholder="Usuario" required>
+                                    placeholder="Usuario" formControlName="user">
+                                <span class="form-text text-danger" *ngIf="campoEsValido('user')">
+                                    debe llenar el campo.
+                                </span>
                             </div>
+                            <label>Email</label>
                             <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
-                                placeholder="Email" autofocus required>
+                                placeholder="Email" autofocus formControlName="email">
+                            <span class="form-text text-danger" *ngIf="campoEsValido('email')">
+                                debe utilizar el siguiente formato : example@test.com
+                            </span>
                         </div>
                         <div class="form-group">
+                            <label>Password</label>
                             <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
-                                placeholder="Password" required>
+                                placeholder="Password" formControlName="password">
+                            <span class="form-text text-danger" *ngIf="campoEsValido('password')">
+                                debe llenar el campo.
+                            </span>
                         </div>
                         <div class="form-group">
+                            <label>Rol</label>
                             <input type="text" [(ngModel)]="user.id_role" name="id_role" class="form-control"
-                                placeholder="Rol" required>
+                                placeholder="Rol" formControlName="id_role">
+                            <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
+                                debe llenar el campo.
+                            </span>
                         </div>
-                        <button type="submit" class="btn btn-success">
-                            Registrar Usuario
-                        </button>
+                        <td>
+                            <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid">
+                                Registrar Usuario
+                            </button>
+                            <button class="btn btn-warning" routerLink="/listarUsuarios">Cancelar</button>
+                        <td>
                     </form>
                 </div>
             </div>

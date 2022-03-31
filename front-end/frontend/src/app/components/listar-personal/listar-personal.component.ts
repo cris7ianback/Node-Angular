@@ -24,7 +24,6 @@ export class ListarPersonalComponent implements OnInit {
   formValue!: FormGroup;
 
   personalObj: Personal = new Personal();
-
   formBuilder: any;
 
 
@@ -77,7 +76,7 @@ export class ListarPersonalComponent implements OnInit {
         err => {
           console.log(err)
         });
-    alert("Usuario Eliminado")
+    alert("Personal Eliminado")
     window.location.reload();
   }
 

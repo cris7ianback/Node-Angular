@@ -5,3 +5,9 @@ export class Users {
     password?: string;
     id_role?: string;
 }
+
+export interface Usuario {
+    email: string;
+    password: any
+    
+}

@@ -1,8 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -11,7 +12,6 @@ import { Personal } from 'src/app/models/personal';
 })
 export class ModificarPersonalComponent implements OnInit {
 
-  formValue!: FormGroup;
   personalForm: FormGroup;
   currentPersonal: Personal = {};
   mensaje = '';
@@ -45,13 +45,13 @@ export class ModificarPersonalComponent implements OnInit {
     if (id_entrada) {
       console.log(id_entrada);
       this.personalService.listarPersonalId(id_entrada)
-        .subscribe(
-          res => {
-            this.personal = res;
-            console.log(res);
-          },
-          err => console.log(err)
-        );
+      .subscribe(
+        res => {
+          this.personal = res;
+          console.log(res);
+        },
+        err => console.log(err)
+      );
     }
   }
 
@@ -75,20 +75,23 @@ export class ModificarPersonalComponent implements OnInit {
         },
         err => {
           console.log(err);
-
+          
         });
+       Swal.fire ({
+         title: 'Are you Sure?',
+         text: ' bla bla bla',
+         icon: 'error',
+         showCancelButton: true,
+         confirmButtonText: 'Go To Home',
+         cancelButtonText: ' No, Keep it'}).then((result)=>{
+           if (result.value){
+             this.router.navigate(['/listarPersonal']);
+
+           } else if (result.dismiss === Swal.DismissReason.cancel) {}
+         })
 
     //this.router.navigate(['/listarPersonal']);
-    window.location.href = "/listarPersonal";
-  
-  }
-
-  EditarPersonal(personal: any, id_persona: any) {
-    this.personal.id_persona = personal.id_persona;
-    this.formValue.controls['id_persona'].setValue(personal.id_persona);
-    this.formValue.controls['nombre'].setValue(personal.nombre);
-    this.formValue.controls['apellido'].setValue(personal.apellido);
-    this.formValue.controls['correo'].setValue(personal.correo);
+    // this.router.navigate(['modificarPersonal/'+this.personal.id_persona])
   }
 
 

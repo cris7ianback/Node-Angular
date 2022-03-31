@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validator, Validators, FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { fromEventPattern } from 'rxjs';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -15,23 +15,13 @@ export class LoginComponent implements OnInit {
 
   public loginForm!: FormGroup;
 
-  // miFormulario: FormGroup = new FormGroup ({
-  //   email: new FormControl (''),
-  //   password: new FormControl ('')
-  // })
 
-  miFormulario : FormGroup = this.fb.group({
-      email: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+  miFormulario: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.minLength(3),Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(3)]]
   })
-
-  createFormGroup() {
-    return new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      password: new FormControl('', [Validators.required,Validators.minLength(5)])
-      //mensaje: new FormControl('', [Validators.required])
-    })
-  }
+  incorrecta!: boolean;
+  mensaje?: any;
 
   user = {
     email: '',
@@ -41,18 +31,17 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb: FormBuilder
+    private router: Router,
+    private fb: FormBuilder
   ) {
-    this.loginForm = this.createFormGroup();
-   }
+  }
 
-   campoEsValido (campo: string){
-    return this.miFormulario.controls[campo].errors 
-    &&     this.miFormulario.controls[campo].touched;
-
-   }
   ngOnInit(): void {
+  }
+
+  campoEsValido(campo: string) {
+    return this.miFormulario.controls[campo].errors
+      && this.miFormulario.controls[campo].touched;
   }
 
   login() {
@@ -63,23 +52,28 @@ export class LoginComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          localStorage.setItem('role', res.role);
+          localStorage.setItem('role', res.roleHash);
           this.router.navigate(['/listarPersonal']);
         },
-        err => console.log(err)
+        (serverLoginError: any) => {
+          console.log('error in subscriber err');
+          console.log(serverLoginError.statusText, serverLoginError.status);
+          if (serverLoginError.status != 200) {
+            console.log(' password o contraseña erronea')
+            console.log(this.mensaje);
+            this.incorrecta = true;
+          }
+          //err => console.log(err)
+        }
       )
 
-      if(this.miFormulario.invalid){
-        this.miFormulario.markAllAsTouched();
-        
-        return;
-      }
-
+    if (this.miFormulario.invalid) {
+      this.miFormulario.markAllAsTouched();
+      return;
+    }
   }
 
-  OnResetForm(): void{
+  OnResetForm(): void {
     this.loginForm.reset();
   }
-
-
 }

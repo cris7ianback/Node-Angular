@@ -14,7 +14,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   constructor(
     private authService: AuthService) { }
 
-  intercept(req: any, next: any) {
+  intercept(req:any, next:any) {
 
     // const token = localStorage.getItem('token');
     // const role = localStorage.getItem('role');
