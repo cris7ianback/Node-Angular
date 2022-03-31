@@ -72,7 +72,7 @@ module.exports = {
                             res.status(401).send('No Autorizado');
 
                         } else {
-                            const id = results[0].id;
+                            const id = results[0].id_user;
                             const id_role = results[0].id_role;
                             const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
                                 expiresIn: process.env.JWT_TIEMPO_EXPIRA
@@ -95,20 +95,30 @@ module.exports = {
     },
     //AUTENTIFICACIÓN DE LOGIN
     AutentificacionUsuario: async (req, res, next) => {
-        if (req.cookies.jwt) {
+        // if (req.cookies.jwt) {
+
+        if (req.headers.authorization) {
             try {
-                const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
-                conexion.query('SELECT * FROM users WHERE id =?', [decodificada.id], (error, results) => {
-                    if (!results) { return next(); }
+                //const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+                const decodificada = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO)
+                conexion.query('SELECT * FROM users WHERE id_user =?', [decodificada.id_user], async (error, results) => {
+                    if (!results) {
+                        return res.status(401).send('No Autorizado, Token no encontrado')
+
+                    }
+
                     req.user = results[0];
                     return next();
                 })
             } catch (error) {
-                console.log(error);
-                return next();
+                // console.log(error);
+                // return next();
+                return res.status(401).send('No Autorizado, Token invalido')
             }
         } else {
-            res.redirect('/');
+
+            return res.status(401).send('No Autorizado, Token no encontrado')
+            //res.redirect('/');
         }
     },
     auntentificadorRol: async (req, res, next) => {
