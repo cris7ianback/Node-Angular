@@ -105,12 +105,11 @@ export class ListarPersonalComponent implements OnInit {
     this.formValue.controls['correo'].setValue(personal.correo);
   }
 
-  modificarPersonal(personal:any){
+  modificarPersonal(personalObj:Personal){
     this.personalObj.nombre = this.formValue.value.nombre;
     this.personalObj.apellido = this.formValue.value.apellido;
     this.personalObj.correo= this.formValue.value.correo;
-   // this.personal.updateEmployee(this.personalObj, this.personalObj.id_persona);
-    
+   
    this.personalService.modificarPersonal(this.personalObj, this.personalObj.id_persona)
    .subscribe(res =>{
      alert("Actualización Exitosa");

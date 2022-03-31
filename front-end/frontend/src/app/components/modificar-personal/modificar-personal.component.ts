@@ -83,7 +83,7 @@ export class ModificarPersonalComponent implements OnInit {
   
   }
 
-  EditarPersonal(personal: any) {
+  EditarPersonal(personal: any, id_persona: any) {
     this.personal.id_persona = personal.id_persona;
     this.formValue.controls['id_persona'].setValue(personal.id_persona);
     this.formValue.controls['nombre'].setValue(personal.nombre);

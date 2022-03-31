@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validator, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { fromEventPattern } from 'rxjs';
 
@@ -15,12 +15,19 @@ export class LoginComponent implements OnInit {
 
   public loginForm!: FormGroup;
 
-  private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // miFormulario: FormGroup = new FormGroup ({
+  //   email: new FormControl (''),
+  //   password: new FormControl ('')
+  // })
 
+  miFormulario : FormGroup = this.fb.group({
+      email: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]]
+  })
 
   createFormGroup() {
     return new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.minLength(5),Validators.pattern(this.emailPattern)]),
+      email: new FormControl('', [Validators.required, Validators.minLength(5)]),
       password: new FormControl('', [Validators.required,Validators.minLength(5)])
       //mensaje: new FormControl('', [Validators.required])
     })
@@ -31,14 +38,20 @@ export class LoginComponent implements OnInit {
     password: ''
   }
   formBuilder: any;
-  
+
 
   constructor(private authService: AuthService,
-              private router: Router
+              private router: Router,
+              private fb: FormBuilder
   ) {
     this.loginForm = this.createFormGroup();
    }
 
+   campoEsValido (campo: string){
+    return this.miFormulario.controls[campo].errors 
+    &&     this.miFormulario.controls[campo].touched;
+
+   }
   ngOnInit(): void {
   }
 
@@ -55,6 +68,12 @@ export class LoginComponent implements OnInit {
         },
         err => console.log(err)
       )
+
+      if(this.miFormulario.invalid){
+        this.miFormulario.markAllAsTouched();
+        
+        return;
+      }
 
   }
 

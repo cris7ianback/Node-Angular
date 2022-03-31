@@ -22,7 +22,7 @@ export class PersonalService {
   }
   //Modifica Personal por ID
   modificarPersonal(id_persona: any, data: any): Observable<any> {
-    return this.http.put(URL + 'modificarPersonal/'+ id_persona, data);
+    return this.http.put<any>(URL + 'modificarPersonal/'+ id_persona, data);
   }
   //trae un Personal por ID
   listarPersonalId(id_persona: string) {
@@ -34,7 +34,7 @@ export class PersonalService {
   }
 
   updateEmployee(data: any, id_persona: any) {
-    return this.http.put<any>(URL + id_persona, data)
+    return this.http.put<any>(URL + `modificarPersonal/${id_persona}`, data)
       .pipe(map((res: any) => {
         return res;
       }))
