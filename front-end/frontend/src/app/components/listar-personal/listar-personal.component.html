@@ -1,4 +1,4 @@
-<h1>Lista de Personal</h1>
+<!-- <h1>Lista de Personal</h1>
 <table class="table table-hover">
   <thead>
     <tr class="table table-dark">
@@ -20,7 +20,7 @@
         <button class="btn btn-warning"
           routerLink="/modificarPersonal/{{currentPersonal.id_persona }}" >Modificar</button>
         <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)"> Eliminar</button>
-        <button type="button" (click)="editarPersonal(  persona)" class="btn btn-primary" data-bs-toggle="modal"
+        <button type="button" (click)="editarPersonal(persona)" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#exampleModal">
           Modificar
         </button>
@@ -28,6 +28,36 @@
 
 
 
+    </tr>
+  </tbody>
+</table> -->
+
+
+<table class="table table-striped row-border hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+  <thead>
+    <tr class="table table-dark">
+      <th scope="col">id</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Correo</th>
+      <th scope="col"> Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-info" *ngFor="let persona of personal; let i index" [class.active]="setActivePersonal(persona, i)">
+      <td>{{persona.id_persona}}</td>
+      <td>{{persona.nombre}}</td>
+      <td>{{persona.apellido}}</td>
+      <td>{{persona.correo}}</td>
+      <td>
+
+        <button class="btn btn-warning"
+          routerLink="/modificarPersonal/{{currentPersonal.id_persona }}" >Modificar</button>
+        <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)"> Eliminar</button>
+        <!-- <button type="button" (click)="editarPersonal(persona)" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#exampleModal">
+          Modificar
+        </button> -->
     </tr>
   </tbody>
 </table>
@@ -67,3 +97,7 @@
     </div>
   </div>
 </div>
+
+
+
+

@@ -33,10 +33,4 @@ export class PersonalService {
     return this.http.get(URL + `modificarPersonal/${nombre}`);
   }
 
-  updateEmployee(data: any, id_persona: any) {
-    return this.http.put<any>(URL + `modificarPersonal/${id_persona}`, data)
-      .pipe(map((res: any) => {
-        return res;
-      }))
-  }
 }

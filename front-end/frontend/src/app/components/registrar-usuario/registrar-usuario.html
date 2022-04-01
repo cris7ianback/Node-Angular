@@ -1,7 +1,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-md-4 mx-auto">
+        <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-header">
                     Registrar Usuario
@@ -41,10 +41,8 @@
                             </span>
                         </div>
                         <td>
-                            <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid">
-                                Registrar Usuario
-                            </button>
-                            <button class="btn btn-warning" routerLink="/listarUsuarios">Cancelar</button>
+                            <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid"> Registrar Usuario </button>
+                            <button class="btn btn-warning" (click)="cancelar()"> Cancelar </button>
                         <td>
                     </form>
                 </div>

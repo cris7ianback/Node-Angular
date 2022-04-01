@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registrar-personal',
@@ -18,15 +19,17 @@ export class RegistrarPersonalComponent implements OnInit {
   nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
 
   formAgPersonal: FormGroup = this.fb.group({
-    nombre:   ['', [Validators.required, Validators.minLength(3), ]],
-    apellido: ['', [Validators.required, Validators.minLength(3), ]],
-    correo:   ['', [Validators.required, Validators.minLength(3), Validators.email]]
+    nombre: ['', [Validators.required, Validators.minLength(3),]],
+    apellido: ['', [Validators.required, Validators.minLength(3),]],
+    correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
   })
+  currentPersonal?: {};
+  currentIndex?: number;
 
 
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb: FormBuilder) { }
+    private router: Router,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void { }
 
@@ -48,10 +51,42 @@ export class RegistrarPersonalComponent implements OnInit {
       this.formAgPersonal.markAllAsTouched();
       return;
     }
-    alert("Personal Ingresado" )
-    this.router.navigate(['/listarPersonal']);
+
+    Swal.fire({
+      title: 'Usuario Ingresado Correctamente',
+      //text: ' Su Usuario ha sido Modificado Exitosamente',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+
+        this.refreshList();
+
+      }
+    })
+  }
+
+  refreshList(): void {
+    window.location.reload();
+    this.currentPersonal = {};
+    this.currentIndex = -1;
   }
 
 
-
+  cancelar(){
+    Swal.fire({
+      title: 'Acción Cancelada',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['listarPersonal']); }
+    })
+  }
 }
+
+
+
+

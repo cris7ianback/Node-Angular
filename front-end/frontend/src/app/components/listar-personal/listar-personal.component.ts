@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { PersonalService } from 'src/app/services/personal.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
+
+import { Subject } from 'rxjs';
 
 import { Personal } from 'src/app/models/personal';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { PersonalService } from 'src/app/services/personal.service';
+
+
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -12,7 +16,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './listar-personal.component.html',
   styleUrls: ['./listar-personal.component.css']
 })
-export class ListarPersonalComponent implements OnInit {
+export class ListarPersonalComponent implements OnDestroy, OnInit {
 
   currentPersonal: Personal = {}
   currentIndex = -1;
@@ -26,14 +30,24 @@ export class ListarPersonalComponent implements OnInit {
   personalObj: Personal = new Personal();
   formBuilder: any;
 
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+
 
 
   constructor(private personalService: PersonalService,
     private router: Router,
-    private activeRoute: ActivatedRoute,
     private formbuilder: FormBuilder) { }
 
+
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 2,
+      language: {
+        url:'//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+      }
+    };
 
     this.formValue = this.formbuilder.group({
       id_persona: [''],
@@ -42,16 +56,34 @@ export class ListarPersonalComponent implements OnInit {
       correo: [''],
     })
 
+    // this.personalService.listarPersonal()
+    //   .subscribe(
+    //     res => this.personal = res,
+        //     err => {
+    //       if (err instanceof HttpErrorResponse) {
+    //         if (err.status === 401) {
+    //           this.router.navigate(['/signin']);
+    //         }
+    //       }
+    //     })
+
     this.personalService.listarPersonal()
-      .subscribe(
-        res => this.personal = res,
-        err => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-              this.router.navigate(['/signin']);
-            }
-          }
-        })
+    .subscribe((res:any) =>{
+      this.personal = res.personal;
+      this.dtTrigger.next(res);
+    });
+
+        this.personalService.listarPersonal()
+        .subscribe(
+          res => this.personal = res,
+          this.dtTrigger.next
+        ) 
+        
+  }
+
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 
   setActivePersonal(personal: Personal, index: number): void {
@@ -76,8 +108,20 @@ export class ListarPersonalComponent implements OnInit {
         err => {
           console.log(err)
         });
-    alert("Personal Eliminado")
-    window.location.reload();
+    Swal.fire({
+      title: 'Personal Eliminado',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+
+        this.refreshList();
+
+      }
+    })
+
+    //window.location.reload();
   }
 
   buscarPorNombre(): void {
@@ -91,34 +135,47 @@ export class ListarPersonalComponent implements OnInit {
           console.log(error);
         });
   }
-  // modificarPersonal(id_persona: any) {
-  //   this.router.navigate(['edit/:id_persona']);
 
-  // }
-
-  editarPersonal(personal: any) {
+  editarPersonal(personal: any) { //despliego los datos del usuario asociados a un ID
     this.personalObj.id_persona = personal.id_persona;
     this.formValue.controls['id_persona'].setValue(personal.id_persona);
     this.formValue.controls['nombre'].setValue(personal.nombre);
     this.formValue.controls['apellido'].setValue(personal.apellido);
     this.formValue.controls['correo'].setValue(personal.correo);
+
+    console.log(this.personalObj.id_persona)
   }
 
-  modificarPersonal(personalObj:Personal){
+
+  modificarPersonal(personalObj: Personal) {
+
     this.personalObj.nombre = this.formValue.value.nombre;
     this.personalObj.apellido = this.formValue.value.apellido;
-    this.personalObj.correo= this.formValue.value.correo;
-   
-   this.personalService.modificarPersonal(this.personalObj, this.personalObj.id_persona)
-   .subscribe(res =>{
-     alert("Actualización Exitosa");
-     let ref = document.getElementById('cancel')
-     ref?.click();
-     this.formValue.reset();
-     this.listarPersonal();
-     
-   } )
+    this.personalObj.correo = this.formValue.value.correo;
+
+    this.personalService.modificarPersonal(this.personalObj, this.personalObj.id_persona)
+      .subscribe(res => {
+        alert("Actualización Exitosa");
+        let ref = document.getElementById('cancel')
+        ref?.click();
+        this.formValue.reset();
+        this.listarPersonal();
+      });
   }
 
+  cancelar() {
+    Swal.fire({
+      title: 'Acción Cancelada',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['/  listarPersonal']);
+      }
+    })
+  }
 }
+
+
 

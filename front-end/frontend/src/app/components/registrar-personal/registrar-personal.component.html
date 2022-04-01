@@ -36,7 +36,8 @@
                         <button type="submit" class="btn btn-success" [disabled]="formAgPersonal.invalid">
                             Registrar Personal
                         </button>  
-                        <button class="btn btn-warning"  routerLink="/listarPersonal">Cancelar</button>
+                        
+                        <button class="btn btn-warning" (click)="cancelar()" > Cancelar </button>
                     </form>
                 </div>
             </div>

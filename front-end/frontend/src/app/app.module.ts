@@ -16,6 +16,7 @@ import { ListarUsuariosComponent } from './components/listar-usuarios/listar-usu
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { ModificarPersonalComponent } from './components/modificar-personal/modificar-personal.component';
 
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [
@@ -26,15 +27,16 @@ import { ModificarPersonalComponent } from './components/modificar-personal/modi
     ListarUsuariosComponent,
     RegistrarPersonalComponent,
     ModificarUsuarioComponent,
-    ModificarPersonalComponent,
-
+    ModificarPersonalComponent
+    
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
 
   ],
   providers: [

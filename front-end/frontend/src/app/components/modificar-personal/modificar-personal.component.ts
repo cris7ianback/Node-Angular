@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -45,13 +45,13 @@ export class ModificarPersonalComponent implements OnInit {
     if (id_entrada) {
       console.log(id_entrada);
       this.personalService.listarPersonalId(id_entrada)
-      .subscribe(
-        res => {
-          this.personal = res;
-          console.log(res);
-        },
-        err => console.log(err)
-      );
+        .subscribe(
+          res => {
+            this.personal = res;
+            console.log(res);
+          },
+          err => console.log(err)
+        );
     }
   }
 
@@ -75,24 +75,34 @@ export class ModificarPersonalComponent implements OnInit {
         },
         err => {
           console.log(err);
-          
+
         });
-       Swal.fire ({
-         title: 'Are you Sure?',
-         text: ' bla bla bla',
-         icon: 'error',
-         showCancelButton: true,
-         confirmButtonText: 'Go To Home',
-         cancelButtonText: ' No, Keep it'}).then((result)=>{
-           if (result.value){
-             this.router.navigate(['/listarPersonal']);
+    Swal.fire({
+      title: 'Usuario Modificado',
+      text: ' Su Usuario ha sido Modificado Exitosamente',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
 
-           } else if (result.dismiss === Swal.DismissReason.cancel) {}
-         })
+        this.router.navigate(['/listarPersonal']);
 
-    //this.router.navigate(['/listarPersonal']);
-    // this.router.navigate(['modificarPersonal/'+this.personal.id_persona])
+      }
+    })
   }
 
+  cancelar(){
+    Swal.fire({
+      title: 'Accion Cancelada.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['listarPersonal']); }
+    })
+  }
 
-}
+  }
+

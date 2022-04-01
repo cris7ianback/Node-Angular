@@ -70,9 +70,12 @@ export class LoginComponent implements OnInit {
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
       return;
+      
     }
-  }
 
+    
+    
+  }
   OnResetForm(): void {
     this.loginForm.reset();
   }

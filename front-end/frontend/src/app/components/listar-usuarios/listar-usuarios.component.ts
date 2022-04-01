@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
+
+
+
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -16,6 +20,7 @@ export class ListarUsuariosComponent implements OnInit {
   listarUsuarios?: any;
   //usuarios: any = [];
   usuario?:any;
+  currentPersonal?: {};
  
   constructor(
     private usuarioService: UsuarioService,
@@ -33,6 +38,12 @@ export class ListarUsuariosComponent implements OnInit {
       );
   }
 
+  refreshList(): void {
+    window.location.reload();
+    this.currentPersonal = {};
+    this.currentIndex = -1;
+  }
+
   eliminarUsuario(id_user: any): void {
     this.usuarioService.eliminarUsuario(id_user)
       .subscribe(
@@ -42,9 +53,20 @@ export class ListarUsuariosComponent implements OnInit {
         error => {
           console.log(error);
         });
-        alert("Usuario Eliminado")
-        
-    window.location.reload();
+   
+        Swal.fire({
+          title: 'Personal Eliminado',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonText: 'Aceptar'
+        }).then((result) => {
+          if (result.value) {
+    
+            this.refreshList();
+    
+          }
+        })
+
   }
 
   setActiveUsuario(users: Users, index: number): void {
@@ -55,7 +77,18 @@ export class ListarUsuariosComponent implements OnInit {
   modificarUsuario(id_user: any){
     this.router.navigate(['modificarPersonal/:id_user']);
   }
-
+  cancelar(){
+    Swal.fire({
+      title: 'Acción Cancelada',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['listarPersonal']); }
+    })
+  }
 }
+
 
 

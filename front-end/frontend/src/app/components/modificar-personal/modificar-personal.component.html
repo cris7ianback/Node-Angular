@@ -1,14 +1,15 @@
 <div class="container">
     <h2>Modificar Personal</h2>
 
-    <form class="mt-3" [formGroup]="personalForm" (ngSubmit)="modificarPersonal()" ></form>
+    <form class="mt-3" [formGroup]="personalForm" (ngSubmit)="modificarPersonal()"></form>
     <div class="row">
         <div class="col-sm-6">
             <form>
                 <div class="form-group">
                     <label for="nombre">
                         <input type="text" [(ngModel)]="personal.nombre" class="form-control" name="nombre" />
-                        <div class="text-danger" *ngIf="personalForm.controls['nombre'].errors?.['required'] && personalForm.controls['nombre'].touched ">
+                        <div class="text-danger"
+                            *ngIf="personalForm.controls['nombre'].errors?.['required'] && personalForm.controls['nombre'].touched ">
                             <span> el nombre del personal <strong> es obligatorio.</strong></span>
                         </div>
                     </label>
@@ -16,7 +17,8 @@
                 <div class="form-group">
                     <label for="apellido">
                         <input type="text" [(ngModel)]="personal.apellido" class="form-control" name="apellido" />
-                        <div class="text-danger" *ngIf="personalForm.controls['apellido'].errors?.['required'] && personalForm.controls['apellido'].touched ">
+                        <div class="text-danger"
+                            *ngIf="personalForm.controls['apellido'].errors?.['required'] && personalForm.controls['apellido'].touched ">
                             <span> el nombre del personal <strong> es obligatorio.</strong></span>
                         </div>
                     </label>
@@ -24,15 +26,15 @@
                 <div class="form-group">
                     <label for="correo">
                         <input type="text" [(ngModel)]="personal.correo" class="form-control" name="correo" />
-                        <div class="text-danger" *ngIf="personalForm.controls['nombre'].errors?.['required'] && personalForm.controls['correo'].touched ">
+                        <div class="text-danger"
+                            *ngIf="personalForm.controls['nombre'].errors?.['required'] && personalForm.controls['correo'].touched ">
                             <span> el nombre del personal <strong> es obligatorio.</strong></span>
                         </div>
                     </label>
                 </div>
                 <br>
-                <button type="submit"  (click)="modificarPersonal()"
-                class="btn btn-primary">Modificar </button>
-                <button class="btn btn-warning"  routerLink="/listarPersonal">Cancelar</button>
+                <button type="submit" (click)="modificarPersonal()" class="btn btn-primary"> Modificar </button>
+                <button class="btn btn-warning" (click)="cancelar()"> Cancelar </button>
             </form>
         </div>
 
