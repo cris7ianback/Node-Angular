@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 import { Subject } from 'rxjs';
 
@@ -36,8 +37,9 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
 
   constructor(private personalService: PersonalService,
-    private router: Router,
-    private formbuilder: FormBuilder) { }
+              private router: Router,
+              private formbuilder: FormBuilder,
+              private toast:  NgToastService) { }
 
 
   ngOnInit(): void {
@@ -102,26 +104,28 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
     this.personalService.eliminarPersonal(id_persona)
       .subscribe(
         response => {
-          // this.refreshList();
+          this.toast.success({
+            detail: "",
+            summary: "Personal Eliminado",
+            duration: 2000,
+            position: 'br'
+          })
           console.log(response)
         },
         err => {
-          console.log(err)
+
+          this.toast.warning({
+            detail: "",
+            summary: "Personal Eliminado",
+            duration: 2000,
+            position: 'br'
+          })
+
+         this.refreshList();
         });
-    Swal.fire({
-      title: 'Personal Eliminado',
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
+    
 
-        this.refreshList();
 
-      }
-    })
-
-    //window.location.reload();
   }
 
   buscarPorNombre(): void {

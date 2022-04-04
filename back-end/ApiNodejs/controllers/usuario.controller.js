@@ -47,15 +47,48 @@ module.exports = {
             const email = req.body.email;
             const password = req.body.password;
             const id_role = req.body.id_role;
-            let passHash = await bcryptjs.hash(password, 8);
+            const passHash = await bcryptjs.hash(password, 8);
+
+            console.log(user, password, email, id_role)
+            if (!user || !password || !email || !id_role) {
+                return res.status(501).send('Falta Información');
+            } else {
+                user.finduser
+            }
+
             conexion.query('INSERT INTO users SET ?', { user: user, email: email, password: passHash, id_role: id_role }, (error, results) => {
                 if (error) { console.log(error); }
-                res.redirect('/login');
+                //res.redirect('/login');
             });
         } catch (error) {
             console.log(error);
         }
+    },
+
+    validarUsuario: async (req, res) => {
+        const user = req.body.user;
+        const email = req.body.email;
+        const password = req.body.password;
+        const id_role = req.body.id_role;
+        const passHash = await bcryptjs.hash(password, 8);
+
+        if (!user || !password || !email || !id_role) {
+            return res.status(501).send('Falta información');
+        } else {
+            usuarioModule.econtrarUsuario(email, function (data) {
+                if (data != undefined) {
+                    return res.status(501).send('email ya existente');
+                } else {
+                    usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {
+                        return res.status(200).send('Usuario ingresado' + id_role);
+                    });
+                }
+            });
+
+        }
+
     }
+
 
 };
 

@@ -41,13 +41,24 @@ module.exports = {
         });
     },
     registrarUsuario: function (user, email, password, id_role, callback) {
-        let sql = `INSERT INTO users (user, email, password, id_role) values ('${user})','${email})','${password})','${id_role})')`;
+        let sql = `INSERT INTO users (user, email, password, id_role) VALUES ('${user})','${email})','${password})','${id_role})')`;
         conexion.query(sql, function (err, rows, fields) {
             if (err) throw err;
             else {
-                console.log(rows);
                 return callback(rows);
             }
         });
     },
+
+    econtrarUsuario: function (email, callback){
+        conexion.query('SELECT email FROM users WHERE email =?',
+        [email],
+        (err, rows, fields)=>{
+            if (err) throw err;
+            else{
+                return ballback(rows[0]);
+            }
+        })
+    }
+    
 };

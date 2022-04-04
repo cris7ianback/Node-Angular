@@ -75,9 +75,9 @@ module.exports = {
         });
     },
 
-    findUser: function (user, email, callback) {
-        conexion.query('SELECT user, email FROM users WHERE username=? or email=?',
-            [user, email],
+    buscarPersonal: function (correo, callback) {
+        conexion.query('SELECT correo FROM persona WHERE correo=?',
+            [correo],
             (err, rows, fields) => {
                 if (err) throw err;
                 else {

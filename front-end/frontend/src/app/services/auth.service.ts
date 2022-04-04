@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, map, of, tap } from 'rxjs';
-import Swal from 'sweetalert2';
+import { NgToastService } from 'ng-angular-popup';
+
 
 const URL = 'http://localhost:3000/'
 
@@ -13,12 +13,13 @@ export class AuthService {
 
   private URL = 'http://localhost:3000/'
 
-  constructor(private http: HttpClient,
-    private router: Router) { }
+  constructor( private http  : HttpClient,
+               private router: Router,
+               private toast : NgToastService) { }
 
   login(user: any) {
     return this.http.post<any>(this.URL + 'login', user)
-    
+
   }
 
   registrarUsuario(user: any) {
@@ -36,15 +37,14 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    Swal.fire({
-      title: 'Usuario Deslogueado Correctamente',
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['login']); }
+    this.toast.success({
+      detail: "Sesión Finalizada",
+      summary: "Usuario deslogueado.",
+      duration: 3000,
+      position: 'br'
     })
+    this.router.navigate(['/login']);
+
   }
 
   getToken() {

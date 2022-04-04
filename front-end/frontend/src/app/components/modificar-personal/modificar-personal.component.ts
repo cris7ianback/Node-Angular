@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -12,8 +12,9 @@ import Swal from 'sweetalert2';
 })
 export class ModificarPersonalComponent implements OnInit {
 
-  personalForm: FormGroup;
+
   currentPersonal: Personal = {};
+  currentIndex?: number;
   mensaje = '';
   personal: Personal = {
     id_persona: '',
@@ -22,19 +23,22 @@ export class ModificarPersonalComponent implements OnInit {
     correo: ''
   };
 
+  nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
+
+  //Validar Formulario
+  formModPersonal: FormGroup = this.fb.group({
+    nombre: ['', [Validators.required, Validators.minLength(3),]],
+    apellido: ['', [Validators.required, Validators.minLength(3),]],
+    correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
+  })
+
+
   constructor(
     private personalService: PersonalService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {
-
-    this.personalForm = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      correo: ['', [Validators.email, Validators.required]]
-    })
-  }
+    private fb: FormBuilder,
+    private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.mensaje = '';
@@ -55,6 +59,11 @@ export class ModificarPersonalComponent implements OnInit {
     }
   }
 
+  campoEsValido(campo: string) {
+    return this.formModPersonal.controls[campo].errors
+      && this.formModPersonal.controls[campo].touched;
+  }
+
   listarPersonalId(id_entrada: any): void {
     this.personalService.listarPersonalId(id_entrada)
       .subscribe(
@@ -72,37 +81,39 @@ export class ModificarPersonalComponent implements OnInit {
       .subscribe(
         res => {
           console.log(res);
+
+          // Alerta de Modificación Exitosa
+          this.toast.success({
+            detail: "Personal Modificado",
+            summary: "Solicitud Exitosa",
+            duration: 3000,
+            position: 'br'
+          })
+          this.router.navigate(['listarPersonal']);
         },
         err => {
           console.log(err);
+          this.toast.warning({
+            detail: "Error al Modificar",
+            summary: "Su Solicitud Fallo",
+            duration: 3000,
+            position: 'br'
+          })
+        
 
         });
-    Swal.fire({
-      title: 'Usuario Modificado',
-      text: ' Su Usuario ha sido Modificado Exitosamente',
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
 
-        this.router.navigate(['/listarPersonal']);
-
-      }
+  }
+  cancelar() {
+    this.toast.success({
+      detail: "Sin Efecto",
+      summary: "Accion Cancelada Exitosa",
+      duration: 3000,
+      position: 'br'
     })
+    this.router.navigate(['listarPersonal']);
+  }
   }
 
-  cancelar(){
-    Swal.fire({
-      title: 'Accion Cancelada.',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['listarPersonal']); }
-    })
-  }
 
-  }
 

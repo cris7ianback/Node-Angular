@@ -1,8 +1,10 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { DataTablesModule } from "angular-datatables";
 import { FormsModule ,  FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { NgToastModule } from 'ng-angular-popup';
 
 
 import { AppComponent } from './app.component';
@@ -16,7 +18,6 @@ import { ListarUsuariosComponent } from './components/listar-usuarios/listar-usu
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { ModificarPersonalComponent } from './components/modificar-personal/modificar-personal.component';
 
-import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DataTablesModule } from "angular-datatables";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    NgToastModule
 
   ],
   providers: [

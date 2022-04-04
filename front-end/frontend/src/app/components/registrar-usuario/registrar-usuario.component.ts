@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-registrar-usuario',
@@ -15,58 +16,58 @@ export class RegistrarUsuarioComponent implements OnInit {
     user: '',
     email: '',
     password: '',
-    id_role: ''  }
+    id_role: ''
+  }
 
-    formAgUsuario: FormGroup = this.fb.group ({
-      user: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(3)]], 
-      id_role: ['', [Validators.required, Validators.minLength(3)]] 
-    })
+  formAgUsuario: FormGroup = this.fb.group({
+    user: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
+    id_role: ['', [Validators.required, Validators.minLength(3)]]
+  })
 
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb: FormBuilder) { }
+    private router: Router,
+    private fb: FormBuilder,
+    private toast: NgToastService) { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { }
 
-  campoEsValido (campo:string){
+  campoEsValido(campo: string) {
     return this.formAgUsuario.controls[campo].errors
-      &&   this.formAgUsuario.controls[campo].touched;
+      && this.formAgUsuario.controls[campo].touched;
   }
 
   registrarUsuario() {
     this.authService.registrarUsuario(this.user)
       .subscribe(
         res => {
-          console.log(res);
+          this.toast.success({
+            detail: "Usuario Registrado",
+            summary: " Usuario registrado",
+            duration: 3000,
+            position: 'br'
+          })
           localStorage.setItem('token', res.token);
+          this.router.navigate(['/listarUuario']);
         },
-        err => console.log(err)
+        err =>
+          this.toast.success({
+            detail: "Usuario Registrado",
+            summary: " Usuario registrado",
+            duration: 3000,
+            position: 'br'
+          })
       )
-      if (this.formAgUsuario.invalid) {
-        this.formAgUsuario.markAllAsTouched();
-        return;
-      }
-
-      Swal.fire ({
-        title: 'Usuario Ingresado Correctamente',
-        //text: ' Su Usuario ha sido Modificado Exitosamente',
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonText: 'Aceptar'
-        }).then((result)=>{
-          if (result.value){
-           
-            this.router.navigate(['/listarUsuarios']);
-
-          }
-        })
+    if (this.formAgUsuario.invalid) {
+      this.formAgUsuario.markAllAsTouched();
+      return;
+    }
       //this.router.navigate(['/listarUsuarios']);
-      //window.location.href = "/listarUsuarios";
+    //window.location.href = "/listarUsuarios";
   }
 
-  cancelar(){
+  cancelar() {
     Swal.fire({
       title: 'Acción Cancelada',
       icon: 'warning',
@@ -74,7 +75,8 @@ export class RegistrarUsuarioComponent implements OnInit {
       confirmButtonText: 'Aceptar'
     }).then((result) => {
       if (result.value) {
-        this.router.navigate(['/listarUsuarios']); }
+        this.router.navigate(['/listarUsuarios']);
+      }
     })
   }
 
