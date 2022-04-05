@@ -30,13 +30,13 @@ module.exports = {
 
         if (!nombre || !apellido || !correo) {
             return res.status(501).send('Falta información, campos Vacios');
-        }        else {
+        } else {
             personalModule.buscarPersonal(correo, function (data) {
-                if (data = undefined) {
-                    return res.statu(501).sent('usuario ya Existe');
+                if (data != undefined) {                
+                    return res.status(501).send('usuario ya Existe');
                 } else {
                     personalModule.registrarPersonal(nombre, apellido, correo, function (data) {
-                        console.log("personal Registrado de manera exitosa");
+                        return res.status(200).send('Personal Ingresado Correctamente');
 
                     })
                 }
@@ -54,27 +54,23 @@ module.exports = {
 
         // });
     },
-
-
-
     eliminarPersonal: function (req, res) {
-        var id_persona = req.params.id_persona;
+        const id_persona = req.params.id_persona;
         personalModule.eliminarPersonal(id_persona, function (data) {
             res.redirect('/');
             console.log("Personal eliminado exitosamente");
         });
     },
     modificarPersonal: function (req, res) {
-        let id_persona = req.params.id_persona;
-        let nombre = req.body.nombre;
-        let apellido = req.body.apellido;
-        let correo = req.body.correo;
+        const id_persona = req.params.id_persona;
+        const nombre = req.body.nombre;
+        const apellido = req.body.apellido;
+        const correo = req.body.correo;
         personalModule.modificarPersonal(id_persona, nombre, apellido, correo, function (data) {
             res.send(data);
             console.log("Datos Actualizados Correctamente");
         });
     },
-
     // INICIO DE SESIÓN
     login: async (req, res) => {
         try {
@@ -174,59 +170,6 @@ module.exports = {
         res.clearCookie('jwt');
         res.clearCookie('connect.sid');
     },
-
-    validarUsuario: async (req, res) => {
-        const user = req.body.user;
-        const email = req.body.email;
-        const password = req.body.password;
-        const id_role = req.body.id_role;
-        const passHash = await bcryptjs.hash(password, 8);
-
-        if (!user || !password || !email || !id_role) {
-            res.render('register', {
-                alert: true,
-                alertTitle: "Advertencia",
-                alertMessage: "Uno o más campos están sin completar",
-                alertIcon: 'info',
-                showConfirmButton: true,
-                timer: false,
-                ruta: '/register'
-            });
-
-        } else {
-            User.finduser(user, email, function (data) {
-                if (data != undefined) {
-
-                    res.render('register', {
-                        alert: true,
-                        alertTitle: "Error",
-                        alertMessage: "Usuario y/o email ya Existe",
-                        alertIcon: 'error',
-                        showConfirmButton: true,
-                        timer: false,
-                        ruta: '/register'
-                    });
-
-                } else {
-                    User.register(user, email, passHash, id_role, function (resp) {
-                        res.render('register', {
-                            alert: true,
-                            alerTitle: "Registro de Usuario",
-                            alertMessage: "Registro de Usuario Exito",
-                            alertIcon: 'success',
-                            showConfirmButton: false,
-                            timer: 1000,
-                            ruta: '/'
-
-                        });
-
-                    });
-                }
-            });
-
-        }
-
-    }
 
 
 };

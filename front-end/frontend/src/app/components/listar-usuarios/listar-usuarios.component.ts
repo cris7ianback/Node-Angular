@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import Swal from 'sweetalert2';
+import { NgToastService } from 'ng-angular-popup';
+
 
 
 
@@ -24,7 +25,8 @@ export class ListarUsuariosComponent implements OnInit {
  
   constructor(
     private usuarioService: UsuarioService,
-    private router: Router) { }
+    private router: Router,
+    private toast:  NgToastService) { }
 
   ngOnInit(): void {
 
@@ -48,23 +50,28 @@ export class ListarUsuariosComponent implements OnInit {
     this.usuarioService.eliminarUsuario(id_user)
       .subscribe(
         res => {
+          this.toast.success({
+            detail: "",
+            summary: "Personal Eliminado",
+            duration: 2000,
+            position: 'br'
+          })
           console.log(res)
         },
         error => {
           console.log(error);
-        });
+          this.toast.warning({
+            detail: "Atencion",
+            summary: "Personal Eliminado",
+            duration: 2000,
+            position: 'br'
+          })
    
-        Swal.fire({
-          title: 'Personal Eliminado',
-          icon: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'Aceptar'
-        }).then((result) => {
-          if (result.value) {
+       
     
             this.refreshList();
     
-          }
+       
         })
 
   }
@@ -77,17 +84,17 @@ export class ListarUsuariosComponent implements OnInit {
   modificarUsuario(id_user: any){
     this.router.navigate(['modificarPersonal/:id_user']);
   }
-  cancelar(){
-    Swal.fire({
-      title: 'Acción Cancelada',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['listarPersonal']); }
+
+  cancelar() {
+    this.toast.warning({
+      detail: "Atención",
+      summary: "Acción Cancelada",
+      duration: 3000,
+      position: 'br'
     })
+    this.router.navigate(['/listarUsuarios']);
   }
+
 }
 
 

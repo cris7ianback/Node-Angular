@@ -49,11 +49,14 @@
       <td>{{persona.nombre}}</td>
       <td>{{persona.apellido}}</td>
       <td>{{persona.correo}}</td>
-      <td>
+      
 
-        <button class="btn btn-warning"
-          routerLink="/modificarPersonal/{{currentPersonal.id_persona }}" >Modificar</button>
-        <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)"> Eliminar</button>
+        <!-- <button class="btn btn-warning" routerLink="/modificarPersonal/{{currentPersonal.id_persona }}" >Modificar</button> -->
+        
+          <td><i class="fa-solid fa-pencil" routerLink="/modificarPersonal/{{currentPersonal.id_persona }}">    </i>
+         <i class="fa-solid fa-trash" (click)="eliminarPersonal(persona.id_persona)">   </i> </td>
+
+        <!-- <button class="btn btn-danger" (click)="eliminarPersonal(persona.id_persona)"> Eliminar</button> -->
         <!-- <button type="button" (click)="editarPersonal(persona)" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#exampleModal">
           Modificar

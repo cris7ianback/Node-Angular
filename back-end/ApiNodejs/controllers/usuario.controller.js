@@ -2,7 +2,6 @@ var usuarioModule = require('../models/usuario.model');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const conexion = require('../config/conexion');
-
 const controllerUsuario = {};
 
 module.exports = {
@@ -40,42 +39,19 @@ module.exports = {
             console.log("Datos Actualizados Correctamente");
         });
     },
-    //REGISTRAR USUARIO
+
     registrarUsuario: async (req, res) => {
-        try {
-            const user = req.body.user;
-            const email = req.body.email;
-            const password = req.body.password;
-            const id_role = req.body.id_role;
-            const passHash = await bcryptjs.hash(password, 8);
-
-            console.log(user, password, email, id_role)
-            if (!user || !password || !email || !id_role) {
-                return res.status(501).send('Falta Información');
-            } else {
-                user.finduser
-            }
-
-            conexion.query('INSERT INTO users SET ?', { user: user, email: email, password: passHash, id_role: id_role }, (error, results) => {
-                if (error) { console.log(error); }
-                //res.redirect('/login');
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    },
-
-    validarUsuario: async (req, res) => {
         const user = req.body.user;
         const email = req.body.email;
         const password = req.body.password;
         const id_role = req.body.id_role;
         const passHash = await bcryptjs.hash(password, 8);
+        console.log(user, email, password, email, id_role)
 
         if (!user || !password || !email || !id_role) {
-            return res.status(501).send('Falta información');
+            return res.status(501).send('Falta información, campos Vacios');
         } else {
-            usuarioModule.econtrarUsuario(email, function (data) {
+            usuarioModule.buscarUsuario(email, function (data) {
                 if (data != undefined) {
                     return res.status(501).send('email ya existente');
                 } else {
@@ -84,11 +60,7 @@ module.exports = {
                     });
                 }
             });
-
         }
-
     }
-
-
 };
 

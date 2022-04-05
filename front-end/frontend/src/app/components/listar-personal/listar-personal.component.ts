@@ -9,7 +9,7 @@ import { Personal } from 'src/app/models/personal';
 import { PersonalService } from 'src/app/services/personal.service';
 
 
-import Swal from 'sweetalert2';
+
 
 
 @Component({
@@ -115,7 +115,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
         err => {
 
           this.toast.warning({
-            detail: "",
+            detail: "Atencion",
             summary: "Personal Eliminado",
             duration: 2000,
             position: 'br'
@@ -168,18 +168,15 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
   }
 
   cancelar() {
-    Swal.fire({
-      title: 'Acción Cancelada',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['/  listarPersonal']);
-      }
+    this.toast.warning({
+      detail: "Atención",
+      summary: "Acción Cancelada",
+      duration: 3000,
+      position: 'br'
     })
+    this.router.navigate(['/listarPersonal']);
   }
-}
 
+}
 
 

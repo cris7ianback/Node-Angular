@@ -26,8 +26,8 @@ export class AuthService {
     return this.http.post<any>(this.URL + 'registrarUsuario', user)
   }
 
-  registrarPersonal(user: any) {
-    return this.http.post<any>(this.URL + 'registrarPersonal', user)
+  registrarPersonal(personal: any) {
+    return this.http.post<any>(this.URL + 'registrarPersonal', personal)
   }
 
   loggedIn() {

@@ -105,8 +105,8 @@ export class ModificarPersonalComponent implements OnInit {
 
   }
   cancelar() {
-    this.toast.success({
-      detail: "Sin Efecto",
+    this.toast.warning({
+      detail: "Atención",
       summary: "Accion Cancelada Exitosa",
       duration: 3000,
       position: 'br'

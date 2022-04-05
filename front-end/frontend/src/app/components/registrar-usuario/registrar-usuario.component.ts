@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { NgToastService } from 'ng-angular-popup';
 
 @Component({
@@ -27,9 +26,9 @@ export class RegistrarUsuarioComponent implements OnInit {
   })
 
   constructor(private authService: AuthService,
-    private router: Router,
-    private fb: FormBuilder,
-    private toast: NgToastService) { }
+              private router: Router,
+              private fb: FormBuilder,
+              private toast: NgToastService) { }
 
   ngOnInit(): void { }
 
@@ -63,21 +62,19 @@ export class RegistrarUsuarioComponent implements OnInit {
       this.formAgUsuario.markAllAsTouched();
       return;
     }
-      //this.router.navigate(['/listarUsuarios']);
+    //this.router.navigate(['/listarUsuarios']);
     //window.location.href = "/listarUsuarios";
   }
 
   cancelar() {
-    Swal.fire({
-      title: 'Acción Cancelada',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Aceptar'
-    }).then((result) => {
-      if (result.value) {
+    this.toast.warning({
+      detail: "Atención",
+      summary: "Acción Cancelada",
+      duration: 3000,
+      position: 'br'})
         this.router.navigate(['/listarUsuarios']);
       }
-    })
-  }
+    
+  
 
 }
