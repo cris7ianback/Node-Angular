@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { DataTablesModule } from "angular-datatables";
-import { FormsModule ,  FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgToastModule } from 'ng-angular-popup';
@@ -23,7 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRippleModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import {MatSortModule} from '@angular/material/sort';
     RegistrarPersonalComponent,
     ModificarUsuarioComponent,
     ModificarPersonalComponent
-    
+
   ],
   imports: [
     AppRoutingModule,

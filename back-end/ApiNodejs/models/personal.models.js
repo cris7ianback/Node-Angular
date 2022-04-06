@@ -18,7 +18,7 @@ module.exports = {
             return callback(data[0]);
         });
     },
-    
+
     registrarPersonal: function (nombre, apellido, correo, callback) {
         let sql = `INSERT INTO persona(nombre, apellido, correo) values('${nombre}', '${apellido}', '${correo}')`;
         conexion.query(sql, function (err, rows, fields) {
@@ -64,16 +64,7 @@ module.exports = {
         });
     },
 
-    registrarUsuario: function (user, email, password, id_role, callback) {
-        let sql = `INSERT INTO users (user, email, password, id_role) values ('${user})','${email})','${password})','${id_role})')`;
-        conexion.query(sql, function (err, rows, fields) {
-            if (err) throw err;
-            else {
-                console.log(rows);
-                return callback(rows);
-            }
-        });
-    },
+  
 
     buscarPersonal: function (correo, callback) {
         conexion.query('SELECT correo FROM persona WHERE correo=?',

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 
-import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -13,32 +12,33 @@ import Swal from 'sweetalert2'
 })
 
 export class LoginComponent implements OnInit {
-
+  
   public loginForm!: FormGroup;
-
-
+  
+  //loading: false;
+  
   miFormulario: FormGroup = this.fb.group({
     email:    ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   })
   incorrecta!: boolean;
   mensaje?: any;
-
+  
   user = {
     email: '',
     password: ''
   }
   formBuilder: any;
-
-
+  
+  
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb:     FormBuilder,
-              private toast:  NgToastService) { }
-
-  ngOnInit(): void {
-  }
-
+    private router: Router,
+    private fb:     FormBuilder,
+    private toast:  NgToastService) { }
+    
+    ngOnInit(): void {
+    }
+    
   campoEsValido(campo: string) {
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched;
@@ -76,4 +76,12 @@ export class LoginComponent implements OnInit {
   OnResetForm(): void {
     this.loginForm.reset();
   }
+
+  // fakeLoading(){
+  //   this.loading = true;
+  //   setTimeout(() =>{
+  //     this.router.navigate(['listarPersonal']);
+  //   }, 1500);
+  // }
+  
 }

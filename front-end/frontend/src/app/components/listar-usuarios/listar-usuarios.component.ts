@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Users, Usuario } from 'src/app/models/users';
+import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 
@@ -15,73 +15,46 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class ListarUsuariosComponent implements OnInit {
 
-  //DATA TABLE
-  displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role'];
-  dataSource!: MatTableDataSource<Usuario>;
+  currentUsuario: Users = {};
+  currentIndex = -1;
+  id_user?: any;
+  //listarUsuarios?: any;
+  //usuarios: any = [];
+  usuario?: any;
+  currentPersonal?: {};
+
+  listUsuarios: Users[] = [];
+
+  displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
+  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  //FIN DATA TABLE
-
-
-  currentUsuario: Users = {};
-  currentIndex = -1;
-  id_user?: string;
-  //listarUsuarios?: any;
-  //usuarios: any = [];
-  data?:any;
-  usuario: any = [];
-  currentPersonal?: {};
 
 
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
-    private toast: NgToastService) {
+    private toast: NgToastService,
+    private _usuarioService: UsuarioService) {
   }
 
   ngOnInit(): void {
-
-    this.listarUsuarios();
-
-    // this.usuarioService.listarUsuarios()
-    //   .subscribe(
-    //     res => {
-    //       console.log(res)
-    //       this.dataSource = new MatTableDataSource()
-    //       this.dataSource.paginator = this.paginator;
-    //       this.dataSource.sort = this.sort;
-
-    //       this.usuario = <any>res;
-    //     },
-    //     err => console.log(err)
-    //   );
-
+    this.cargarUsuarios();
   }
 
-
-
-  listarUsuarios() {
-    this.usuarioService.listarUsuarios()
-      .subscribe(data => {
-        console.log(data)
-        this.dataSource = new MatTableDataSource(data)
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-
-      },
-        //   error: (err)=>{
-        //     alert("error")
-        //   }
-        // })
-      )
+  cargarUsuarios() {
+    this.listUsuarios = this._usuarioService.listarUsuarios();
+    this.dataSource = new MatTableDataSource(this.listUsuarios);
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -138,7 +111,4 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
 }
-
-
-
 

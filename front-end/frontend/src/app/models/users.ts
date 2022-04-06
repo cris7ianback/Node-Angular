@@ -1,9 +1,9 @@
-export class Users  {
+export interface Users {
     id_user?: any;
-    user?: string;
-    email?: string;
-    password?: string;
-    id_role?: string;
+    user?: any;
+    email?: any;
+    password?: any;
+    id_role?: any;
 }
 
 export interface Usuario {

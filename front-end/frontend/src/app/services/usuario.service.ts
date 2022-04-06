@@ -13,7 +13,7 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
   //lista total de Usuarios
   listarUsuarios() {
-    return this.http.get<Users>(URL + 'listarUsuarios');
+    return this.http.get<Users[]>(URL + 'listarUsuarios');
   }
 
   registrarUsuario(user: any) {

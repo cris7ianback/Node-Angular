@@ -41,7 +41,7 @@ module.exports = {
         });
     },
     registrarUsuario: function (user, email, password, id_role, callback) {
-        const sql = `INSERT INTO users (user, email, password, id_role) VALUES ('${user})','${email})','${password})','${id_role})')`;
+        const sql = `INSERT INTO users (user, email, password, id_role) VALUES ('${user}','${email}','${password}','${id_role}')`;
         conexion.query(sql, function (err, rows, fields) {
             if (err) throw err;
             else {
@@ -49,6 +49,7 @@ module.exports = {
             }
         });
     },
+    
     buscarUsuario: function (email, callback) {
         conexion.query('SELECT email FROM users WHERE email =?',
             [email],

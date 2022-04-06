@@ -27,16 +27,16 @@
     </tbody>
 </table>
 
-<!-- Button trigger modal
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#exampleModal">
     Registrar
   </button>
-  </button>
+  </button> -->
   
-  Modal
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal -->
+  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -55,7 +55,11 @@
     </div>
   </div> -->
 
-  <!-- //PRUEBA -->
+
+
+
+
+  <!-- PRUEBA -->
 
   <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
@@ -65,30 +69,34 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
   
-      <!-- COLUMNA  ID USUARIO -->
+      <!--  Columna ID -->
       <ng-container matColumnDef="id_user">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
         <td mat-cell *matCellDef="let row"> {{row.id_user}} </td>
       </ng-container>
-  
-      <!--COLUMNA USUARIO -->
-      <ng-container matColumnDef="user">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
-        <td mat-cell *matCellDef="let row"> {{row.user}}% </td>
+
+       <!-- Fruit User -->
+       <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+        <td mat-cell *matCellDef="let row"> {{row.user}} </td>
       </ng-container>
   
-      <!-- COLUMNA EMAIL -->
+      
+      <!-- Columna Email -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
         <td mat-cell *matCellDef="let row"> {{row.email}} </td>
       </ng-container>
-  
-      <!-- COLUMNA ROL -->
+
+      
+
+      <!-- Columna ROL -->
       <ng-container matColumnDef="id_role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> id_role </th>
         <td mat-cell *matCellDef="let row"> {{row.id_role}} </td>
       </ng-container>
   
+     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
