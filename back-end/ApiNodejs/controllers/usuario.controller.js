@@ -54,6 +54,7 @@ module.exports = {
             usuarioModule.buscarUsuario(email, function (data) {
                 if (data != undefined) {
                     return res.status(501).send('email ya existente');
+                    console.log(res)
                 } else {
                     usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {
                         return res.status(200).send('Usuario ingresado' + id_role);

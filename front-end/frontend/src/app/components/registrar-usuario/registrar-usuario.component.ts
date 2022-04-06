@@ -50,14 +50,14 @@ export class RegistrarUsuarioComponent implements OnInit {
           localStorage.setItem('token', res.token);
           this.router.navigate(['/listarUuario']);
         },
-        err =>
+        err =>{
           this.toast.success({
             detail: "Usuario Registrado",
             summary: " Usuario registrado",
             duration: 3000,
             position: 'br'
           })
-      )
+        })
     if (this.formAgUsuario.invalid) {
       this.formAgUsuario.markAllAsTouched();
       return;
