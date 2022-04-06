@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Users } from 'src/app/models/users';
+import { Users, Usuario } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
-
-
-
 
 
 @Component({
@@ -15,29 +15,76 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class ListarUsuariosComponent implements OnInit {
 
+  //DATA TABLE
+  displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role'];
+  dataSource!: MatTableDataSource<Usuario>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  //FIN DATA TABLE
+
+
   currentUsuario: Users = {};
   currentIndex = -1;
   id_user?: string;
-  listarUsuarios?: any;
+  //listarUsuarios?: any;
   //usuarios: any = [];
-  usuario?:any;
+  data?:any;
+  usuario: any = [];
   currentPersonal?: {};
- 
+
+
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
-    private toast:  NgToastService) { }
+    private toast: NgToastService) {
+  }
 
   ngOnInit(): void {
 
+    this.listarUsuarios();
+
+    // this.usuarioService.listarUsuarios()
+    //   .subscribe(
+    //     res => {
+    //       console.log(res)
+    //       this.dataSource = new MatTableDataSource()
+    //       this.dataSource.paginator = this.paginator;
+    //       this.dataSource.sort = this.sort;
+
+    //       this.usuario = <any>res;
+    //     },
+    //     err => console.log(err)
+    //   );
+
+  }
+
+
+
+  listarUsuarios() {
     this.usuarioService.listarUsuarios()
-      .subscribe(
-        res => {
-          console.log(res)
-          this.usuario = <any>res;
-        },
-        err => console.log(err)
-      );
+      .subscribe(data => {
+        console.log(data)
+        this.dataSource = new MatTableDataSource(data)
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+      },
+        //   error: (err)=>{
+        //     alert("error")
+        //   }
+        // })
+      )
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   refreshList(): void {
@@ -66,12 +113,7 @@ export class ListarUsuariosComponent implements OnInit {
             duration: 2000,
             position: 'br'
           })
-   
-       
-    
-            this.refreshList();
-    
-       
+          this.refreshList();
         })
 
   }
@@ -81,7 +123,7 @@ export class ListarUsuariosComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  modificarUsuario(id_user: any){
+  modificarUsuario(id_user: any) {
     this.router.navigate(['modificarPersonal/:id_user']);
   }
 
@@ -96,6 +138,7 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
 }
+
 
 
 

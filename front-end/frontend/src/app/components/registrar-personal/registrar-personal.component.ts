@@ -25,6 +25,7 @@ export class RegistrarPersonalComponent implements OnInit {
   })
   currentPersonal?: {};
   currentIndex?: number;
+  dialogRef: any;
 
 
   constructor(private authService: AuthService,
@@ -72,6 +73,23 @@ export class RegistrarPersonalComponent implements OnInit {
       return;
     }
   }
+
+  // registrarPersonal(){
+  //   if(this.formAgPersonal.valid){
+  //     this.authService.registrarPersonal(this.formAgPersonal.value)
+  //     .subscribe({
+  //       next:(res)=>{
+  //         alert("product added successfully");
+  //         this.formAgPersonal.reset();
+  //         this.dialogRef.close('save');
+  //       },
+  //       error: ()=>{
+  //         alert("error al agregar producto")
+  //       }
+  //     })
+  //   }
+  // }
+
 
   cancelar() {
     this.toast.warning({

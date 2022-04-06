@@ -17,6 +17,13 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { ListarUsuariosComponent } from './components/listar-usuarios/listar-usuarios.component';
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { ModificarPersonalComponent } from './components/modificar-personal/modificar-personal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRippleModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 
 
 @NgModule({
@@ -38,7 +45,14 @@ import { ModificarPersonalComponent } from './components/modificar-personal/modi
     HttpClientModule,
     ReactiveFormsModule,
     DataTablesModule,
-    NgToastModule
+    NgToastModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatRippleModule,
+    MatPaginatorModule,
+    MatSortModule
 
   ],
   providers: [

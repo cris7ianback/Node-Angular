@@ -55,7 +55,7 @@ module.exports = {
             (err, rows, fields) => {
                 if (err) throw err;
                 else {
-                    return ballback(rows[0]);
+                    return callback(rows[0]);
                 }
             })
     }

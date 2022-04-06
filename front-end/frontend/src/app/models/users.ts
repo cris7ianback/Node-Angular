@@ -1,4 +1,4 @@
-export class Users {
+export class Users  {
     id_user?: any;
     user?: string;
     email?: string;
