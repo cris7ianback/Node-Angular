@@ -36,6 +36,12 @@ export class UsuarioService {
   buscarPorNombre(id_user: any): Observable<any> {
     return this.http.get(URL + `modificarUsuario/${id_user}`);
   }
+
+  // eliminarUsuario(index:number){
+  //   this.listarUsuarios.splice(index,1)
+
+  // }
+  
 }
 
 

@@ -24,6 +24,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRippleModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon'
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 
@@ -53,7 +58,11 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatRippleModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatInputModule,
+    MatIconModule,
+    MatIconTestingModule,
+    MatTooltipModule
 
   ],
   providers: [

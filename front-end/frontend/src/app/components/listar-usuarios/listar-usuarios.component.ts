@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
-
+import { Observable } from 'rxjs';
+import {MatIconTestingModule} from '@angular/material/icon/testing';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -18,12 +19,13 @@ export class ListarUsuariosComponent implements OnInit {
   currentUsuario: Users = {};
   currentIndex = -1;
   id_user?: any;
-  //listarUsuarios?: any;
-  //usuarios: any = [];
+  listarUsuarios?: any;
+  usuarios: any = [];
   usuario?: any;
   currentPersonal?: {};
 
-  listUsuarios: Users[] = [];
+  //listUsuarios: Users[] = [];
+  listUsuarios!: Observable<Users[]> ;
 
   displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -41,17 +43,24 @@ export class ListarUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarUsuarios();
+
+    this._usuarioService.listarUsuarios().subscribe(res => {
+      // Use MatTableDataSource for paginator
+      this.dataSource = new MatTableDataSource(res);
+                            
+      // Assign the paginator *after* dataSource is set
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+    
+    
   }
 
   cargarUsuarios() {
     this.listUsuarios = this._usuarioService.listarUsuarios();
-    this.dataSource = new MatTableDataSource(this.listUsuarios);
+   
   }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
@@ -90,16 +99,15 @@ export class ListarUsuariosComponent implements OnInit {
         })
 
   }
-
   setActiveUsuario(users: Users, index: number): void {
     this.currentUsuario = users;
     this.currentIndex = index;
   }
-
+  //envia a Pagina Modificar
   modificarUsuario(id_user: any) {
     this.router.navigate(['modificarPersonal/:id_user']);
   }
-
+// cancela la acción
   cancelar() {
     this.toast.warning({
       detail: "Atención",

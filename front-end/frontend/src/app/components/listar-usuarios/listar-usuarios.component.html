@@ -1,5 +1,6 @@
+
 <h1>Lista de Usuarios Registrados</h1>
-<table class="table table-hover">
+<!-- <table class="table table-hover">
     <thead>
         <tr class="table table-dark">
             <th scope="col">User</th>
@@ -25,18 +26,18 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
 
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!-- Button trigger modal
+<<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#exampleModal">
     Registrar
   </button>
-  </button> -->
+  </button> 
   
   <!-- Modal -->
-  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -53,58 +54,74 @@
           </div>
       </div>
     </div>
-  </div> -->
+  </div>  -->
 
 
 
 
+<!-- Data table funcional -->
 
-  <!-- PRUEBA -->
+<mat-form-field appearance="standard">
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+</mat-form-field>
 
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-  </mat-form-field>
-  
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-  
-      <!--  Columna ID -->
-      <ng-container matColumnDef="id_user">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let row"> {{row.id_user}} </td>
-      </ng-container>
+<div class="mat-elevation-z8">
 
-       <!-- Fruit User -->
-       <ng-container matColumnDef="user">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
-        <td mat-cell *matCellDef="let row"> {{row.user}} </td>
-      </ng-container>
-  
-      
-      <!-- Columna Email -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
-        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
-      </ng-container>
+  <table mat-table [dataSource]="dataSource" matSort>
 
-      
+    <!--  Columna ID -->
+    <ng-container matColumnDef="id_user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let row"> {{row.id_user}} </td>
+    </ng-container>
 
-      <!-- Columna ROL -->
-      <ng-container matColumnDef="id_role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> id_role </th>
-        <td mat-cell *matCellDef="let row"> {{row.id_role}} </td>
-      </ng-container>
-  
-     
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-  </div>
+    <!-- Fruit User -->
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+      <td mat-cell *matCellDef="let row"> {{row.user}} </td>
+    </ng-container>
+
+
+    <!-- Columna Email -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+    </ng-container>
+
+
+
+    <!-- Columna ROL -->
+    <ng-container matColumnDef="id_role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+      <td mat-cell *matCellDef="let row"> {{row.id_role}} </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+      <td mat-cell *matCellDef="let user of usuario; let index" style="text-align: right;">
+        <a class="pointer" matTooltip="Editar Usuario" a routerLink="/modificarUsuario/{{user.id_user}}"
+          style="color: #1878b0;">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a class="pointer" (click)="eliminarUsuario(user.id_user)" matTooltip="Eliminar Usuario"
+          style="color: #e15639;">
+          <mat-icon>delete</mat-icon>
+        </a>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">Datos No Encontrados</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+</div>
