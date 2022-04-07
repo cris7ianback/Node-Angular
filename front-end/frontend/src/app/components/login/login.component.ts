@@ -3,6 +3,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -12,60 +14,65 @@ import { NgToastService } from 'ng-angular-popup';
 })
 
 export class LoginComponent implements OnInit {
-  
+
+  private URL = 'http://localhost:3000'
+
   public loginForm!: FormGroup;
-  
+
   //loading: false;
-  
+
   miFormulario: FormGroup = this.fb.group({
-    email:    ['', [Validators.required, Validators.minLength(3), Validators.email]],
+    email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   })
   incorrecta!: boolean;
   mensaje?: any;
-  
+
   user = {
     email: '',
     password: ''
   }
   formBuilder: any;
-  
-  
+
+
+
   constructor(private authService: AuthService,
     private router: Router,
-    private fb:     FormBuilder,
-    private toast:  NgToastService) { }
-    
-    ngOnInit(): void {
-    }
-    
+    private fb: FormBuilder,
+    private toast: NgToastService,
+    private http: HttpClient) { }
+
+  ngOnInit(): void {
+  }
+  
   campoEsValido(campo: string) {
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched;
   }
 
-  login() {
+  login(): void {
     this.authService.login(this.user)
       .subscribe(
         res => {
-          console.log(res);
-          this.toast.success({
-            detail: "Inicio de Sesión",
-            summary: "Usuario Verificado!",
-            duration: 2000,
-            position: 'br'
-          })
+
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.roleHash);
-          this.router.navigate(['/listarPersonal']);
-        }, err => {
-          this.toast.error({
-            detail: "Error al iniciar sesión ",
-            summary: "Login Fallido, verificar Credenciales.",
-            duration: 3000,
-            position: 'br'
-          })
 
+          this.http.get<any>(this.URL + '/isAdmin')
+            .subscribe(
+              res => {
+                console.log(res.status);
+              },
+              err => {
+                if (err.status == 200) {
+                  console.log ('aqui entro a listar Personal')
+                  this.router.navigate(['/listarPersonal']);
+                } else {
+                  console.log ('aqui entro a vista de usuario')
+                  this.router.navigate(['/vistaUsuario']);
+                }
+              }
+            );
         })
 
     if (this.miFormulario.invalid) {
@@ -73,6 +80,7 @@ export class LoginComponent implements OnInit {
       return;
     }
   }
+
   OnResetForm(): void {
     this.loginForm.reset();
   }
@@ -83,5 +91,5 @@ export class LoginComponent implements OnInit {
   //     this.router.navigate(['listarPersonal']);
   //   }, 1500);
   // }
-  
+
 }

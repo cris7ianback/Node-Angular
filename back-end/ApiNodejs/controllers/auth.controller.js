@@ -4,9 +4,6 @@ const bcryptjs = require('bcryptjs');
 const conexion = require('../config/conexion');
 const { promisify } = require('util');
 
-
-const { actualizarPersonal } = require('../models/personal.models');
-
 const controllerAuth = {};
 
 module.exports = {
@@ -27,11 +24,18 @@ module.exports = {
                 conexion.query('SELECT * From users WHERE email = ?',
                     [email],
                     async (error, results) => {
-                        console.log(results[0]);
                         if (results.length == 0 || !(await bcryptjs.compare(password, results[0].password))) {
+                            
                             res.status(401).send('No Autorizado');
 
                         } else {
+
+                            req.session.id_user = results [0].id_user;
+                            req.session.user = results [0].user;
+                            req.session.email = results [0].email;
+                            req.session.id_role = results [0].id_role;
+
+                           //console.log ( 'Session:'+ req.session.id_user, req.session.user, req.session.id_role)
                             const id = results[0].id_user;
                             const id_role = results[0].id_role;
                             const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
@@ -41,11 +45,13 @@ module.exports = {
                                 expires: new Date(Date.now() + process.env.JWT_COOKIES_EXPIRES * 24 * 60 * 60 * 1000),
                                 httpOnly: true
                             };
+                            rid_ss0 = results[0].id_role
+                            console.log(typeof results)
 
-                            role = results[0].id_role;
-
-                            const roleHash = await bcryptjs.hash(role, 8);
-                            return res.status(200).json({ token });
+ //                           role = results[0].id_role;
+                            //console.log('Esto es:'+token)
+                            const roleHash = await bcryptjs.hash(rid_ss0, 8);
+                            return res.status(200).json({ token, roleHash });
                         }
                     });
             }

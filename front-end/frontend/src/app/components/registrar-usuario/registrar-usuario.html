@@ -38,6 +38,16 @@
                             <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
                                 debe llenar el campo.
                             </span>
+
+                            <div class="form-group">
+                                <label for="exampleSelect1" class="form-label mt-4">Rol</label>
+                                <select class="form-select" id="id_role">
+                                  <option>Administrador</option>
+                                  <option>Usuario</option>
+                                  <option>Visita</option>
+                                
+                                </select>
+                              </div>
                         </div>
                         <td>
                             <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid"> Registrar Usuario </button>

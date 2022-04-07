@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon'
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
 
 
 
@@ -41,7 +42,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ListarUsuariosComponent,
     RegistrarPersonalComponent,
     ModificarUsuarioComponent,
-    ModificarPersonalComponent
+    ModificarPersonalComponent,
+    VistaUsuarioComponent
 
   ],
   imports: [

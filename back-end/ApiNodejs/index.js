@@ -5,7 +5,7 @@ const {body, validationResult} = require('express-validator');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const cors = require('cors');
 
 const app = express();
 app.use(session({
@@ -20,18 +20,18 @@ require('./config/conexion');
 const bodyParser = require('body-parser');
 
 // const port = (process.env.port || 3000);
-const cors = require('cors');
+
 
 // // setear motor de plantillas
 app.set('view engine', 'ejs');
 
-var corsOptions = {
+const corsOptions = {
   origin: "http://localhost:4200"
 };
 
 
 //Para poder capturar los datos del formulario (sin urlencoded nos devuelve "undefined")
-app.use(express.urlencoded({extended:false}));
+//app.use(express.urlencoded({extended:false}));
 
 //conexión que permite enviar datos ( se utilizo con POSTMAN)
 app.use(express.json());
@@ -39,12 +39,6 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(bodyParser.json());
-
-app.use(function (req, res, next) {
-  if (!req.user)
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  next();
-});
 
 
 //seteamos el motor de plantillas
@@ -63,6 +57,8 @@ dotenv.config({ path: './env/.env' });
 //para poder trabajar con las cookies
 app.use(cookieParser());
 
+
+
 //llamar al router
 app.use('/', require('./routes/persona.routes'));
 app.use('/', require('./routes/usuario.routes'));
@@ -79,5 +75,10 @@ app.listen(3000, () => {
   console.log('SERVER UP running in http://localhost:3000');
 });
 
+app.use(function(req,res,next){
+  res.header("Access-control-Allow-Origin", "*");
+  res.header("Access-control-Allow-headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
  

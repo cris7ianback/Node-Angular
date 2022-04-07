@@ -18,21 +18,15 @@ export class AuthService {
                private toast : NgToastService) { }
 
   login(user: any) {
-    return this.http.post<any>(this.URL + 'login', user)
-
-  }
+    return this.http.post<any>(this.URL + 'login', user)  }
 
   registrarUsuario(user: any) {
-    return this.http.post<any>(this.URL + 'registrarUsuario', user)
-  }
+    return this.http.post<any>(this.URL + 'registrarUsuario', user)   }
 
   registrarPersonal(personal: any) {
-    return this.http.post<any>(this.URL + 'registrarPersonal', personal)
-  }
+    return this.http.post<any>(this.URL + 'registrarPersonal', personal)  }
 
-  loggedIn() {
-    return !!localStorage.getItem('token');
-  }
+  loggedIn() { return !!localStorage.getItem('token');  }
 
   logout() {
     localStorage.removeItem('token');
@@ -47,7 +41,5 @@ export class AuthService {
 
   }
 
-  getToken() {
-    return localStorage.getItem('token');
-  }
+  getToken() { return localStorage.getItem('token');   }
 }
