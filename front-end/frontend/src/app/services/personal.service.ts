@@ -32,4 +32,8 @@ export class PersonalService {
     return this.http.get(URL + `modificarPersonal/${nombre}`);
   }
 
+  registrarPersonal(personal: any) {
+    return this.http.post<any>(URL + 'registrarPersonal', personal)
+  }
+
 }

@@ -4,7 +4,6 @@ const bcryptjs = require('bcryptjs');
 const conexion = require('../config/conexion');
 
 
-
 const { actualizarPersonal } = require('../models/personal.models');
 
 const controllerPersonal = {};
@@ -23,17 +22,22 @@ module.exports = {
             res.send(data);
         });
     },
+    
     registrarPersonal: function (req, res) {
+        
         const nombre = req.body.nombre;
         const apellido = req.body.apellido;
         const correo = req.body.correo;
 
         if (!nombre || !apellido || !correo) {
+
             return res.status(501).send('Falta información, campos Vacios');
+
         } else {
+            
             personalModule.buscarPersonal(correo, function (data) {
                 if (data != undefined) {
-                    return res.status(501).send('usuario ya Existe');
+                    return res.status(501).send('Personal ya Existe');
                 } else {
                     personalModule.registrarPersonal(nombre, apellido, correo, function (data) {
                         return res.status(200).send('Personal Ingresado Correctamente');

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 
 import { Observable, Subject } from 'rxjs';
@@ -10,6 +10,9 @@ import { PersonalService } from 'src/app/services/personal.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -21,6 +24,8 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./listar-personal.component.css']
 })
 export class ListarPersonalComponent implements OnDestroy, OnInit {
+
+  private URL = 'http://localhost:3000'
 
   listPersonal!: Observable<Personal>;
   displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo','acciones'];
@@ -38,6 +43,8 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
   mensaje = '';
   formValue!: FormGroup;
 
+  estado?:boolean;
+
   personalObj: Personal = new Personal();
   formBuilder: any;
 
@@ -48,8 +55,8 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
   constructor(private _personalService: PersonalService,
               private router: Router,
-              private formbuilder: FormBuilder,
-              private toast:  NgToastService) { }
+              private http: HttpClient,
+              private toast: NgToastService) { }
 
 
   ngOnInit(): void {
@@ -61,7 +68,27 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
       // Assign the paginator *after* dataSource is set
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    })    
+    })
+    
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          this.estado = false
+          this.router.navigate(['/vistaUsuario'])
+          this.toast.error({
+            detail: "Atención",
+            summary: "Acceso Restringido",
+            duration: 3000,
+            position: 'br'
+          })
+        }
+        this.estado = true
+      }
+    );
         
   }
 

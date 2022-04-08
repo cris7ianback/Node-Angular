@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { PersonalService } from 'src/app/services/personal.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-registrar-personal',
@@ -11,12 +14,10 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class RegistrarPersonalComponent implements OnInit {
 
-  personal = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-  }
-  nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
+  private URL = 'http://localhost:3000'
+
+  personal = { nombre: '', apellido: '', correo: '' }
+
 
   formAgPersonal: FormGroup = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(3),]],
@@ -26,14 +27,39 @@ export class RegistrarPersonalComponent implements OnInit {
   currentPersonal?: {};
   currentIndex?: number;
   dialogRef: any;
+  estado?: boolean;
 
 
   constructor(private authService: AuthService,
+    private personalService: PersonalService,
     private router: Router,
     private fb: FormBuilder,
-    private toast: NgToastService) { }
+    private toast: NgToastService,
+    private http: HttpClient) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+    this.http.get<any>(this.URL + '/isAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status !== 200) {
+            this.estado = false
+            this.router.navigate(['/vistaUsuario'])
+            this.toast.error({
+              detail: "Atención",
+              summary: "Acceso Restringido",
+              duration: 3000,
+              position: 'br'
+            })
+          }
+          this.estado = true
+        }
+      );
+
+  }
 
   //Funcion que valida que los campos del Formulario no esten vacios.
   campoEsValido(campo: string) {
@@ -42,9 +68,10 @@ export class RegistrarPersonalComponent implements OnInit {
   }
 
   registrarPersonal(): void {
-    this.authService.registrarPersonal(this.personal)
+    this.personalService.registrarPersonal(this.personal)
       .subscribe(
         res => {
+          console.log('registra')
           this.toast.success({
             detail: "Personal Registrado",
             summary: "personal Registrado con Exito",
@@ -59,7 +86,7 @@ export class RegistrarPersonalComponent implements OnInit {
         },
         err => {
           console.log(err)
-          //console.log ("Usuario ya Existe")   
+          console.log ("Usuario ya Existe")   
           this.toast.warning({
             detail: "Atención",
             summary: "Personal ya se encuentra  Registrado",
@@ -74,32 +101,31 @@ export class RegistrarPersonalComponent implements OnInit {
     }
   }
 
-  // registrarPersonal(){
-  //   if(this.formAgPersonal.valid){
-  //     this.authService.registrarPersonal(this.formAgPersonal.value)
-  //     .subscribe({
-  //       next:(res)=>{
-  //         alert("product added successfully");
-  //         this.formAgPersonal.reset();
-  //         this.dialogRef.close('save');
+  // registrarPersonal() {
+  //   this.personalService.registrarPersonal(this.personal)
+  //     .subscribe(
+  //       res => {
+  //         console.log('registra')
+  //         console.log(res)
   //       },
-  //       error: ()=>{
-  //         alert("error al agregar producto")
-  //       }
-  //     })
-  //   }
-  // }
 
+  //       err => console.log(err)
+        
+  //     )
+  //     console.log('aqui')
+  //   // this.router.navigate(['/listarPersonal'])
+  // }
 
   cancelar() {
     this.toast.warning({
       detail: "Atención",
       summary: "Acción Cancelada",
       duration: 3000,
-      position: 'br'})
-        this.router.navigate(['/listarPersonal']);
-      }
-    
+      position: 'br'
+    })
+    this.router.navigate(['/listarPersonal']);
+  }
+
 
 }
 

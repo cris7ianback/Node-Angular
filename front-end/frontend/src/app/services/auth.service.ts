@@ -25,9 +25,6 @@ export class AuthService {
   registrarUsuario(user: any) {
     return this.http.post<any>(this.URL + 'registrarUsuario', user)   }
 
-  registrarPersonal(personal: any) {
-    return this.http.post<any>(this.URL + 'registrarPersonal', personal)  }
-
   loggedIn() { return !!localStorage.getItem('token');  }
 
   logout() {

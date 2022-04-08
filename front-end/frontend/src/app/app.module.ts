@@ -30,6 +30,7 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -48,6 +49,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
   ],
   imports: [
+    CommonModule,
     AppRoutingModule,
     BrowserModule,
     FormsModule,

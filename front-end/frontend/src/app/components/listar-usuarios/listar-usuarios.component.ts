@@ -7,7 +7,8 @@ import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
-import {MatIconTestingModule} from '@angular/material/icon/testing';
+
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -15,6 +16,8 @@ import {MatIconTestingModule} from '@angular/material/icon/testing';
   styleUrls: ['./listar-usuarios.component.css']
 })
 export class ListarUsuariosComponent implements OnInit {
+
+  private URL = 'http://localhost:3000'
 
   currentUsuario: Users = {};
   currentIndex = -1;
@@ -24,7 +27,8 @@ export class ListarUsuariosComponent implements OnInit {
   usuario?: any;
   currentPersonal?: {};
 
-  //listUsuarios: Users[] = [];
+  estado?:boolean;
+
   listUsuarios!: Observable<Users[]> ;
 
   displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
@@ -37,6 +41,7 @@ export class ListarUsuariosComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
+    private http: HttpClient,
     private toast: NgToastService,
     private _usuarioService: UsuarioService) {
   }
@@ -52,6 +57,27 @@ export class ListarUsuariosComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+
+    this.http.get<any>(this.URL + '/isAdminU')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          this.estado = false
+          this.router.navigate(['/vistaUsuario'])
+          this.toast.error({
+            detail: "Atención",
+            summary: "Acceso Restringido",
+            duration: 3000,
+            position: 'br'
+          })
+        }
+        this.estado = true
+      }
+    );
+        
     
     
   }

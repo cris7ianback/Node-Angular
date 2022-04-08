@@ -1,37 +1,49 @@
 const express = require('express');
 
-const {body, validationResult} = require('express-validator');
-
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const cors = require('cors');
+var MySQLStore = require('express-mysql-session')(session);
+
+//seteamos las variables de entorno
+dotenv.config({ path: './env/.env' });
 
 const app = express();
-app.use(session({
-  secret: 'cris7ianback',
-  resave: false,
-  saveUninitialized: false,
-  //cookie: { secure : true }
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
-}));
+
 
 require('./config/conexion');
 const bodyParser = require('body-parser');
 
 // const port = (process.env.port || 3000);
-
+const cors = require('cors');
 
 // // setear motor de plantillas
 app.set('view engine', 'ejs');
 
-const corsOptions = {
+var corsOptions = {
   origin: "http://localhost:4200"
 };
 
+// Session Express
+var sessionStore = new MySQLStore({
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  mysql_port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
+}
+);
+
+app.use(session({
+  secret: process.env.EXP_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+ store: sessionStore,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
 
 //Para poder capturar los datos del formulario (sin urlencoded nos devuelve "undefined")
-//app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:false}));
 
 //conexión que permite enviar datos ( se utilizo con POSTMAN)
 app.use(express.json());
@@ -39,6 +51,12 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(bodyParser.json());
+
+app.use(function (req, res, next) {
+  if (!req.user)
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  next();
+});
 
 
 //seteamos el motor de plantillas
@@ -51,13 +69,9 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//seteamos las variables de entorno
-dotenv.config({ path: './env/.env' });
 
 //para poder trabajar con las cookies
 app.use(cookieParser());
-
-
 
 //llamar al router
 app.use('/', require('./routes/persona.routes'));
@@ -75,10 +89,5 @@ app.listen(3000, () => {
   console.log('SERVER UP running in http://localhost:3000');
 });
 
-app.use(function(req,res,next){
-  res.header("Access-control-Allow-Origin", "*");
-  res.header("Access-control-Allow-headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
  

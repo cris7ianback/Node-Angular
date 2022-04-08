@@ -14,8 +14,5 @@ module.exports = {
         })
     },
 
-    validarSesion: function (session_id, callback){
-        conexion.query ('SELECT')
-    }
-
+   
 }
