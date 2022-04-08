@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
-import { Users } from 'src/app/models/users';
+import { Personal } from 'src/app/models/personal';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Router } from '@angular/router';
+import { ListarPersonalComponent } from '../listar-personal/listar-personal.component';
+import { PersonalService } from '../../services/personal.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-vista-usuario',
@@ -10,18 +18,43 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class VistaUsuarioComponent implements OnInit {
 
-  listUsuarios!: Observable<Users[]> ;
+  listPersonal!: Observable<Personal>;
+  displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo'];
+  dataSource!: MatTableDataSource<any>;
 
-  constructor(private _usuarioService: UsuarioService) { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private router: Router,
+    private toast: NgToastService,
+    private _personalService: PersonalService,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
 
     this.cargarUsuarios();
+       this._personalService.listarPersonal().subscribe (res => {
+        
+      // Use MatTableDataSource for paginator
+      this.dataSource = new MatTableDataSource(res);
+                            
+      // Assign the paginator *after* dataSource is set
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   cargarUsuarios() {
-    this.listUsuarios = this._usuarioService.listarUsuarios();
-   
+    this.listPersonal = this._personalService.listarPersonal();
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
 
 }

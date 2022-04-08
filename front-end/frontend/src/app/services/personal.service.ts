@@ -10,8 +10,7 @@ const URL = 'http://localhost:3000/'
 })
 export class PersonalService {
 
-  constructor(private http: HttpClient,
-              private https: HttpClientModule) { }
+  constructor( private http: HttpClient ) { }
 
   listarPersonal(): Observable<any> {
     return this.http.get<Personal[]>(URL + 'listarPersonal');

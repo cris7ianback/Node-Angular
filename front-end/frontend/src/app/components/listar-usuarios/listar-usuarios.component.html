@@ -1,61 +1,13 @@
+<h1>Lista de Usuarios</h1>
+<div style="height: 100%;">
+  <mat-toolbar>
+    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarUsuario" matTooltip="Registrar Usuario">person</span>
+    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarPersonal" matTooltip="Registrar Personal">people</span>  
+    <span class="material-icons" style="cursor: pointer;" routerLink="/listarPersonal" matTooltip="Listar Personal">list</span> 
+    
+  </mat-toolbar>
 
-<h1>Lista de Usuarios Registrados</h1>
-<!-- <table class="table table-hover">
-    <thead>
-        <tr class="table table-dark">
-            <th scope="col">User</th>
-            <th scope="col">email</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Acciones</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr class="table-info" *ngFor="let user of usuario; let i index" [class.active]="setActiveUsuario(user, i)">
-            <td hidden>{{user.id_user}}</td>
-            <td>{{user.user}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.id_role}}</td>
-
-
-            <td>
-                <button class="btn btn-warning"
-                    routerLink="/modificarUsuario/{{currentUsuario.id_user}}">Modificar</button>
-                <button class="btn btn-danger" (click)="eliminarUsuario(user.id_user)">Eliminar</button>
-
-            </td>
-        </tr>
-    </tbody>
-</table> -->
-
-<!-- Button trigger modal
-<<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-    data-bs-target="#exampleModal">
-    Registrar
-  </button>
-  </button> 
-  
-  <!-- Modal -->
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <app-registrar-usuario></app-registrar-usuario>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button class="btn btn-warning" (click)="cancelar()"> Cancelar </button>
-          </div>
-      </div>
-    </div>
-  </div>  -->
-
+</div>
 
 
 
@@ -63,6 +15,7 @@
 
 <mat-form-field appearance="standard">
   <mat-label>Filtro</mat-label>
+  
   <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
 </mat-form-field>
 

@@ -105,7 +105,7 @@ export class ListarUsuariosComponent implements OnInit {
   }
   //envia a Pagina Modificar
   modificarUsuario(id_user: any) {
-    this.router.navigate(['modificarPersonal/:id_user']);
+    this.router.navigate(['modificarUsuario/:id_user']);
   }
 // cancela la acción
   cancelar() {

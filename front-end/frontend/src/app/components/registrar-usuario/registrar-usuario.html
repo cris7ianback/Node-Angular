@@ -31,24 +31,29 @@
                                 debe llenar el campo.
                             </span>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Rol</label>
                             <input type="text" [(ngModel)]="user.id_role" name="id_role" class="form-control"
                                 placeholder="Rol" formControlName="id_role">
                             <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
                                 debe llenar el campo.
                             </span>
+                        </div> -->
 
                             <div class="form-group">
                                 <label for="exampleSelect1" class="form-label mt-4">Rol</label>
-                                <select class="form-select" id="id_role">
-                                  <option>Administrador</option>
-                                  <option>Usuario</option>
+                                <select class="form-select" id="id_role" [(ngModel)]="user.id_role" class="form-control " formControlName="id_role" placeholder="Seleccione">
+                                    <option selected>Seleccione Rol</option>
+                                    <option>admin</option>
+                                  <option>user</option>
                                   <option>Visita</option>
+                                  <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
+                                    debe llenar el campo.
+                                </span>
                                 
                                 </select>
                               </div>
-                        </div>
+                        
                         <td>
                             <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid"> Registrar Usuario </button>
                            

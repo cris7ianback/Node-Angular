@@ -97,7 +97,7 @@ export class RegistrarPersonalComponent implements OnInit {
       summary: "Acción Cancelada",
       duration: 3000,
       position: 'br'})
-        this.router.navigate(['/listarUsuarios']);
+        this.router.navigate(['/listarPersonal']);
       }
     
 

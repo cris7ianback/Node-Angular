@@ -1,12 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Personal } from 'src/app/models/personal';
 import { PersonalService } from 'src/app/services/personal.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -18,6 +21,13 @@ import { PersonalService } from 'src/app/services/personal.service';
   styleUrls: ['./listar-personal.component.css']
 })
 export class ListarPersonalComponent implements OnDestroy, OnInit {
+
+  listPersonal!: Observable<Personal>;
+  displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo','acciones'];
+  dataSource!: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   currentPersonal: Personal = {}
   currentIndex = -1;
@@ -36,53 +46,36 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
 
 
-  constructor(private personalService: PersonalService,
+  constructor(private _personalService: PersonalService,
               private router: Router,
               private formbuilder: FormBuilder,
               private toast:  NgToastService) { }
 
 
   ngOnInit(): void {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 2,
-      language: {
-        url:'//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-      }
-    };
+    this.cargarPersonal();
+    this._personalService.listarPersonal().subscribe (res => {
 
-    this.formValue = this.formbuilder.group({
-      id_persona: [''],
-      nombre: [''],
-      apellido: [''],
-      correo: [''],
-    })
-
-    // this.personalService.listarPersonal()
-    //   .subscribe(
-    //     res => this.personal = res,
-        //     err => {
-    //       if (err instanceof HttpErrorResponse) {
-    //         if (err.status === 401) {
-    //           this.router.navigate(['/signin']);
-    //         }
-    //       }
-    //     })
-
-    this.personalService.listarPersonal()
-    .subscribe((res:any) =>{
-      this.personal = res.personal;
-      this.dtTrigger.next(res);
-    });
-
-        this.personalService.listarPersonal()
-        .subscribe(
-          res => this.personal = res,
-          this.dtTrigger.next
-        ) 
+      this.dataSource = new MatTableDataSource(res);
+                            
+      // Assign the paginator *after* dataSource is set
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })    
         
   }
 
+  cargarPersonal() {
+    this.listPersonal = this._personalService.listarPersonal();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
@@ -100,36 +93,32 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
   }
 
   eliminarPersonal(id_persona: any): void {
-    console.log('Persona eliminada:', id_persona)
-    this.personalService.eliminarPersonal(id_persona)
+    this._personalService.eliminarPersonal(id_persona)
       .subscribe(
-        response => {
+        res => {
           this.toast.success({
             detail: "",
             summary: "Personal Eliminado",
             duration: 2000,
             position: 'br'
           })
-          console.log(response)
+          console.log(res)
         },
-        err => {
-
+        error => {
+          console.log(error);
           this.toast.warning({
             detail: "Atencion",
             summary: "Personal Eliminado",
             duration: 2000,
             position: 'br'
           })
-
-         this.refreshList();
-        });
-    
-
+          this.refreshList();
+        })
 
   }
-
+ 
   buscarPorNombre(): void {
-    this.personalService.buscarPorNombre(this.listarPersonal)
+    this._personalService.buscarPorNombre(this.listarPersonal)
       .subscribe(
         data => {
           this.listarPersonal = data;
@@ -140,31 +129,9 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
         });
   }
 
-  editarPersonal(personal: any) { //despliego los datos del usuario asociados a un ID
-    this.personalObj.id_persona = personal.id_persona;
-    this.formValue.controls['id_persona'].setValue(personal.id_persona);
-    this.formValue.controls['nombre'].setValue(personal.nombre);
-    this.formValue.controls['apellido'].setValue(personal.apellido);
-    this.formValue.controls['correo'].setValue(personal.correo);
-
-    console.log(this.personalObj.id_persona)
-  }
-
-
-  modificarPersonal(personalObj: Personal) {
-
-    this.personalObj.nombre = this.formValue.value.nombre;
-    this.personalObj.apellido = this.formValue.value.apellido;
-    this.personalObj.correo = this.formValue.value.correo;
-
-    this.personalService.modificarPersonal(this.personalObj, this.personalObj.id_persona)
-      .subscribe(res => {
-        alert("Actualización Exitosa");
-        let ref = document.getElementById('cancel')
-        ref?.click();
-        this.formValue.reset();
-        this.listarPersonal();
-      });
+  
+  modificarPersonal(id_persona: any) {
+    this.router.navigate(['modificarPersonal/:id_persona']);
   }
 
   cancelar() {

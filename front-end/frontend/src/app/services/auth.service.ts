@@ -11,6 +11,8 @@ const URL = 'http://localhost:3000/'
 })
 export class AuthService {
 
+  estado?: boolean;
+
   private URL = 'http://localhost:3000/'
 
   constructor( private http  : HttpClient,
@@ -39,6 +41,28 @@ export class AuthService {
     })
     this.router.navigate(['/login']);
 
+  }
+
+  isadmin(){
+    //this.estado = true
+    return this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+          if(err.status == 200){
+          this.estado = true
+          console.log('El estado es :'+this.estado)
+          }else{
+          this.estado = false
+          console.log('el estado es :'+this.estado)
+          }
+      }
+      
+      );
+
+      
   }
 
   getToken() { return localStorage.getItem('token');   }

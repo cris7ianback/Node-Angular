@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -64,7 +65,8 @@ import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.
     MatInputModule,
     MatIconModule,
     MatIconTestingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatToolbarModule
 
   ],
   providers: [
