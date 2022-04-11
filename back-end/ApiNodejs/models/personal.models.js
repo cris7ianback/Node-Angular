@@ -64,8 +64,6 @@ module.exports = {
         });
     },
 
-  
-
     buscarPersonal: function (correo, callback) {
         conexion.query('SELECT correo FROM persona WHERE correo=?',
             [correo],

@@ -3,6 +3,8 @@ const express = require("express");
 const conexion = require("../config/conexion");
 const router = express.Router();
 const controllerUsuario = require("../controllers/usuario.controller");
+const authMiddleware = require("../middleware/auth.middleware");
+const middlewareController = require("../middleware/auth.middleware")
 
 
 router.use(function (res, req, next) {
@@ -14,13 +16,14 @@ router.use(function (res, req, next) {
 });
 
 //rutas Usuarios
-router.get ('/listarUsuarios', controllerUsuario.listarUsuarios);
-router.post('/registrarUsuario', controllerUsuario.registrarUsuario);
-router.get ('/eliminarUsuario/:id_user', controllerUsuario.eliminarUsuario);
-router.put ('/modificarUsuario/:id_user', controllerUsuario.modificarUsuario);
-router.get ('/listarUsuariosId/:id_user', controllerUsuario.listarUsuariosId);
+router.get('/listarUsuarios', middlewareController.isAuthenticated, controllerUsuario.listarUsuarios);
+router.post('/registrarUsuario', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.registrarUsuario);
+router.get('/eliminarUsuario/:id_user', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.eliminarUsuario);
+router.put('/modificarUsuario/:id_user', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.modificarUsuario);
+router.get('/listarUsuariosId/:id_user', middlewareController.isAuthenticated, controllerUsuario.listarUsuariosId);
 
-
+router.get('/isAdmin', middlewareController.isAuthenticated, middlewareController.isRoleAdmin );
+router.get ('/isEditOrAdmin', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin)
 module.exports = router;
 
 

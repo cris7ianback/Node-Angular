@@ -15,19 +15,19 @@ router.use(function (res, req, next) {
 
 //rutas para metodos 
 router.post('/login', controllerAuth.login);
-router.get('/logout', controllerPersonal.LogOut);
+router.get('/logout', controllerAuth.LogOut);
 
 //rutas Personal
-router.get ('/listarPersonal', middlewareController.AutentificacionUsuario,  controllerPersonal.listarPersonal);
-router.post('/registrarPersonal', middlewareController.AutentificacionUsuario, controllerPersonal.registrarPersonal);
-router.get ('/eliminarPersonal/:id_persona', middlewareController.AutentificacionUsuario, middlewareController.rolAdmin, controllerPersonal.eliminarPersonal);
-router.put ('/modificarPersonal/:id_persona', middlewareController.AutentificacionUsuario, controllerPersonal.modificarPersonal);
-router.get ('/listarPersonalId/:id_persona', middlewareController.AutentificacionUsuario, controllerPersonal.listarPersonalId);
+router.get ('/listarPersonal', middlewareController.isAuthenticated,  controllerPersonal.listarPersonal);
+router.post('/registrarPersonal', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerPersonal.registrarPersonal);
+router.get ('/eliminarPersonal/:id_persona', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerPersonal.eliminarPersonal);
+router.put ('/modificarPersonal/:id_persona', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin , controllerPersonal.modificarPersonal);
+router.get ('/listarPersonalId/:id_persona', middlewareController.isAuthenticated, controllerPersonal.listarPersonalId);
 
 
 
-router.get('/isAdmin', middlewareController.AutentificacionUsuario, middlewareController.rolAdmin );
-
+router.get('/isAdmin', middlewareController.isAuthenticated, middlewareController.isRoleAdmin );
+router.get ('/isEditOrAdmin', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin)
 module.exports = router;
 
 

@@ -5,9 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Personal } from 'src/app/models/personal';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
-import { ListarPersonalComponent } from '../listar-personal/listar-personal.component';
 import { PersonalService } from '../../services/personal.service';
 import { AuthService } from 'src/app/services/auth.service';
 

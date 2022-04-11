@@ -46,23 +46,18 @@ module.exports = {
         const password = req.body.password;
         const id_role = req.body.id_role;
         const passHash = await bcryptjs.hash(password, 8);
-        
-        //console.log(user, email, password, email, id_role)
-
-        // if (!user || !password || !email || !id_role) {
-           
-        // } else {
+         
             usuarioModule.buscarUsuario(email, function (data) {
                 if (data != undefined) {
-                    return res.status(501).send('email ya existente');
+                    return res.status(501).send('Email ya Registrado');
                     //console.log(res)
                 } else {
                     usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {
-                        return res.status(200).send('Usuario ingresado' + id_role);
+                        return res.status(200).send('Usuario ingresado con exito');
                     });
                 }
             });
-        // }
+        
     }
 };
 

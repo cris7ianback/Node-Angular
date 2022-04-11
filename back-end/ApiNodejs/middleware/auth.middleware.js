@@ -4,54 +4,185 @@ const models = require('../models/auth.model.js');
 
 module.exports = {
 
-    AutentificacionUsuario: async (req, res, next) => {
-        console.log(req.headers.authorization, req.headers.rolekey)
+    isAuthenticated: async (req, res, next) => {
         const rolekey = req.headers.rolekey
-        //console.log(roleKey)
         if (req.headers.authorization) {
             try {
-
                 const decodificada = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO)
-                console.log(decodificada)
                 const id = decodificada.id;
-                console.log('id:' + id)
                 models.validarUsuarioId(id, function (data) {
                     if (!data) {
-
                         return res.status(401).send('No Autorizado, Token no encontrado');
                     }
                     else {
                         req.email = data.email;
                         req.rolekey = rolekey;
-                        console.log(req.headers.rolekey)
                         return next()
                     }
                 })
             } catch (error) {
-
-                console.log('hola')
-                return res.status(401).send('No Autorizado, Token invalido 444444')
+                return res.status(401).send('No Autorizado, Token invalido')
             }
         } else {
             return res.status(401).send('No Autorizado, Token no encontrado')
         }
     },
 
-    rolAdmin: async (req, res, next) => {
+    isAdmin: async (req, res, next) => {
         const rolekey = req.rolekey;
-        console.log(req.email)
         try {
             if (await bcryptjs.compare('admin', rolekey.substr(7))) {
 
                 res.status(200).send('Autorizado')
-                return next()
             }
             else {
                 res.status(401).json({ error: 'No Autorizado' })
             }
-        }catch (error) {
+        } catch (error) {
             console.log(error);
             res.status(401).json({ error: 'No Autorizado' })
+        }
+    },
+
+    isAuthorizedAdmin: async (req, res, next) => {
+        const rolekey = req.rolekey
+        try {
+            if (await bcryptjs.compare('admin', rolekey.substr(7))) {
+                return next()
+            }
+            else {
+                res.statu(401).json({ error: 'No Autorizado' })
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(401).json({ error: 'No Autorizado' })
+        }
+    },
+
+
+    //validación de Rol desde front End hacia middleware
+    isRoleAdmin : async (req, res, next) => {
+        const session_id = req.headers.rid_ss0.substr(7)
+        try {
+            models.validarSesion(session_id, function (data) {
+                if (!data) {
+                    return res.status(401).send('No Autorizado, session id no encontrada');
+                }
+                else {
+                    let id_role = JSON.parse(data.data).id_role
+                    if (id_role === "admin") {
+                        res.status(200).send('Es Admin')
+                    }
+                    else {
+                        return res.status(401).send('No Autorizado');
+                    }
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            res.status(401).json({ error: 'No Autorizado' })
+        }
+    },
+
+    isRoleEditor: async (req, res, next) => {
+        const session_id = req.headers.rid_ss0.substr(7)
+        try {
+            models.validarSesion(session_id, function (data) {
+                if (!data) {
+                    return res.status(401).send('No autorizado, Session Id no encontrada');
+                }
+                else {
+                    const id_role = JSON.parse(data.data).id_role
+                    if (id_role === "editor") {
+                        res.status(200).send('Es Editor')
+                    }
+                    else {
+                        return res.status(401).send('No Autorizado');
+                    }
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            res.statu(401).json({ error: ' No Autorizado' })
+        }
+    },
+
+    isRoleEditorAdmin: async (req, res, next) => {
+        const session_id = req.headers.rid_ss0.substr(7)
+        
+        try {
+            models.validarSesion(session_id, function (data) {
+                if (!data) {
+                    console.log('error session no encontrada')
+                    return res.status(401).send('No Autorizado, session id no encontrada');
+                }
+                else {
+                    let id_role = JSON.parse(data.data).role
+                    if (id_role === "editor" || id_role === "admin") {
+                        res.status(200).send('Autorizado')
+                    }
+                    else {
+                        return res.status(401).send('No Autorizado')
+                    }
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+            res.status(401).json({ error: 'No Autorizado' })
+        }
+    },
+
+    isAuthRoleEditorAdmin: async (req, res, next) => {
+        const session_id = req.headers.rid_ss0.substr(7)
+        try {
+            models.validarSesion(session_id, function (data) {
+                if (!data) {
+                    console.log('error session no encontrada')
+                    return res.status(401).send('No Autorizado, session no encontrada');
+                }
+                else {
+                    let id_role = JSON.parse(data.data).role
+                    if (id_role === "editor" || id_role === "admin") {
+                        return next()
+                    }
+                    else {
+                        console.log('error session no encontrada')
+                        return res.status(401).send('No Autorizado');
+                    }
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+            res.status(401).jswon({ error: ' No Autorizado' })
+        }
+    },
+
+    isAuthRoleAdmin: async (req, res, next) => {
+        const session_id = req.headers.rid_ss0.substr(7)
+        try {
+            models.validarSesion(session_id, function (data) {
+                if (!data) {
+                    console.log('error session no encontrada')
+                    return res.status(401).send('No Autorizado, session no encontrada');
+                }
+                else {
+                    const id_role = JSON.parse(data.data).id_role
+                    if (id_role === "admin") {
+                        return next()
+                    }
+                    else {
+                        console.log('error session no encontrada')
+                        return res.status(401).send('No Autorizado');
+                    }
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+            console.log('error session no encontrada')
+            res.status(401).jswon({ error: ' No Autorizado' })
         }
     }
 

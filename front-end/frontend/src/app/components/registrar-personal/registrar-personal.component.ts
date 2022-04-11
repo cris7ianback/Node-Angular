@@ -101,22 +101,6 @@ export class RegistrarPersonalComponent implements OnInit {
     }
   }
 
-  // registrarPersonal(){
-  //   if(this.formAgPersonal.valid){
-  //     this.authService.registrarPersonal(this.formAgPersonal.value)
-  //     .subscribe({
-  //       next:(res)=>{
-  //         alert("product added successfully");
-  //         this.formAgPersonal.reset();
-  //         this.dialogRef.close('save');
-  //       },
-  //       error: ()=>{
-  //         alert("error al agregar producto")
-  //       }
-  //     })
-  //   }
-  // }
-
 
   cancelar() {
     this.toast.warning({

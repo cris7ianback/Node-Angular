@@ -43,32 +43,39 @@ export class LoginComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('rid_ss0')
+
   }
-  
+
   campoEsValido(campo: string) {
     return this.miFormulario.controls[campo].errors
       && this.miFormulario.controls[campo].touched;
   }
 
   login(): void {
+
+    this.incorrecta = false;
+
     this.authService.login(this.user)
       .subscribe(
         res => {
 
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.roleHash);
+          localStorage.setItem('rid_ss0',res.rid_ss0);
+          console.log(res.token)
 
-          this.http.get<any>(this.URL + '/isAdmin')
+          this.http.get<any>(this.URL + '/isEditOrAdmin')
             .subscribe(
               res => {
-                console.log(res.status);
+                console.log('El resultado es:' + res.status);
               },
               err => {
                 if (err.status == 200) {
-                  console.log ('aqui entro a listar Personal')
+                  console.log('aqui entro a listar Personal')
                   this.router.navigate(['/listarPersonal']);
                 } else {
-                  console.log ('aqui entro a vista de usuario')
+                  console.log('aqui entro a vista de usuario')
                   this.router.navigate(['/vistaUsuario']);
                 }
               }
@@ -84,12 +91,4 @@ export class LoginComponent implements OnInit {
   OnResetForm(): void {
     this.loginForm.reset();
   }
-
-  // fakeLoading(){
-  //   this.loading = true;
-  //   setTimeout(() =>{
-  //     this.router.navigate(['listarPersonal']);
-  //   }, 1500);
-  // }
-
 }

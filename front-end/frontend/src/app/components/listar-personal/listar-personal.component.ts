@@ -22,8 +22,9 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
   private URL = 'http://localhost:3000'
   estado?: boolean;
+  estado2?: boolean;
   listPersonal!: Observable<Personal>;
-  displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo','acciones'];
+  displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -47,46 +48,65 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
 
   constructor(private _personalService: PersonalService,
-              private router: Router,
-              private formbuilder: FormBuilder,
-              private toast:  NgToastService,
-              private http: HttpClient) { }
+    private router: Router,
+    private formbuilder: FormBuilder,
+    private toast: NgToastService,
+    private http: HttpClient) { }
 
 
   ngOnInit(): void {
 
-    this.http.get<any>(this.URL + '/isAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-        if (err.status !== 200) {
-          
-          this.estado = false
-          this.toast.error({
-            detail: "Acceso Denegado",
-            summary: "Solo personal Autorizado puede acceder",
-            duration: 3000,
-            position: 'br'
-           })
-
-          this.router.navigate(['/vistaUsuario'])
+    this.http.get<any>(this.URL + '/isEditOrAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status == 200) {
+            this.estado = true
+            console.log(this.estado)
+          } else {
+            this.estado = false
+            console.log(this.estado)
+          }
         }
-        this.estado = true
-      }
-    );
+
+      );
+
+    this.http.get<any>(this.URL + '/isAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status !== 200) {
+            this.estado2 = true
+            console.log(this.estado)
+            this.toast.error({
+              detail: "Acceso Denegado",
+              summary: "Solo personal Autorizado puede acceder",
+              duration: 3000,
+              position: 'br'
+            })
+
+            // this.router.navigate(['/vistaUsuario'])
+          } else {
+            this.estado2 = false
+            console.log(this.estado)
+
+          }
+        }
+      );
 
     this.cargarPersonal();
-    this._personalService.listarPersonal().subscribe (res => {
-
+    this._personalService.listarPersonal().subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
-                            
+
       // Assign the paginator *after* dataSource is set
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    })    
-        
+    })
+
   }
 
   cargarPersonal() {
@@ -140,7 +160,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
         })
 
   }
- 
+
   buscarPorNombre(): void {
     this._personalService.buscarPorNombre(this.listarPersonal)
       .subscribe(
@@ -153,7 +173,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
         });
   }
 
-  
+
   modificarPersonal(id_persona: any) {
     this.router.navigate(['modificarPersonal/:id_persona']);
   }

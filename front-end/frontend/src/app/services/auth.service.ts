@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 
 
-const URL = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
@@ -15,55 +14,57 @@ export class AuthService {
 
   private URL = 'http://localhost:3000/'
 
-  constructor( private http  : HttpClient,
-               private router: Router,
-               private toast : NgToastService) { }
+  constructor(private http: HttpClient,
+    private router: Router,
+    private toast: NgToastService) { }
 
-  login(user: any) {
-    return this.http.post<any>(this.URL + 'login', user)  }
-
-  registrarUsuario(user: any) {
-    return this.http.post<any>(this.URL + 'registrarUsuario', user)   }
-
-  registrarPersonal(personal: any) {
-    return this.http.post<any>(this.URL + 'registrarPersonal', personal)  }
-
-  loggedIn() { return !!localStorage.getItem('token');  }
+  login(usuario: any) {
+    return this.http.post<any>(this.URL + 'login', usuario)
+  }
+  loggedIn() { return !!localStorage.getItem('token'); }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('rid_ss0')
     this.toast.success({
       detail: "Sesión Finalizada",
       summary: "Usuario deslogueado.",
       duration: 3000,
       position: 'br'
     })
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
 
   }
+  registrarUsuario(user: any) {
+    return this.http.post<any>(this.URL + 'registrarUsuario', user)
+  }
 
-  isadmin(){
-    //this.estado = true
-    return this.http.get<any>(this.URL + '/isAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-          if(err.status == 200){
-          this.estado = true
-          console.log('El estado es :'+this.estado)
-          }else{
-          this.estado = false
-          console.log('el estado es :'+this.estado)
+  registrarPersonal(personal: any) {
+    return this.http.post<any>(this.URL + 'registrarPersonal', personal)
+  }
+
+
+
+  isAdmin() {
+    return this.http.get<any>(this.URL + 'isAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status == 200) {
+            this.estado = true
+            console.log('El estado es :' + this.estado)
+          } else {
+            this.estado = false
+            console.log('el estado es :' + this.estado + '!!!')
           }
-      }
-      
+        }
       );
 
-      
+
   }
 
-  getToken() { return localStorage.getItem('token');   }
+  getToken() { return localStorage.getItem('token'); }
 }

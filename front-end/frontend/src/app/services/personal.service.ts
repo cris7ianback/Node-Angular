@@ -12,24 +12,27 @@ export class PersonalService {
 
   constructor( private http: HttpClient ) { }
 
-  listarPersonal(): Observable<any> {
-    return this.http.get<Personal[]>(URL + 'listarPersonal');
+  //Función Buscar Personal
+  buscarPorNombre(nombre: any): Observable<any> {
+    return this.http.get(URL + `modificarPersonal/${nombre}`);
   }
   //elimina Personal
   eliminarPersonal(id_persona: any) {
     return this.http.get(`${URL}eliminarPersonal/${id_persona}`);
   }
-  //Modifica Personal por ID
-  modificarPersonal(id_persona: any, data: any): Observable<any> {
-    return this.http.put<any>(URL + 'modificarPersonal/'+ id_persona, data);
+
+  listarPersonal(): Observable<any> {
+    return this.http.get<Personal[]>(URL + 'listarPersonal');
   }
   //trae un Personal por ID
   listarPersonalId(id_persona: string) {
     return this.http.get(URL + `listarPersonalId/${id_persona}`);
   }
-  //Función Buscar Personal
-  buscarPorNombre(nombre: any): Observable<any> {
-    return this.http.get(URL + `modificarPersonal/${nombre}`);
+
+  //Modifica Personal por ID
+  modificarPersonal(id_persona: any, data: any): Observable<any> {
+    return this.http.put<any>(URL + 'modificarPersonal/'+ id_persona, data);
   }
+  
 
 }

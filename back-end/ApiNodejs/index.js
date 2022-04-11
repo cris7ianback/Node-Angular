@@ -9,11 +9,12 @@ const cors = require('cors');
 
 const app = express();
 app.use(session({
-  secret: 'cris7ianback',
+  secret: 'secreto',
   resave: false,
   saveUninitialized: false,
-  //cookie: { secure : true }
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+  store: sessionStore,
+  cookie: { maxAge: 24 * 60 * 60 * 1000,
+  httpOnly: false }
 }));
 
 require('./config/conexion');
@@ -29,13 +30,20 @@ const corsOptions = {
   origin: "http://localhost:4200"
 };
 
-
-//Para poder capturar los datos del formulario (sin urlencoded nos devuelve "undefined")
-//app.use(express.urlencoded({extended:false}));
+var sessionStore = new MySQLStore({
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  mysql_port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
+}
+);
 
 //conexión que permite enviar datos ( se utilizo con POSTMAN)
 app.use(express.json());
 app.use(cors(corsOptions));
+
+//para poder trabajar con las cookies
 app.use(cookieParser());
 
 app.use(bodyParser.json());
@@ -49,12 +57,6 @@ app.use(express.static('public'));
 
 //para procesar datos enviados desde forms
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-
-//para poder trabajar con las cookies
-app.use(cookieParser());
-
 
 
 //llamar al router

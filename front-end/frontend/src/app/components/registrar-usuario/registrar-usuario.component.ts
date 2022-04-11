@@ -24,10 +24,10 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   
   formAgUsuario: FormGroup = this.fb.group({
-    user: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
+    user:     ['', [Validators.required, Validators.minLength(3)]],
+    email:    ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]],
-    id_role: ['', [Validators.required, Validators.minLength(3)]]
+    id_role:  ['', [Validators.required, Validators.minLength(3)]]
   })
   
   constructor(private authService: AuthService,

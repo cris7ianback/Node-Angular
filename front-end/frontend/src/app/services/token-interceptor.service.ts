@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor } from '@angular/common/http';
-import { AuthService } from './auth.service';
+
 
 
 const TOKEN_KEY = 'auth-token';
@@ -11,19 +11,19 @@ const USER_KEY = 'auth-user';
 })
 export class TokenInterceptorService implements HttpInterceptor {
 
-  constructor(
-    private authService: AuthService) { }
+  constructor(   ) { }
 
   intercept(req:any, next:any) {
 
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
+    const rid_ss0 = localStorage.getItem('rid_ss0');
 
     const tokenizeReq = req.clone({
       setHeaders: {
-        //Authorization: `Bearer ${this.authService.getToken()}`
         Authorization: `Bearer ${token}`,
-        RoleKey: `Bearer ${role}`
+        RoleKey: `Bearer ${role}`,
+        Rid_ss0:`Bearer ${rid_ss0}`
 
       }
     });

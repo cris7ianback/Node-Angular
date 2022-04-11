@@ -8,14 +8,31 @@ module.exports = {
         (err, rows, fields) =>{
             if (err) throw err;
             else {
-                console.log(rows[0])
+               // console.log(rows[0])
                 return callback(rows[0]);
             }
         })
     },
 
     validarSesion: function (session_id, callback){
-        conexion.query ('SELECT')
+        conexion.query ('SELECT data, expires FROM sessions WHERE session_id=?',
+        [session_id],
+        (err, rows, fields) =>{
+            if (err) throw err;
+            else {
+                return callback (rows[0]);
+            }
+        })
+    },
+
+    eliminarSession: function (session_id, callback) {
+        let sql = 'DELETE FROM sessions WHERE session_id =?';
+        conexion.query(sql, session_id, function (err, rows, fields) {
+            if (err) throw err;
+            else {
+                return callback (rows[0]);
+            }
+        })
     }
 
 }

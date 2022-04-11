@@ -44,7 +44,7 @@ export class ModificarPersonalComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.mensaje = '';
+    
 
     this.http.get<any>(this.URL + '/isAdmin')
     .subscribe(
