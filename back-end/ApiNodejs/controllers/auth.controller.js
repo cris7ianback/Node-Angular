@@ -35,8 +35,9 @@ module.exports = {
                             req.session.email = results [0].email;
                             req.session.id_role = results [0].id_role;
 
+                           //console.log ( 'Session:'+ req.session.id_user, req.session.user, req.session.id_role)
                             const id = results[0].id_user;
-                            const id_role = req.session.id;
+                            const id_role = results[0].id_role;
                             const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
                                 expiresIn: process.env.JWT_TIEMPO_EXPIRA
                             });
@@ -50,7 +51,7 @@ module.exports = {
  //                           role = results[0].id_role;
                             //console.log('Esto es:'+token)
                             const roleHash = await bcryptjs.hash(rid_ss0, 8);
-                            return res.status(200).json({ token, roleHash,id_role });
+                            return res.status(200).json({ token, roleHash });
                         }
                     });
             }

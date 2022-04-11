@@ -3,7 +3,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-usuario',
@@ -12,15 +11,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegistrarUsuarioComponent implements OnInit {
 
-  private URL = 'http://localhost:3000'
-
   user = {
     user: '',
     email: '',
     password: '',
     id_role: ''
   }
-  estado?:boolean;
 
   formAgUsuario: FormGroup = this.fb.group({
     user: ['', [Validators.required, Validators.minLength(3)]],
@@ -32,32 +28,9 @@ export class RegistrarUsuarioComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder,
-              private toast: NgToastService,
-              private http: HttpClient) { }
+              private toast: NgToastService) { }
 
-  ngOnInit(): void {
-
-    this.http.get<any>(this.URL + '/isAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-        if (err.status !== 200) {
-          this.estado = false
-          this.router.navigate(['/vistaUsuario'])
-          this.toast.error({
-            detail: "Atención",
-            summary: "Acceso Restringido",
-            duration: 3000,
-            position: 'br'
-          })
-        }
-        this.estado = true
-      }
-    );
-
-   }
+  ngOnInit(): void { }
 
   campoEsValido(campo: string) {
     return this.formAgUsuario.controls[campo].errors
@@ -70,7 +43,7 @@ export class RegistrarUsuarioComponent implements OnInit {
         res => {
           this.toast.success({
             detail: "Usuario Registrado",
-            summary: "Se registro Usuario",
+            summary: " Usuario registrado",
             duration: 3000,
             position: 'br'
           })
@@ -78,9 +51,9 @@ export class RegistrarUsuarioComponent implements OnInit {
           this.router.navigate(['/listarUuario']);
         },
         err =>{
-          this.toast.warning({
-            detail: "Atención",
-            summary: "Usuario ya se encuentra registrado",
+          this.toast.success({
+            detail: "Usuario Registrado",
+            summary: " Usuario registrado",
             duration: 3000,
             position: 'br'
           })

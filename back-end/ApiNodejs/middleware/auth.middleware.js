@@ -44,23 +44,6 @@ module.exports = {
             if (await bcryptjs.compare('admin', rolekey.substr(7))) {
 
                 res.status(200).send('Autorizado')
-                
-            }
-            else {
-                res.status(401).json({ error: 'No Autorizado' })
-            }
-        }catch (error) {
-            console.log(error);
-            res.status(401).json({ error: 'No Autorizado' })
-        }
-    },
-
-    rolAdminNext: async (req, res, next) => {
-        const rolekey = req.rolekey;
-        console.log(req.email)
-        try {
-            if (await bcryptjs.compare('admin', rolekey.substr(7))) {
-
                 return next()
             }
             else {
@@ -70,6 +53,6 @@ module.exports = {
             console.log(error);
             res.status(401).json({ error: 'No Autorizado' })
         }
-    
+    }
 
-}}
+}

@@ -5,6 +5,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Personal } from 'src/app/models/personal';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Router } from '@angular/router';
+import { ListarPersonalComponent } from '../listar-personal/listar-personal.component';
 import { PersonalService } from '../../services/personal.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -22,7 +25,7 @@ export class VistaUsuarioComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(
+  constructor(private router: Router,
     private toast: NgToastService,
     private _personalService: PersonalService,
     public authService: AuthService) { }
@@ -30,11 +33,11 @@ export class VistaUsuarioComponent implements OnInit {
   ngOnInit(): void {
 
     this.cargarUsuarios();
-    this._personalService.listarPersonal().subscribe(res => {
-
+       this._personalService.listarPersonal().subscribe (res => {
+        
       // Use MatTableDataSource for paginator
       this.dataSource = new MatTableDataSource(res);
-
+                            
       // Assign the paginator *after* dataSource is set
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

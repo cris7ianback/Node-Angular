@@ -18,11 +18,11 @@ router.post('/login', controllerAuth.login);
 router.get('/logout', controllerPersonal.LogOut);
 
 //rutas Personal
-router.get ('/listarPersonal', middlewareController.AutentificacionUsuario,  controllerPersonal.listarPersonal);
-router.post('/registrarPersonal', middlewareController.AutentificacionUsuario, middlewareController.rolAdmin, controllerPersonal.registrarPersonal);
+router.get ('/listarPersonal', middlewareController.AutentificacionUsuario, controllerPersonal.listarPersonal);
+router.post('/registrarPersonal', middlewareController.AutentificacionUsuario, controllerPersonal.registrarPersonal);
 router.get ('/eliminarPersonal/:id_persona', middlewareController.AutentificacionUsuario, middlewareController.rolAdmin, controllerPersonal.eliminarPersonal);
-router.put ('/modificarPersonal/:id_persona', middlewareController.AutentificacionUsuario, middlewareController.rolAdmin, controllerPersonal.modificarPersonal);
-router.get ('/listarPersonalId/:id_persona', middlewareController.AutentificacionUsuario,  controllerPersonal.listarPersonalId);
+router.put ('/modificarPersonal/:id_persona', middlewareController.AutentificacionUsuario, controllerPersonal.modificarPersonal);
+router.get ('/listarPersonalId/:id_persona', middlewareController.AutentificacionUsuario, controllerPersonal.listarPersonalId);
 
 
 

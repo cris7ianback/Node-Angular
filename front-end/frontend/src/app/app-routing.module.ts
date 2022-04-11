@@ -15,15 +15,15 @@ import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.
 
 const routes: Routes = [
   { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
-  { path: 'listarPersonal', component: ListarPersonalComponent, canActivate: [AuthGuard] },
+  { path: 'listarPersonal', component: ListarPersonalComponent,canActivate: [AuthGuard]   },
   { path: 'listarUsuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard] },
-  { path: 'registrarUsuario', component: RegistrarUsuarioComponent, },
-  { path: 'registrarPersonal', component: RegistrarPersonalComponent, canActivate: [AuthGuard] },
+  { path: 'registrarUsuario', component: RegistrarUsuarioComponent,   },
+  { path: 'registrarPersonal', component: RegistrarPersonalComponent, canActivate: [AuthGuard]  },
   { path: 'login', component: LoginComponent },
-  { path: 'modificarPersonal/:id_persona', component: ModificarPersonalComponent, canActivate: [AuthGuard] },
-  { path: 'modificarUsuario/:id_user', component: ModificarUsuarioComponent, canActivate: [AuthGuard] },
-  { path: 'vistaUsuario', component: VistaUsuarioComponent, canActivate: [AuthGuard] }
-
+  { path: 'modificarPersonal/:id_persona', component: ModificarPersonalComponent, canActivate: [AuthGuard]  },
+  { path: 'modificarUsuario/:id_user', component: ModificarUsuarioComponent, canActivate: [AuthGuard]  },
+  { path: 'vistaUsuario', component: VistaUsuarioComponent, canActivate: [AuthGuard]  }
+  
 
 ];
 
