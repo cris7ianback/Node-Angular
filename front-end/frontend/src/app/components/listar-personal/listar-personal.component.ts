@@ -1,18 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
-
 import { Observable, Subject } from 'rxjs';
-
-import { Personal } from 'src/app/models/personal';
-import { PersonalService } from 'src/app/services/personal.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 
 
-
+import { Personal } from 'src/app/models/personal';
+import { PersonalService } from 'src/app/services/personal.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -22,6 +20,8 @@ import { MatSort } from '@angular/material/sort';
 })
 export class ListarPersonalComponent implements OnDestroy, OnInit {
 
+  private URL = 'http://localhost:3000'
+  estado?: boolean;
   listPersonal!: Observable<Personal>;
   displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo','acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -49,10 +49,34 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
   constructor(private _personalService: PersonalService,
               private router: Router,
               private formbuilder: FormBuilder,
-              private toast:  NgToastService) { }
+              private toast:  NgToastService,
+              private http: HttpClient) { }
 
 
   ngOnInit(): void {
+
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      }
+    );
+
     this.cargarPersonal();
     this._personalService.listarPersonal().subscribe (res => {
 

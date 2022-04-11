@@ -1,8 +1,8 @@
-var personalModule = require('../models/personal.models');
+
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const conexion = require('../config/conexion');
-const { promisify } = require('util');
+
 
 const controllerAuth = {};
 
@@ -18,9 +18,7 @@ module.exports = {
             const email = req.body.email;
             const password = req.body.password;
 
-
-            if (!email || !password) {
-            } else {
+            
                 conexion.query('SELECT * From users WHERE email = ?',
                     [email],
                     async (error, results) => {
@@ -54,7 +52,7 @@ module.exports = {
                             return res.status(200).json({ token, roleHash });
                         }
                     });
-            }
+            
         } catch (error) {
             console.log(error);
         }

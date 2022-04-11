@@ -1,10 +1,10 @@
 const express = require('express');
-
-const {body, validationResult} = require('express-validator');
-
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+dotenv.config({ path: './env/.env' });
 const session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+
 const cors = require('cors');
 
 const app = express();
@@ -51,8 +51,6 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//seteamos las variables de entorno
-dotenv.config({ path: './env/.env' });
 
 //para poder trabajar con las cookies
 app.use(cookieParser());

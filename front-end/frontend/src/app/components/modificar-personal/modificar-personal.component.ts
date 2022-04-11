@@ -4,6 +4,7 @@ import { PersonalService } from 'src/app/services/personal.service';
 import { Personal } from 'src/app/models/personal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -12,13 +13,14 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class ModificarPersonalComponent implements OnInit {
 
-
+  private URL = 'http://localhost:3000'
+  estado?: boolean;
   currentPersonal: Personal = {};
   currentIndex?: number;
   mensaje = '';
   personal: Personal = {
     id_persona: '',
-    nombre: '',
+    nombre: '', 
     apellido: '',
     correo: ''
   };
@@ -38,10 +40,33 @@ export class ModificarPersonalComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private toast: NgToastService) { }
+    private toast: NgToastService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.mensaje = '';
+
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      }
+    );
 
     const id_entrada = <string>this.activeRoute.snapshot.params['id_persona'];
     console.log('id de persona: ' + id_entrada);

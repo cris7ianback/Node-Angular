@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { NgToastService } from 'ng-angular-popup';
   styleUrls: ['./modificar-usuario.component.css']
 })
 export class ModificarUsuarioComponent implements OnInit {
-
+  private URL = 'http://localhost:3000'
+  estado?: boolean;
   usuarioForm: FormGroup;
   currentUsuario: Users = {};
   
@@ -35,7 +37,8 @@ export class ModificarUsuarioComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private http: HttpClient
   ) {
 
     this.usuarioForm = this.fb.group({
@@ -47,6 +50,28 @@ export class ModificarUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      }
+    );
     
 
     const id_entrada = <string>this.activeRoute.snapshot.params['id_user'];

@@ -4,10 +4,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService } from  'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
-import {MatIconTestingModule} from '@angular/material/icon/testing';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -15,6 +16,8 @@ import {MatIconTestingModule} from '@angular/material/icon/testing';
   styleUrls: ['./listar-usuarios.component.css']
 })
 export class ListarUsuariosComponent implements OnInit {
+  private URL = 'http://localhost:3000'
+  estado?: boolean;
 
   currentUsuario: Users = {};
   currentIndex = -1;
@@ -38,10 +41,34 @@ export class ListarUsuariosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     private toast: NgToastService,
-    private _usuarioService: UsuarioService) {
+    private _usuarioService: UsuarioService,
+    private http: HttpClient) {
   }
 
   ngOnInit(): void {
+
+
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      });
+
     this.cargarUsuarios();
 
     this._usuarioService.listarUsuarios().subscribe(res => {

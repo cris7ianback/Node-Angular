@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-usuario',
@@ -11,6 +12,9 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class RegistrarUsuarioComponent implements OnInit {
 
+
+  private URL = 'http://localhost:3000';
+  estado?:boolean;
   user = {
     user: '',
     email: '',
@@ -18,19 +22,44 @@ export class RegistrarUsuarioComponent implements OnInit {
     id_role: ''
   }
 
+  
   formAgUsuario: FormGroup = this.fb.group({
     user: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]],
     id_role: ['', [Validators.required, Validators.minLength(3)]]
   })
-
+  
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb: FormBuilder,
-              private toast: NgToastService) { }
+    private router: Router,
+    private fb: FormBuilder,
+    private toast: NgToastService,
+    private http: HttpClient) { }
+    
+    ngOnInit(): void {
 
-  ngOnInit(): void { }
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      }
+    );
+   }
 
   campoEsValido(campo: string) {
     return this.formAgUsuario.controls[campo].errors

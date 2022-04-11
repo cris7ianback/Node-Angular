@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrar-personal',
@@ -10,6 +11,9 @@ import { NgToastService } from 'ng-angular-popup';
   styleUrls: ['./registrar-personal.component.css']
 })
 export class RegistrarPersonalComponent implements OnInit {
+
+  private URL = 'http://localhost:3000'
+  estado?: boolean;
 
   personal = {
     nombre: '',
@@ -31,9 +35,32 @@ export class RegistrarPersonalComponent implements OnInit {
   constructor(private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private toast: NgToastService) { }
+    private toast: NgToastService,
+    private http: HttpClient) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.http.get<any>(this.URL + '/isAdmin')
+    .subscribe(
+      res => {
+        console.log(res.status);
+      },
+      err => {
+        if (err.status !== 200) {
+          
+          this.estado = false
+          this.toast.error({
+            detail: "Acceso Denegado",
+            summary: "Solo personal Autorizado puede acceder",
+            duration: 3000,
+            position: 'br'
+           })
+
+          this.router.navigate(['/vistaUsuario'])
+        }
+        this.estado = true
+      }
+    );
+  }
 
   //Funcion que valida que los campos del Formulario no esten vacios.
   campoEsValido(campo: string) {
