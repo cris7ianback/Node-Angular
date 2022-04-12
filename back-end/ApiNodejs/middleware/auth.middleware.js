@@ -5,25 +5,32 @@ const models = require('../models/auth.model.js');
 module.exports = {
 
     isAuthenticated: async (req, res, next) => {
-        const rolekey = req.headers.rolekey
+        //const rolekey = req.headers.rolekey
+        const rolekey = req.headers.rid_ss0.substr(7)
+       
         if (req.headers.authorization) {
             try {
                 const decodificada = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO)
                 const id = decodificada.id;
                 models.validarUsuarioId(id, function (data) {
                     if (!data) {
+                        
                         return res.status(401).send('No Autorizado, Token no encontrado');
                     }
                     else {
+                        
                         req.email = data.email;
                         req.rolekey = rolekey;
+                        
                         return next()
                     }
                 })
             } catch (error) {
+                
                 return res.status(401).send('No Autorizado, Token invalido')
             }
         } else {
+            
             return res.status(401).send('No Autorizado, Token no encontrado')
         }
     },
@@ -69,7 +76,7 @@ module.exports = {
                     return res.status(401).send('No Autorizado, session id no encontrada');
                 }
                 else {
-                    let id_role = JSON.parse(data.data).role
+                    let id_role = JSON.parse(data.data).id_role
                     if (id_role === "admin") {
                         res.status(200).send('Es Admin')
                     }
@@ -92,9 +99,9 @@ module.exports = {
                     return res.status(401).send('No autorizado, Session Id no encontrada');
                 }
                 else {
-                    const id_role = JSON.parse(data.data).role
-                    if (id_role === "editor") {
-                        res.status(200).send('Es Editor')
+                    const id_role = JSON.parse(data.data).id_role
+                    if (id_role === "user") {
+                        res.status(200).send('Es user')
                     }
                     else {
                         return res.status(401).send('No Autorizado');
@@ -108,26 +115,30 @@ module.exports = {
     },
 
     isRoleEditorAdmin: async (req, res, next) => {
-        const session_id = req.headers.rid_ss0.substr(7)
+        const session_id = req.rolekey //req.headers.rid_ss0.substr(7)
+        
+       
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
-                    console.log('error session no encontrada')
+                    
                     return res.status(401).send('No Autorizado, session id no encontrada');
                 }
                 else {
-                    let id_role = JSON.parse(data.data).role
-                    if (id_role === "editor" || id_role === "admin") {
+                        
+                        let id_role = JSON.parse(data.data).id_role
+                        if (id_role === "editor" || id_role === "admin") {
                         res.status(200).send('Autorizado')
                     }
                     else {
+                      
                         return res.status(401).send('No Autorizado')
                     }
                 }
             })
         }
         catch (error) {
-            console.log(error)
+           
             res.status(401).json({ error: 'No Autorizado' })
         }
     },
@@ -137,16 +148,16 @@ module.exports = {
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
-                    console.log('error session no encontrada')
+                    
                     return res.status(401).send('No Autorizado, session no encontrada');
                 }
                 else {
-                    let id_role = JSON.parse(data.data).role
+                    let id_role = JSON.parse(data.data).id_role
                     if (id_role === "editor" || id_role === "admin") {
                         return next()
                     }
                     else {
-                        console.log('error session no encontrada')
+                        
                         return res.status(401).send('No Autorizado');
                     }
                 }
@@ -163,16 +174,16 @@ module.exports = {
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
-                    console.log('error session no encontrada')
+                    
                     return res.status(401).send('No Autorizado, session no encontrada');
                 }
                 else {
-                    const id_role = JSON.parse(data.data).role
+                    const id_role = JSON.parse(data.data).id_role
                     if (id_role === "admin") {
                         return next()
                     }
                     else {
-                        console.log('error session no encontrada')
+                        
                         return res.status(401).send('No Autorizado');
                     }
                 }
@@ -180,7 +191,7 @@ module.exports = {
         }
         catch (error) {
             console.log(error)
-            console.log('error session no encontrada')
+            
             res.status(401).jswon({ error: ' No Autorizado' })
         }
     }

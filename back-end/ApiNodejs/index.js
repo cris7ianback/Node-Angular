@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 dotenv.config({ path: './env/.env' });
@@ -7,7 +8,15 @@ var MySQLStore = require('express-mysql-session')(session);
 
 const cors = require('cors');
 
-const app = express();
+var sessionStore = new MySQLStore({
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  mysql_port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
+}
+);
+
 app.use(session({
   secret: 'secreto',
   resave: false,
@@ -29,15 +38,6 @@ app.set('view engine', 'ejs');
 const corsOptions = {
   origin: "http://localhost:4200"
 };
-
-var sessionStore = new MySQLStore({
-  host     : process.env.DB_HOST,
-  user     : process.env.DB_USER,
-  password : process.env.DB_PASS,
-  mysql_port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
-}
-);
 
 //conexión que permite enviar datos ( se utilizo con POSTMAN)
 app.use(express.json());
@@ -75,10 +75,10 @@ app.listen(3000, () => {
   console.log('SERVER UP running in http://localhost:3000');
 });
 
-app.use(function(req,res,next){
+/* app.use(function(req,res,next){
   res.header("Access-control-Allow-Origin", "*");
   res.header("Access-control-Allow-headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
- 
+ */

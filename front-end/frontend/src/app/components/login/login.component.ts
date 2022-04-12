@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('rid_ss0', res.rid_ss0);
           console.log(res.token)
 
-          this.http.get<any>(this.URL + 'isEditOrAdmin')
+          this.http.get<any>('http://localhost:3000/' + 'isEditOrAdmin')
             .subscribe(
               res => {
                 console.log('El resultado es:' + res.status);

@@ -6,12 +6,13 @@ import { Observable, Subject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 
 
 import { Personal } from 'src/app/models/personal';
 import { PersonalService } from 'src/app/services/personal.service';
-import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-listar-personal',
@@ -19,6 +20,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./listar-personal.component.css']
 })
 export class ListarPersonalComponent implements OnDestroy, OnInit {
+
 
   private URL = 'http://localhost:3000/'
   estado?: boolean;
@@ -47,11 +49,22 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
 
 
-  constructor(private _personalService: PersonalService,
-    private router: Router,
-    private formbuilder: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient) { }
+  constructor  (private _personalService: PersonalService,
+                private router: Router,
+                private formbuilder: FormBuilder,
+                private toast: NgToastService,
+                private http: HttpClient,
+                private dialog : MatDialog
+  ) { }
+
+  openDialog() {
+    this.dialog.open(RegistrarUsuarioComponent, {
+      width :'30%'
+    });
+  }
+
+
+
 
 
   ngOnInit(): void {
@@ -62,26 +75,8 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
           console.log(res.status);
         },
         err => {
-          if (err.status == 200) {
-            this.estado = true
-            console.log(this.estado)
-          } else {
+          if (err.status !== 200) {
             this.estado = false
-            console.log(this.estado)
-          }
-        }
-
-      );
-
-    this.http.get<any>(this.URL + 'isAdmin')
-      .subscribe(
-        res => {
-          console.log(res.status);
-        },
-        err => {
-          if (err.status == 200) {
-            this.estado2 = true
-            console.log(this.estado)
             this.toast.error({
               detail: "Acceso Denegado",
               summary: "Solo personal Autorizado puede acceder",
@@ -89,14 +84,11 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
               position: 'br'
             })
 
-            // this.router.navigate(['/vistaUsuario'])
-          } else {
-            this.estado2 = false
-            console.log(this.estado)
-
+            this.router.navigate(['vistaUsuario'])
           }
-        }
-      );
+          this.estado = true
+        });
+
 
     this.cargarPersonal();
     this._personalService.listarPersonal().subscribe(res => {
@@ -107,7 +99,11 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
       this.dataSource.sort = this.sort;
     })
 
+
+
   }
+
+
 
   cargarPersonal() {
     this.listPersonal = this._personalService.listarPersonal();

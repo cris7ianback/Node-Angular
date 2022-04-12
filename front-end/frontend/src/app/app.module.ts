@@ -1,6 +1,6 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { DataTablesModule } from "angular-datatables";
+  import { DataTablesModule } from "angular-datatables";
 import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -31,6 +31,16 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSelectSearchModule } from 'mat-select-search';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
+
+
+
 
 
 
@@ -55,6 +65,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     HttpClientModule,
     ReactiveFormsModule,
     DataTablesModule,
+    MatIconModule,
     NgToastModule,
     BrowserAnimationsModule,
     MatTableModule,
@@ -64,10 +75,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
-    MatIconModule,
     MatIconTestingModule,
     MatTooltipModule,
-    MatToolbarModule
+    MatToolbarModule,
+    NgSelectModule,
+    MatSelectSearchModule,
+    MatCardModule,
+    MatSelectModule,
+    MatDialogModule,
+    
 
   ],
   providers: [

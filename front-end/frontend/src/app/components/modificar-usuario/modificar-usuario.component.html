@@ -35,14 +35,26 @@
                                 debe llenar el campo.
                             </span>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Rol </label>
                             <input type="text" [(ngModel)]="usuarios.id_role" class="form-control" name="id_role"
                                 placeholder="Rol del Usuario" formControlName="id_role" />
                             <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
                                 debe llenar el campo.
                             </span>
+                        </div> -->
+
+                        <div class="form-group">
+                            <label>Rol</label>
+                            <select class="form-select" id="id_role" [(ngModel)]="usuarios.id_role" class="form-control"formControlName="id_role" placeholder="Seleccione Rol">                        
+                                <option value="admin" >Administrador</option>
+                                <option value="user">Usuario</option>                        
+                                <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
+                                    debe escoger Un cargo.
+                                </span>
+                            </select>
                         </div>
+
                         <td> <button type="submit" (click)="modificarUsuario()" class="btn btn-primary" [disabled]="formModUsuario.invalid">Actualizar Personal </button>                        </td>
                         <td> <button class="btn btn-warning" (click)="cancelar()">Cancelar</button> </td>
                     </form>

@@ -27,7 +27,7 @@ export class ListarUsuariosComponent implements OnInit {
   usuario?: any;
   currentPersonal?: {};
 
-  //listUsuarios: Users[] = [];
+  
   listUsuarios!: Observable<Users[]> ;
 
   displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
@@ -55,7 +55,6 @@ export class ListarUsuariosComponent implements OnInit {
       },
       err => {
         if (err.status !== 200) {
-          
           this.estado = false
           this.toast.error({
             detail: "Acceso Denegado",
