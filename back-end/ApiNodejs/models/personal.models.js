@@ -51,6 +51,7 @@ module.exports = {
                     return callback(rows);
         });
     },
+    //Esto no debe ir aqui!!
     modificarUsuario: function (id_user, user, email, password, id_role, callback) {
         let sql = `UPDATE users SET
                 user = '${user}',

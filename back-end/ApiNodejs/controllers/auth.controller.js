@@ -14,8 +14,8 @@ module.exports = {
             //limpiar Cookie & Token.
             res.clearCookie('jwt');
             res.clearCookie('connect.sid');
-
             const email = req.body.email;
+            console.log('usuario:' + email)
             const password = req.body.password;
 
             conexion.query('SELECT * FROM users WHERE email =?',
@@ -32,9 +32,11 @@ module.exports = {
                         req.session.id_role = results[0].id_role;
                         rid_ss0 = req.session.id
 
+                        console.log('session:'+ req.session.id,req.session.user,req.session.id_role)
+
                         const id_user = results[0].id_user;
                         const id_role = results[0].id_role;
-                        const token = jwt.sign({ id: id_user, idr: rid_ss0 }, process.env.JWT_SECRETO, {
+                        const token = jwt.sign({ id: id_user, idr: rid_ss0, id_role: id_role }, process.env.JWT_SECRETO, {
                             expiresIn: process.env.JWT_TIEMPO_EXPIRA
                         });
 
@@ -45,7 +47,6 @@ module.exports = {
 
                         
                         const roleHash = await bcryptjs.hash(req.session.id_role, 8);
-                        console.log(req.session.id_role)
                         return res.status(200).json({ token, cookiesOptions, roleHash, rid_ss0 });
 
                     }

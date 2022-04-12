@@ -69,7 +69,7 @@ module.exports = {
                     return res.status(401).send('No Autorizado, session id no encontrada');
                 }
                 else {
-                    let id_role = JSON.parse(data.data).id_role
+                    let id_role = JSON.parse(data.data).role
                     if (id_role === "admin") {
                         res.status(200).send('Es Admin')
                     }
@@ -92,7 +92,7 @@ module.exports = {
                     return res.status(401).send('No autorizado, Session Id no encontrada');
                 }
                 else {
-                    const id_role = JSON.parse(data.data).id_role
+                    const id_role = JSON.parse(data.data).role
                     if (id_role === "editor") {
                         res.status(200).send('Es Editor')
                     }
@@ -103,13 +103,12 @@ module.exports = {
             })
         } catch (error) {
             console.log(error)
-            res.statu(401).json({ error: ' No Autorizado' })
+            res.statu(401).json({ error: 'No Autorizado' })
         }
     },
 
     isRoleEditorAdmin: async (req, res, next) => {
         const session_id = req.headers.rid_ss0.substr(7)
-        
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
@@ -168,7 +167,7 @@ module.exports = {
                     return res.status(401).send('No Autorizado, session no encontrada');
                 }
                 else {
-                    const id_role = JSON.parse(data.data).id_role
+                    const id_role = JSON.parse(data.data).role
                     if (id_role === "admin") {
                         return next()
                     }

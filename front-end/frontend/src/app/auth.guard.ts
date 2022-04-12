@@ -8,18 +8,17 @@ import { AuthService } from './services/auth.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor( private authService: AuthService,
-               private router: Router) { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   canActivate(): boolean {
     if (this.authService.loggedIn()) {
-      console.log('Primero')
       if (this.authService.isAdmin()) {
         console.log('EXITO');
         return true;
       } else {
         console.log('USER')
-        this.router.navigate(['vistaUsuario']);
+        this.router.navigate(['/vistaUsuario']);
         return false;
       }
     }

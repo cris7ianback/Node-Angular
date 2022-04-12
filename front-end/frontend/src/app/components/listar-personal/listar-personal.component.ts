@@ -20,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ListarPersonalComponent implements OnDestroy, OnInit {
 
-  private URL = 'http://localhost:3000'
+  private URL = 'http://localhost:3000/'
   estado?: boolean;
   estado2?: boolean;
   listPersonal!: Observable<Personal>;
@@ -56,7 +56,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<any>(this.URL + '/isEditOrAdmin')
+    this.http.get<any>(this.URL + 'isEditOrAdmin')
       .subscribe(
         res => {
           console.log(res.status);
@@ -73,13 +73,13 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
       );
 
-    this.http.get<any>(this.URL + '/isAdmin')
+    this.http.get<any>(this.URL + 'isAdmin')
       .subscribe(
         res => {
           console.log(res.status);
         },
         err => {
-          if (err.status !== 200) {
+          if (err.status == 200) {
             this.estado2 = true
             console.log(this.estado)
             this.toast.error({

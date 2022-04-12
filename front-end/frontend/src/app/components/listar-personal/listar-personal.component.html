@@ -1,10 +1,13 @@
 <h1>Lista de Personal</h1>
 <div style="height: 100%;">
   <mat-toolbar>
-    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarPersonal" matTooltip="Registrar Personal">people</span>  
-    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarUsuario" matTooltip="Registrar Usuario">person</span> 
-    <span class="material-icons" style="cursor: pointer;" routerLink="/listarUsuarios" matTooltip="Listar Usuario">list</span> 
-    
+    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarPersonal"
+      matTooltip="Registrar Personal">people</span>
+    <span class="material-icons" style="cursor: pointer;" routerLink="/registrarUsuario"
+      matTooltip="Registrar Usuario">person</span>
+    <span class="material-icons" style="cursor: pointer;" routerLink="/listarUsuarios"
+      matTooltip="Listar Usuario">list</span>
+
   </mat-toolbar>
 
 </div>
@@ -12,7 +15,7 @@
 <mat-form-field appearance="standard">
   <mat-label>Filtro de Personal</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
-  
+
 </mat-form-field>
 
 <div class="mat-elevation-z8">
@@ -72,4 +75,3 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
 </div>
-

@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./listar-usuarios.component.css']
 })
 export class ListarUsuariosComponent implements OnInit {
-  private URL = 'http://localhost:3000'
+  private URL = 'http://localhost:3000/'
   estado?: boolean;
 
   currentUsuario: Users = {};
@@ -48,7 +48,7 @@ export class ListarUsuariosComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.http.get<any>(this.URL + '/isAdmin')
+    this.http.get<any>(this.URL + 'isEditOrAdmin')
     .subscribe(
       res => {
         console.log(res.status);
@@ -64,7 +64,7 @@ export class ListarUsuariosComponent implements OnInit {
             position: 'br'
            })
 
-          this.router.navigate(['/vistaUsuario'])
+          this.router.navigate(['vistaUsuario'])
         }
         this.estado = true
       });

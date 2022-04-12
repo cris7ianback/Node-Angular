@@ -31,7 +31,8 @@ export class VistaUsuarioComponent implements OnInit {
   ngOnInit(): void {
 
     this.cargarUsuarios();
-       this._personalService.listarPersonal().subscribe (res => {
+       this._personalService.listarPersonal()
+       .subscribe (res => {
         
       // Use MatTableDataSource for paginator
       this.dataSource = new MatTableDataSource(res);

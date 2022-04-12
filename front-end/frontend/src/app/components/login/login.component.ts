@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 
 export class LoginComponent implements OnInit {
 
-  private URL = 'http://localhost:3000'
+  private URL = 'http://localhost:3000/'
 
   public loginForm!: FormGroup;
 
@@ -36,11 +36,11 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private authService: AuthService,
-    private router: Router,
-    private fb: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient) { }
+  constructor( private authService: AuthService,
+               private router: Router,
+               private fb: FormBuilder,
+               private toast: NgToastService,
+               private http: HttpClient) { }
 
   ngOnInit(): void {
     localStorage.removeItem('rid_ss0')
@@ -62,10 +62,10 @@ export class LoginComponent implements OnInit {
 
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.roleHash);
-          localStorage.setItem('rid_ss0',res.rid_ss0);
+          localStorage.setItem('rid_ss0', res.rid_ss0);
           console.log(res.token)
 
-          this.http.get<any>(this.URL + '/isEditOrAdmin')
+          this.http.get<any>(this.URL + 'isEditOrAdmin')
             .subscribe(
               res => {
                 console.log('El resultado es:' + res.status);
@@ -73,10 +73,10 @@ export class LoginComponent implements OnInit {
               err => {
                 if (err.status == 200) {
                   console.log('aqui entro a listar Personal')
-                  this.router.navigate(['/listarPersonal']);
+                  this.router.navigate(['listarPersonal']);
                 } else {
                   console.log('aqui entro a vista de usuario')
-                  this.router.navigate(['/vistaUsuario']);
+                  this.router.navigate(['vistaUsuario']);
                 }
               }
             );

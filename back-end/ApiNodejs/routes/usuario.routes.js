@@ -17,13 +17,13 @@ router.use(function (res, req, next) {
 
 //rutas Usuarios
 router.get('/listarUsuarios', middlewareController.isAuthenticated, controllerUsuario.listarUsuarios);
-router.post('/registrarUsuario', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.registrarUsuario);
+router.post('/registrarUsuario', middlewareController.isAuthenticated, middlewareController.isAuthRoleAdmin, controllerUsuario.registrarUsuario);
 router.get('/eliminarUsuario/:id_user', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.eliminarUsuario);
 router.put('/modificarUsuario/:id_user', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.modificarUsuario);
 router.get('/listarUsuariosId/:id_user', middlewareController.isAuthenticated, controllerUsuario.listarUsuariosId);
 
-router.get('/isAdmin', middlewareController.isAuthenticated, middlewareController.isRoleAdmin );
-router.get ('/isEditOrAdmin', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin)
+//router.get('/isAdmin', middlewareController.isAuthenticated, middlewareController.isRoleAdmin );
+//router.get ('/isEditOrAdmin', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin)
 module.exports = router;
 
 
