@@ -50,15 +50,18 @@ module.exports = {
         });
     },
     
-    buscarUsuario: function (email, callback) {
-        conexion.query('SELECT email FROM users WHERE email =?',
-            [email],
+    buscarUsuario: function (user, email, callback) {
+        conexion.query('SELECT user, email FROM users WHERE user =? or email =?',
+            [user, email] ,
+            
             (err, rows, fields) => {
+                
                 if (err) throw err;
                 else {
                     return callback(rows[0]);
                 }
             })
-    }
+    },
+
 
 };

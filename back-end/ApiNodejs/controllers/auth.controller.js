@@ -29,10 +29,7 @@ module.exports = {
                         req.session.id_user = results[0].id_user;
                         req.session.user = results[0].user;
                         req.session.email = results[0].email;
-                        req.session.id_role = results[0].id_role;
-                        
-
-                        
+                        req.session.id_role = results[0].id_role;                                                
 
                         const id_user = results[0].id_user;
                         const id_role = results[0].id_role;

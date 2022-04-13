@@ -2,6 +2,7 @@ var usuarioModule = require('../models/usuario.model');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const conexion = require('../config/conexion');
+const { buscarUsuario } = require('../models/usuario.model');
 const controllerUsuario = {};
 
 module.exports = {
@@ -47,17 +48,25 @@ module.exports = {
         const id_role = req.body.id_role;
         const passHash = await bcryptjs.hash(password, 8);
          
-            usuarioModule.buscarUsuario(email, function (data) {
+        //console.log(req.body)
+        console.log(user, email, password, id_role)
+        
+            usuarioModule.buscarUsuario(user, email, function (data) {
+                console.log('aqui pasa')
                 if (data != undefined) {
+                    console.log('aqui no')
                     return res.status(501).send('Email ya Registrado');
-                    //console.log(res)
+                    
                 } else {
+                    console.log('aqui registra')
                     usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {
+                       
                         return res.status(200).send('Usuario ingresado con exito');
                     });
                 }
             });
         
-    }
+    },
+
 };
 
