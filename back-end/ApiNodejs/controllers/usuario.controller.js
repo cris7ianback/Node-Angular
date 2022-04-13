@@ -51,22 +51,24 @@ module.exports = {
         //console.log(req.body)
         console.log(user, email, password, id_role)
         
+        if (!user || !email || !password || !id_role) {
+            return res.status(501).send('Falta información');
+        }else{
             usuarioModule.buscarUsuario(user, email, function (data) {
-                console.log('aqui pasa')
+                console.log('validar si Usuario Existe')
                 if (data != undefined) {
                     console.log('aqui no')
-                    return res.status(501).send('Email ya Registrado');
-                    
+                    return res.status(501).send('Usuario y/o Email ya Registrado');                    
                 } else {
                     console.log('aqui registra')
-                    usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {
-                       
+                    usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {            
                         return res.status(200).send('Usuario ingresado con exito');
                     });
                 }
             });
         
-    },
+    }
+},
 
 };
 

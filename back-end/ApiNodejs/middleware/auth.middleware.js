@@ -6,22 +6,25 @@ module.exports = {
 
     isAuthenticated: async (req, res, next) => {
         //const rolekey = req.headers.rolekey
-        const rolekey = req.headers.rid_ss0.substr(7)
+      //  const rolekey = req.headers.rid_ss0.substr(7)
        
         if (req.headers.authorization) {
             try {
-                const decodificada = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO)
-                const id = decodificada.id;
-                models.validarUsuarioId(id, function (data) {
+                //const decodificada = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO)
+                //const id = decodificada.id;
+                const session_id = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO).idr
+                console.log(session_id)
+                models.validarSesion(session_id, function (data) {
                     if (!data) {
                         
-                        return res.status(401).send('No Autorizado, Token no encontrado');
+                        return res.status(401).send('No Autorizado otro texto');
                     }
                     else {
                         
-                        req.email = data.email;
-                        req.rolekey = rolekey;
-                        
+                        // req.email = data.email;
+                        // req.rolekey = rolekey;
+
+                        req.session_id = session_id;                       
                         return next()
                     }
                 })
@@ -35,41 +38,42 @@ module.exports = {
         }
     },
 
-    isAdmin: async (req, res, next) => {
-        const rolekey = req.rolekey;
-        try {
-            if (await bcryptjs.compare('admin', rolekey.substr(7))) {
+    // isAdmin: async (req, res, next) => {
+    //     const rolekey = req.rolekey;
+    //     try {
+    //         if (await bcryptjs.compare('admin', rolekey.substr(7))) {
 
-                res.status(200).send('Autorizado')
-            }
-            else {
-                res.status(401).json({ error: 'No Autorizado' })
-            }
-        } catch (error) {
-            console.log(error);
-            res.status(401).json({ error: 'No Autorizado' })
-        }
-    },
+    //             res.status(200).send('Autorizado')
+    //         }
+    //         else {
+    //             res.status(401).json({ error: 'No Autorizado' })
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         res.status(401).json({ error: 'No Autorizado' })
+    //     }
+    // },
 
-    isAuthorizedAdmin: async (req, res, next) => {
-        const rolekey = req.rolekey
-        try {
-            if (await bcryptjs.compare('admin', rolekey.substr(7))) {
-                return next()
-            }
-            else {
-                res.statu(401).json({ error: 'No Autorizado' })
-            }
-        } catch (error) {
-            console.log(error)
-            res.status(401).json({ error: 'No Autorizado' })
-        }
-    },
+    // isAuthorizedAdmin: async (req, res, next) => {
+    //     const rolekey = req.rolekey
+    //     try {
+    //         if (await bcryptjs.compare('admin', rolekey.substr(7))) {
+    //             return next()
+    //         }
+    //         else {
+    //             res.statu(401).json({ error: 'No Autorizado' })
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //         res.status(401).json({ error: 'No Autorizado' })
+    //     }
+    // },
 
 
     //validación de Rol desde front End hacia middleware
     isRoleAdmin : async (req, res, next) => {
-        const session_id = req.headers.rid_ss0.substr(7)
+        //const session_id = req.headers.rid_ss0.substr(7)
+        const session_id = req.session_id;
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
@@ -92,7 +96,8 @@ module.exports = {
     },
 
     isRoleEditor: async (req, res, next) => {
-        const session_id = req.headers.rid_ss0.substr(7)
+        //const session_id = req.headers.rid_ss0.substr(7)
+        const session_id = req.session_id;
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
@@ -115,8 +120,8 @@ module.exports = {
     },
 
     isRoleEditorAdmin: async (req, res, next) => {
-        const session_id = req.rolekey //req.headers.rid_ss0.substr(7)
-        
+        //const session_id = req.rolekey //req.headers.rid_ss0.substr(7)
+        const session_id = req.session_id;
        
         try {
             models.validarSesion(session_id, function (data) {
@@ -144,7 +149,8 @@ module.exports = {
     },
 
     isAuthRoleEditorAdmin: async (req, res, next) => {
-        const session_id = req.headers.rid_ss0.substr(7)
+        //const session_id = req.headers.rid_ss0.substr(7)
+        const session_id = req.session_id;
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {
@@ -170,7 +176,8 @@ module.exports = {
     },
 
     isAuthRoleAdmin: async (req, res, next) => {
-        const session_id = req.headers.rid_ss0.substr(7)
+        //const session_id = req.headers.rid_ss0.substr(7)
+        const session_id = req.session_id;
         try {
             models.validarSesion(session_id, function (data) {
                 if (!data) {

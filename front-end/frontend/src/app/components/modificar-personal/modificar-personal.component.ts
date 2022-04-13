@@ -137,7 +137,7 @@ export class ModificarPersonalComponent implements OnInit {
       position: 'br'
     })
     this.router.navigate(['listarPersonal']);
-  }
+  } 
   }
 
 

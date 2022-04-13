@@ -19,7 +19,7 @@ export class AuthService {
     private toast: NgToastService) { }
 
   login(usuario: any) {
-    return this.http.post<any>('http://localhost:3000/'+ 'login', usuario)
+    return this.http.post<any>(this.URL + 'login', usuario)
   }
   loggedIn() { return !!localStorage.getItem('token'); }
 
@@ -36,18 +36,16 @@ export class AuthService {
     this.router.navigate(['login']);
 
   }
-  registrarUsuario(user: any) {
-    return this.http.post<any>('http://localhost:3000/' + 'registrarUsuario', user)
-  }
+  
 
   registrarPersonal(personal: any) {
-    return this.http.post<any>('http://localhost:3000/' + 'registrarPersonal', personal)
+    return this.http.post<any>(this.URL + 'registrarPersonal', personal)
   }
 
 
 
   isAdmin() {
-    return this.http.get<any>('http://localhost:3000/' + 'isAdmin')
+    return this.http.get<any>(this.URL + 'isAdmin')
       .subscribe(
         res => {
           console.log(res.status);
@@ -55,7 +53,7 @@ export class AuthService {
         err => {
           if (err.status == 200) {
             this.estado = true
-            console.log('El estado es :' + this.estado)
+            
           } else {
             this.estado = false
             console.log('el estado es :' + this.estado + '!!!')

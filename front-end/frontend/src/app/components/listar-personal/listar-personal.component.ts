@@ -13,6 +13,7 @@ import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuari
 
 import { Personal } from 'src/app/models/personal';
 import { PersonalService } from 'src/app/services/personal.service';
+import { ModificarPersonalComponent } from '../modificar-personal/modificar-personal.component';
 
 @Component({
   selector: 'app-listar-personal',
@@ -49,22 +50,19 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
 
 
 
-  constructor  (private _personalService: PersonalService,
-                private router: Router,
-                private formbuilder: FormBuilder,
-                private toast: NgToastService,
-                private http: HttpClient,
-                private dialog : MatDialog
+  constructor(private _personalService: PersonalService,
+    private router: Router,
+    private formbuilder: FormBuilder,
+    private toast: NgToastService,
+    private http: HttpClient,
+    private dialog: MatDialog
   ) { }
 
   openDialog() {
     this.dialog.open(RegistrarUsuarioComponent, {
-      width :'30%'
+      width: '30%'
     });
   }
-
-
-
 
 
   ngOnInit(): void {
@@ -137,7 +135,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
       .subscribe(
         res => {
           this.toast.success({
-            detail: "",
+            detail: "Accion Ejecutada",
             summary: "Personal Eliminado",
             duration: 2000,
             position: 'br'
@@ -169,11 +167,6 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
         });
   }
 
-
-  modificarPersonal(id_persona: any) {
-    this.router.navigate(['modificarPersonal/:id_persona']);
-  }
-
   cancelar() {
     this.toast.warning({
       detail: "Atención",
@@ -184,6 +177,16 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
     this.router.navigate(['/listarPersonal']);
   }
 
+  editPersonal(row: any) {
+    this.dialog.open(ModificarPersonalComponent, {
+      width: '30%',
+      data: row
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Personal') {
+        this.refreshList();
+      }
+    })
+  }
 }
 
 

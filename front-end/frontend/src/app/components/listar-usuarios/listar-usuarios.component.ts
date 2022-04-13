@@ -4,11 +4,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Users } from 'src/app/models/users';
-import { UsuarioService } from  'src/app/services/usuario.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuario.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -19,6 +21,7 @@ export class ListarUsuariosComponent implements OnInit {
   private URL = 'http://localhost:3000/'
   estado?: boolean;
 
+  row: any;
   currentUsuario: Users = {};
   currentIndex = -1;
   id_user?: any;
@@ -27,8 +30,8 @@ export class ListarUsuariosComponent implements OnInit {
   usuario?: any;
   currentPersonal?: {};
 
-  
-  listUsuarios!: Observable<Users[]> ;
+
+  listUsuarios!: Observable<Users[]>;
 
   displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -42,51 +45,64 @@ export class ListarUsuariosComponent implements OnInit {
     private router: Router,
     private toast: NgToastService,
     private _usuarioService: UsuarioService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private dialog: MatDialog) {
   }
+
+  openDialog() {
+    this.dialog.open(RegistrarUsuarioComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'guardar') {
+        this.cargarUsuarios()
+      }
+    });
+  }
+
+
 
   ngOnInit(): void {
 
 
     this.http.get<any>(this.URL + 'isEditOrAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-        if (err.status !== 200) {
-          this.estado = false
-          this.toast.error({
-            detail: "Acceso Denegado",
-            summary: "Solo personal Autorizado puede acceder",
-            duration: 3000,
-            position: 'br'
-           })
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status !== 200) {
+            this.estado = false
+            this.toast.error({
+              detail: "Acceso Denegado",
+              summary: "Solo personal Autorizado puede acceder",
+              duration: 3000,
+              position: 'br'
+            })
 
-          this.router.navigate(['vistaUsuario'])
-        }
-        this.estado = true
-      });
+            this.router.navigate(['vistaUsuario'])
+          }
+          this.estado = true
+        });
 
     this.cargarUsuarios();
 
     this._usuarioService.listarUsuarios().subscribe(res => {
       // Use MatTableDataSource for paginator
       this.dataSource = new MatTableDataSource(res);
-                            
+
       // Assign the paginator *after* dataSource is set
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-    
-    
+
+
   }
 
   cargarUsuarios() {
     this.listUsuarios = this._usuarioService.listarUsuarios();
-   
+
   }
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
@@ -106,8 +122,8 @@ export class ListarUsuariosComponent implements OnInit {
       .subscribe(
         res => {
           this.toast.success({
-            detail: "",
-            summary: "Personal Eliminado",
+            detail: "Accion Ejecutada",
+            summary: "Usuario Eliminado",
             duration: 2000,
             position: 'br'
           })
@@ -129,11 +145,7 @@ export class ListarUsuariosComponent implements OnInit {
     this.currentUsuario = users;
     this.currentIndex = index;
   }
-  //envia a Pagina Modificar
-  modificarUsuario(id_user: any) {
-    this.router.navigate(['modificarUsuario/:id_user']);
-  }
-// cancela la acción
+  // cancelar acción
   cancelar() {
     this.toast.warning({
       detail: "Atención",
@@ -142,6 +154,18 @@ export class ListarUsuariosComponent implements OnInit {
       position: 'br'
     })
     this.router.navigate(['/listarUsuarios']);
+  }
+
+  editUsuarios(row: any) {
+    this.dialog.open(ModificarUsuarioComponent, {
+      width: '30%',
+      data: row
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Usuario') {
+        this.refreshList();
+
+      }
+    })
   }
 
 }

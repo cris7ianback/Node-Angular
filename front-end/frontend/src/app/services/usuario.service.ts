@@ -3,15 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Users } from '../models/users';
 
-const URL = ' http://localhost:3000/'
+const URL = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
+  
+
   constructor(private http: HttpClient) { }
-  //lista total de Usuarios
+  //Conecta con lista Usuarios back-end y front-end
   listarUsuarios() {
     return this.http.get<Users[]>(URL + 'listarUsuarios');
   }
@@ -25,8 +27,8 @@ export class UsuarioService {
     return this.http.get(`${URL}eliminarUsuario/${id_user}`);
   }
   //modifica Usuario
-  modificarUsuario(id_user: any, data: any): Observable<any> {
-    return this.http.put(URL + `modificarUsuario/${id_user}`, data);
+  modificarUsuario ( data: any, id : number){
+    return this.http.put <any>(URL + `modificarUsuario/${id}`, data)
   }
   //lista Usuarios por ID
   listarUsuariosId(id_user: string) {
@@ -37,6 +39,7 @@ export class UsuarioService {
     return this.http.get(URL + `modificarUsuario/${id_user}`);
   }
 
+  
   
 }
 

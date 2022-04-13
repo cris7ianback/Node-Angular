@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     if (this.authService.loggedIn()) {
       if (this.authService.isAdmin()) {
-        console.log('EXITO');
+        
         return true;
       } else {
         console.log('USER')

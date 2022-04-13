@@ -57,8 +57,7 @@ module.exports = {
     LogOut: async (req, res) => {
         // res.clearCookie('jwt');
         // res.clearCookie('connect.sid');
-        console.log('session a elminar:' + req.header.rid_ss0.substr(7))
-        const session_id = req.header.rid_ss0.substr(7)
+        const session_id = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO).idr
         await auth.eliminarSession(session_id, function (data) {
             return res.status(200).send('Session Terminada');
         })

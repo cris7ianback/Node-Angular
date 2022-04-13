@@ -18,7 +18,7 @@ export class AppComponent {
   title = 'frontend';
 
   ngOnInit() {
-    console.log('Estado:' + this.estado)
+    
 
     this.estado = false
     return this.http.get<any>(this.URL + 'isAdmin')
@@ -29,7 +29,7 @@ export class AppComponent {
         err => {
           if (err.status == 200) {
             this.estado = true
-            console.log(this.estado)
+           
           } else {
             this.estado = false;
             console.log(this.estado)

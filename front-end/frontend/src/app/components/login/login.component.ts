@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup,FormBuilder, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+
 
 
 @Component({
@@ -16,17 +16,15 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
 
   private URL = 'http://localhost:3000/'
-
   public loginForm!: FormGroup;
 
-  //loading: false;
-
+  
   miFormulario: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   })
   incorrecta!: boolean;
-  mensaje?: any;
+  
 
   user = {
     email: '',
@@ -36,11 +34,11 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor( private authService: AuthService,
-               private router: Router,
-               private fb: FormBuilder,
-               private toast: NgToastService,
-               private http: HttpClient) { }
+  constructor(private authService: AuthService,
+              private router: Router,
+              private fb: FormBuilder,
+              private toast: NgToastService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     localStorage.removeItem('rid_ss0')
@@ -61,11 +59,11 @@ export class LoginComponent implements OnInit {
         res => {
 
           localStorage.setItem('token', res.token);
-          localStorage.setItem('role', res.roleHash);
-          localStorage.setItem('rid_ss0', res.rid_ss0);
+          //localStorage.setItem('role', res.roleHash);
+          //localStorage.setItem('rid_ss0', res.rid_ss0);
           console.log(res.token)
 
-          this.http.get<any>('http://localhost:3000/' + 'isEditOrAdmin')
+          this.http.get<any>(this.URL + 'isEditOrAdmin')
             .subscribe(
               res => {
                 console.log('El resultado es:' + res.status);

@@ -1,11 +1,12 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Users } from 'src/app/models/users';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Users } from 'src/app/models/users';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -13,11 +14,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./modificar-usuario.component.css']
 })
 export class ModificarUsuarioComponent implements OnInit {
+  
   private URL = 'http://localhost:3000'
   estado?: boolean;
-  usuarioForm: FormGroup;
-  currentUsuario: Users = {};
-  
+
   usuarios: Users = {
     id_user: '',
     user: '',
@@ -26,111 +26,90 @@ export class ModificarUsuarioComponent implements OnInit {
     id_role: ''
   };
 
-  formModUsuario: FormGroup = this.fb.group({
-    user:     ['', [Validators.required, Validators.minLength(3)]],
-    email:    ['', [Validators.required, Validators.minLength(3), Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3)]],
-    id_role:  ['', [Validators.required, Validators.minLength(3)]]
-  })
+  formModUsuario!: FormGroup;
 
-  constructor(private usuarioService: UsuarioService,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient
+  constructor(  private usuarioService: UsuarioService,
+                private router: Router,
+                private fb: FormBuilder,
+                @Inject(MAT_DIALOG_DATA) public editData: any,
+                private toast: NgToastService,
+                private http: HttpClient,
+                private dialogRef: MatDialogRef<ModificarUsuarioComponent>
   ) {
 
-    this.usuarioForm = this.fb.group({
-      user: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
-      password: ['', Validators.required],
-      id_role: ['', Validators.required],
-    })
-  }
+    this.formModUsuario = this.fb.group({
+      user: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      id_role: ['', [Validators.required, Validators.minLength(3)]]
+    });
 
-  ngOnInit(): void {
 
-    this.http.get<any>(this.URL + '/isAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-        if (err.status !== 200) {
-          
-          this.estado = false
-          this.toast.error({
-            detail: "Acceso Denegado",
-            summary: "Solo personal Autorizado puede acceder",
-            duration: 3000,
-            position: 'br'
-           })
-
-          this.router.navigate(['/vistaUsuario'])
-        }
-        this.estado = true
-      }
-    );
-    
-
-    const id_entrada = <string>this.activeRoute.snapshot.params['id_user'];
-    console.log('id de usuario:' + id_entrada)
-
-    if (id_entrada) {
-      console.log(id_entrada);
-      this.usuarioService.listarUsuariosId(id_entrada)
-        .subscribe(
-          res => {
-            this.usuarios = res;
-            console.log(res)
-          },
-          err => console.log(err)
-        );
+    if (this.editData) {
+      this.formModUsuario.controls['user'].setValue(this.editData.user);
+      this.formModUsuario.controls['email'].setValue(this.editData.email);
+      this.formModUsuario.controls['password'].setValue(this.editData.password);
+      this.formModUsuario.controls['id_role'].setValue(this.editData.id_role);
     }
+
   }
 
-  campoEsValido(campo: string) {
-    return this.formModUsuario.controls[campo].errors
-      &&   this.formModUsuario.controls[campo].touched;
-  }
+  actualizarUsuario() {
+    this.usuarioService.modificarUsuario(this.formModUsuario.value, this.editData.id_user)
+      .subscribe({
+        next: (res) => {
 
-  listarUsuariosId(id_entrada: any): void {
-    this.usuarioService.listarUsuariosId(id_entrada)
-      .subscribe(
-        data => {
-          this.currentUsuario = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  modificarUsuario() {
-    this.usuarioService.modificarUsuario(this.usuarios.id_user, this.usuarios)
-      .subscribe(
-        res => {
-          console.log(res);
           this.toast.success({
             detail: "Usuario Modificado",
             summary: "Usuario Modificado con Exito",
             duration: 3000,
             position: 'br'
           })
-            this.router.navigate(['/listarUsuarios']);
+
+          this.formModUsuario.reset();
+          this.dialogRef.close('Modificar Usuario')
         },
-        err => {
-          console.log(err);
+        error: () => {
           this.toast.error({
-            detail: "Error",
-            summary: " Usuario No modificado registrado",
+            detail: "Error de Solicitud",
+            summary: "Error A l modificar Usuario",
             duration: 3000,
             position: 'br'
           })
-        })
-  
-  
+        }
+      })
+  }
+
+
+
+  ngOnInit(): void {
+
+    this.http.get<any>(this.URL + '/isAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status !== 200) {
+
+            this.estado = false
+            this.toast.error({
+              detail: "Acceso Denegado",
+              summary: "Solo personal Autorizado puede acceder",
+              duration: 3000,
+              position: 'br'
+            })
+
+            this.router.navigate(['/vistaUsuario'])
+          }
+          this.estado = true
+        }
+      );
+  }
+
+  campoEsValido(campo: string) {
+    return this.formModUsuario.controls[campo].errors
+      && this.formModUsuario.controls[campo].touched;
   }
 
   cancelar() {
@@ -142,5 +121,6 @@ export class ModificarUsuarioComponent implements OnInit {
     })
     this.router.navigate(['/listarUsuarios']);
   }
+
 
 }

@@ -6,49 +6,13 @@
                     <h1 mat-dialog-title>Registro de Usuario</h1>
                 </div>
                 <div class="card-body">
-                    <form (submit)="registrarUsuario()" [formGroup]="formAgUsuario">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label>Usuario</label>
-                                <input type="text" [(ngModel)]="user.user" name="user" class="form-control"
-                                    placeholder="Usuario" formControlName="user">
-                                <span class="form-text text-danger" *ngIf="campoEsValido('user')">
-                                    debe llenar el campo.
-                                </span>
-                            </div>
-                            <label>Email</label>
-                            <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
-                                placeholder="Email" formControlName="email">
-                            <span class="form-text text-danger" *ngIf="campoEsValido('email')">
-                                debe utilizar el siguiente formato : example@test.com
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
-                                placeholder="Password" formControlName="password">
-                            <span class="form-text text-danger" *ngIf="campoEsValido('password')">
-                                debe llenar el campo.
-                            </span>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Rol</label>
-                            <select class="form-select" id="id_role" [(ngModel)]="user.id_role" class="form-control"
-                                formControlName="id_role" placeholder="Seleccione Rol">
-                                <option value="admin">Administrador</option>
-                                <option value="user">Usuario</option>
-                                <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
-                                    debe escoger Un cargo.
-                                </span>
-                            </select>
-                        </div>
+                    <form [formGroup]="formAgUsuario">                      
 
                         <!--FORMULARIO USUARIO -->
-                        <div mat-dialog-content>
-                            <mat-form-field appearance="outline">
+                        <div mat-dialog-content >
+                            <mat-form-field appearance="outline" >
                                 <mat-label>Usuario</mat-label>
-                                <input matInput placeholder="Ingrese Nombre & Apellido" />
+                                <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
                             </mat-form-field>
 
                         </div>
@@ -57,7 +21,7 @@
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
-                                <input matInput placeholder="Ejemplo@test.cl" />
+                                <input formControlName="email" matInput placeholder="Ejemplo@test.cl" />
                             </mat-form-field>
                         </div>
 
@@ -65,27 +29,33 @@
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Password</mat-label>
-                                <input matInput placeholder="password" />
+                                <input type="password"formControlName="password" matInput placeholder="password" />
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO ROL -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Tipo de Rol </mat-label>
-                                <mat-select [(ngModel)]="user.id_role" placeholder="">
+                                <mat-select [(ngModel)]="user.id_role" formControlName="id_role">
                                     <mat-option value="admin">Administrador</mat-option>
                                     <mat-option value="user">Usuario</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                        <div mat-dialog-actions [align]="'end'">
+                            <button mat-raised-button class="btn btn-warning" mat-dialog-close (click)="cancelar()">Cancelar</button>
+                            <button style="margin-left: 8px" mat-raised-button class="btn btn-success" [disabled]="formAgUsuario.invalid" (click)="registrarUsuario()">
+                                Registrar
+                                Usuario </button>
+                        </div>
 
 
-                        <td>
+                        <!-- <td>
                             <button type="submit" class="btn btn-success" [disabled]="formAgUsuario.invalid"> Registrar
                                 Usuario </button>
 
-                        <td>
-                        <td><button class="btn btn-warning" (click)="cancelar()"> Cancelar </button></td>
+                        <td> -->
+                        <!-- <td><button class="btn btn-warning" (click)="cancelar()"> Cancelar </button></td> -->
                     </form>
                 </div>
             </div>
