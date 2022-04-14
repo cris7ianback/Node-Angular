@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Personal } from '../models/personal';
 
 const URL = 'http://localhost:3000/'
@@ -12,10 +12,7 @@ export class PersonalService {
 
   constructor( private http: HttpClient ) { }
 
-  //Función Buscar Personal
-  buscarPorNombre(nombre: any): Observable<any> {
-    return this.http.get(URL + `modificarPersonal/${nombre}`);
-  }
+
   //elimina Personal
   eliminarPersonal(id_persona: any) {
     return this.http.get(`${URL}eliminarPersonal/${id_persona}`);
@@ -28,11 +25,9 @@ export class PersonalService {
   listarPersonalId(id_persona: string) {
     return this.http.get(URL + `listarPersonalId/${id_persona}`);
   }
-
   //Modifica Personal por ID
-  modificarPersonal(id_persona: any, data: any): Observable<any> {
-    return this.http.put<any>(URL + 'modificarPersonal/'+ id_persona, data);
+  modificarPersonal ( data: any, id : number){
+    return this.http.put<any>(URL + `modificarPersonal/${id}`, data)
   }
-  
 
 }

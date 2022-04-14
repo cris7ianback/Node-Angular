@@ -1,69 +1,66 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { NgToastService } from 'ng-angular-popup';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 
 
 import { Personal } from 'src/app/models/personal';
 import { PersonalService } from 'src/app/services/personal.service';
 import { ModificarPersonalComponent } from '../modificar-personal/modificar-personal.component';
+import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
+import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 
 @Component({
   selector: 'app-listar-personal',
   templateUrl: './listar-personal.component.html',
   styleUrls: ['./listar-personal.component.css']
 })
-export class ListarPersonalComponent implements OnDestroy, OnInit {
-
+export class ListarPersonalComponent implements  OnInit {
 
   private URL = 'http://localhost:3000/'
   estado?: boolean;
   estado2?: boolean;
+  
+  row: any;
+  currentPersonal: Personal = {}
+  currentIndex = -1;
+  id_persona?: any;
+  listarPersonal?: any;
+  personal: any = [];
+  
+  personalForm?: FormGroup;
+  
+  
   listPersonal!: Observable<Personal>;
+  
   displayedColumns: string[] = ['id_persona', 'nombre', 'apellido', 'correo', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  currentPersonal: Personal = {}
-  currentIndex = -1;
-  listarPersonal?: any;
-  id_persona?: any;
-  personal: any = [];
-  personalForm?: FormGroup;
-  mensaje = '';
-  formValue!: FormGroup;
-
-  personalObj: Personal = new Personal();
-  formBuilder: any;
-
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
-
-
-
-  constructor(private _personalService: PersonalService,
-    private router: Router,
-    private formbuilder: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient,
-    private dialog: MatDialog
-  ) { }
+  constructor(private personalService: PersonalService,
+              private router: Router,
+              private toast: NgToastService,
+              private _personalService: PersonalService,
+              private http: HttpClient,
+              private dialog: MatDialog ) { }
 
   openDialog() {
-    this.dialog.open(RegistrarUsuarioComponent, {
+    this.dialog.open(RegistrarPersonalComponent, {
       width: '30%'
+    }).afterClosed().subscribe(val =>{
+      if (val === 'guardar'){
+        this.cargarPersonal()
+      }
     });
   }
-
 
   ngOnInit(): void {
 
@@ -87,21 +84,13 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
           this.estado = true
         });
 
-
     this.cargarPersonal();
     this._personalService.listarPersonal().subscribe(res => {
-      this.dataSource = new MatTableDataSource(res);
-
-      // Assign the paginator *after* dataSource is set
+      this.dataSource = new MatTableDataSource(res);      
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
-
-
-
   }
-
-
 
   cargarPersonal() {
     this.listPersonal = this._personalService.listarPersonal();
@@ -115,15 +104,7 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
-  setActivePersonal(personal: Personal, index: number): void {
-    this.currentPersonal = personal;
-    this.currentIndex = index;
-  }
-
+ 
   refreshList(): void {
     window.location.reload();
     this.currentPersonal = {};
@@ -153,18 +134,6 @@ export class ListarPersonalComponent implements OnDestroy, OnInit {
           this.refreshList();
         })
 
-  }
-
-  buscarPorNombre(): void {
-    this._personalService.buscarPorNombre(this.listarPersonal)
-      .subscribe(
-        data => {
-          this.listarPersonal = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
   }
 
   cancelar() {

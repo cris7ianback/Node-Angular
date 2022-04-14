@@ -72,7 +72,7 @@ export class ModificarUsuarioComponent implements OnInit {
         error: () => {
           this.toast.error({
             detail: "Error de Solicitud",
-            summary: "Error A l modificar Usuario",
+            summary: "Error Al modificar Usuario",
             duration: 3000,
             position: 'br'
           })
@@ -115,7 +115,7 @@ export class ModificarUsuarioComponent implements OnInit {
   cancelar() {
     this.toast.warning({
       detail: "Atención",
-      summary: "Acción Cancelada",
+      summary: "Acción Cancelada Exitosa",
       duration: 3000,
       position: 'br'
     })

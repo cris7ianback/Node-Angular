@@ -24,17 +24,16 @@ module.exports = {
     eliminarUsuario: function (req, res) {
         var id_user = req.params.id_user;
         usuarioModule.eliminarUsuario(id_user, function (data) {
-            res.redirect('/');
-            console.log("Usuario eliminado exitosamente");
+           console.log("Usuario eliminado exitosamente");
         });
     },
     //MODIFICAR USUARIO
     modificarUsuario: function (req, res) {
-        let id_user = req.params.id_user;
-        let user = req.body.user;
-        let email = req.body.email;
-        let password = req.body.password;
-        let id_role = req.body.id_role;
+        const id_user = req.params.id_user;
+        const user = req.body.user;
+        const email = req.body.email;
+        const password = req.body.password;
+        const id_role = req.body.id_role;
         usuarioModule.modificarUsuario(id_user, user, email, password, id_role, function (data) {
             res.send(data);
             console.log("Datos Actualizados Correctamente");

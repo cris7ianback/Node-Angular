@@ -1,6 +1,6 @@
-export class Personal{
+export interface Personal{
     id_persona?: any;
-    nombre?: string;
-    apellido?: string;
-    correo?:string;
+    nombre?: any;
+    apellido?: any;
+    correo?:any;
 }

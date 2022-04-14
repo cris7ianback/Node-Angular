@@ -1,77 +1,9 @@
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-header">
-                    Modificar Usuarios
-                </div>
-                <div class="card-body">
-                    <form (ngSubmit)="modificarUsuario()" [formGroup]="formModUsuario">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label>Usuario</label>
-                                <input type="text" [(ngModel)]="usuarios.user" class="form-control" name="user"
-                                    placeholder="Usuario" formControlName="user" />
-                                <span class="form-text text-danger" *ngIf="campoEsValido('user')">
-                                    debe llenar el campo.
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" [(ngModel)]="usuarios.email" class="form-control" name="email"
-                                placeholder="Email" formControlName="email" />
-
-                            <span class="form-text text-danger" *ngIf="campoEsValido('email')">
-                                debe utilizar el siguiente formato : example@test.com
-                            </span>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="password"> Password</label>
-                            <input type="password" [(ngModel)]="usuarios.password" class="form-control" name="password"
-                                placeholder="Password" formControlName="password" />
-                            <span class="form-text text-danger" *ngIf="campoEsValido('password')">
-                                debe llenar el campo.
-                            </span>
-                        </div>
-                        <!-- <div class="form-group">
-                            <label>Rol </label>
-                            <input type="text" [(ngModel)]="usuarios.id_role" class="form-control" name="id_role"
-                                placeholder="Rol del Usuario" formControlName="id_role" />
-                            <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
-                                debe llenar el campo.
-                            </span>
-                        </div> -->
-
-<!-- <div class="form-group">
-                            <label>Rol</label>
-                            <select class="form-select" id="id_role" [(ngModel)]="usuarios.id_role" class="form-control"formControlName="id_role" placeholder="Seleccione Rol">                        
-                                <option value="admin" >Administrador</option>
-                                <option value="user">Usuario</option>                        
-                                <span class="form-text text-danger" *ngIf="campoEsValido('id_role')">
-                                    debe escoger Un cargo.
-                                </span>
-                            </select>
-                        </div>
-
-                        <td> <button type="submit" (click)="modificarUsuario()" class="btn btn-primary" [disabled]="formModUsuario.invalid">Actualizar Personal </button>                        </td>
-                        <td> <button class="btn btn-warning" (click)="cancelar()">Cancelar</button> </td>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-14 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h1 mat-dialog-title>Registro de Usuario</h1>
+                    <h1 mat-dialog-title>Modificar de Usuario</h1>
                 </div>
                 <div class="card-body">
                     <form [formGroup]="formModUsuario">
@@ -80,6 +12,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Usuario</mat-label>
                                 <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
+                            
                             </mat-form-field>
 
                         </div>

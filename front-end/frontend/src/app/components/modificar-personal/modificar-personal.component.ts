@@ -1,10 +1,12 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { PersonalService } from 'src/app/services/personal.service';
-import { Personal } from 'src/app/models/personal';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { PersonalService } from 'src/app/services/personal.service';
+import { Personal } from 'src/app/models/personal';
 
 @Component({
   selector: 'app-modificar-personal',
@@ -15,9 +17,8 @@ export class ModificarPersonalComponent implements OnInit {
 
   private URL = 'http://localhost:3000'
   estado?: boolean;
-  currentPersonal: Personal = {};
-  currentIndex?: number;
-  mensaje = '';
+
+
   personal: Personal = {
     id_persona: '',
     nombre: '', 
@@ -27,25 +28,65 @@ export class ModificarPersonalComponent implements OnInit {
 
   nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
 
-  //Validar Formulario
-  formModPersonal: FormGroup = this.fb.group({
+
+
+  formModPersonal!: FormGroup;
+
+  constructor(  private personalService: PersonalService,
+                private router: Router,
+                private fb: FormBuilder,
+                @Inject(MAT_DIALOG_DATA) public editData: any,
+                private toast: NgToastService,
+                private http: HttpClient,
+                private dialogRef: MatDialogRef<ModificarPersonalComponent>
+                ) {
+
+              
+    this.formModPersonal = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(3),]],
     apellido: ['', [Validators.required, Validators.minLength(3),]],
     correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
-  })
+  });
 
 
-  constructor(
-    private personalService: PersonalService,
-    private router: Router,
-    private activeRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient) { }
+  if (this.editData) {
+    this.formModPersonal.controls['nombre'].setValue(this.editData.nombre);
+    this.formModPersonal.controls['apellido'].setValue(this.editData.apellido);
+    this.formModPersonal.controls['correo'].setValue(this.editData.correo);
+  }
+
+      
+     }
+
+     actualizarPersonal() {
+      this.personalService.modificarPersonal(this.formModPersonal.value, this.editData.id_persona)
+        .subscribe({
+          next: (res) => {
+  
+            this.toast.success({
+              detail: "Personal Modificado",
+              summary: "Personal Modificado con Exito",
+              duration: 3000,
+              position: 'br'
+            })
+  
+            this.formModPersonal.reset();
+            this.dialogRef.close('Modificar Personal')
+          },
+          error: () => {
+            this.toast.error({
+              detail: "Error de Solicitud",
+              summary: "Error al modificar Personal",
+              duration: 3000,
+              position: 'br'
+            })
+          }
+        })
+    }
 
   ngOnInit(): void {
     
-
+    
     this.http.get<any>(this.URL + '/isAdmin')
     .subscribe(
       res => {
@@ -68,20 +109,7 @@ export class ModificarPersonalComponent implements OnInit {
       }
     );
 
-    const id_entrada = <string>this.activeRoute.snapshot.params['id_persona'];
-    console.log('id de persona: ' + id_entrada);
-
-    if (id_entrada) {
-      console.log(id_entrada);
-      this.personalService.listarPersonalId(id_entrada)
-        .subscribe(
-          res => {
-            this.personal = res;
-            console.log(res);
-          },
-          err => console.log(err)
-        );
-    }
+   
   }
 
   campoEsValido(campo: string) {
@@ -89,46 +117,6 @@ export class ModificarPersonalComponent implements OnInit {
       && this.formModPersonal.controls[campo].touched;
   }
 
-  listarPersonalId(id_entrada: any): void {
-    this.personalService.listarPersonalId(id_entrada)
-      .subscribe(
-        data => {
-          this.currentPersonal = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  modificarPersonal() {
-    this.personalService.modificarPersonal(this.personal.id_persona, this.personal)
-      .subscribe(
-        res => {
-          console.log(res);
-
-          // Alerta de Modificación Exitosa
-          this.toast.success({
-            detail: "Personal Modificado",
-            summary: "Solicitud Exitosa",
-            duration: 3000,
-            position: 'br'
-          })
-          this.router.navigate(['listarPersonal']);
-        },
-        err => {
-          console.log(err);
-          this.toast.warning({
-            detail: "Error al Modificar",
-            summary: "Su Solicitud Fallo",
-            duration: 3000,
-            position: 'br'
-          })
-        
-
-        });
-
-  }
   cancelar() {
     this.toast.warning({
       detail: "Atención",

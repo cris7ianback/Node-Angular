@@ -3,14 +3,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Users } from 'src/app/models/users';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { Users } from 'src/app/models/users';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuario.component';
+import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -18,6 +19,7 @@ import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuari
   styleUrls: ['./listar-usuarios.component.css']
 })
 export class ListarUsuariosComponent implements OnInit {
+ 
   private URL = 'http://localhost:3000/'
   estado?: boolean;
 
@@ -41,13 +43,12 @@ export class ListarUsuariosComponent implements OnInit {
 
 
   constructor(
-    private usuarioService: UsuarioService,
-    private router: Router,
-    private toast: NgToastService,
-    private _usuarioService: UsuarioService,
-    private http: HttpClient,
-    private dialog: MatDialog) {
-  }
+              private usuarioService: UsuarioService,
+              private router: Router,
+              private toast: NgToastService,
+              private _usuarioService: UsuarioService,
+              private http: HttpClient,
+              private dialog: MatDialog) {  }
 
   openDialog() {
     this.dialog.open(RegistrarUsuarioComponent, {
@@ -59,10 +60,7 @@ export class ListarUsuariosComponent implements OnInit {
     });
   }
 
-
-
   ngOnInit(): void {
-
 
     this.http.get<any>(this.URL + 'isEditOrAdmin')
       .subscribe(
@@ -85,22 +83,15 @@ export class ListarUsuariosComponent implements OnInit {
         });
 
     this.cargarUsuarios();
-
     this._usuarioService.listarUsuarios().subscribe(res => {
-      // Use MatTableDataSource for paginator
       this.dataSource = new MatTableDataSource(res);
-
-      // Assign the paginator *after* dataSource is set
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-
-
   }
 
   cargarUsuarios() {
     this.listUsuarios = this._usuarioService.listarUsuarios();
-
   }
 
   applyFilter(event: Event) {
@@ -141,10 +132,6 @@ export class ListarUsuariosComponent implements OnInit {
         })
 
   }
-  setActiveUsuario(users: Users, index: number): void {
-    this.currentUsuario = users;
-    this.currentIndex = index;
-  }
   // cancelar acción
   cancelar() {
     this.toast.warning({
@@ -163,7 +150,6 @@ export class ListarUsuariosComponent implements OnInit {
     }).afterClosed().subscribe(val => {
       if (val === 'Modificar Usuario') {
         this.refreshList();
-
       }
     })
   }

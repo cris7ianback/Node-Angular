@@ -28,7 +28,7 @@ export class UsuarioService {
   }
   //modifica Usuario
   modificarUsuario ( data: any, id : number){
-    return this.http.put <any>(URL + `modificarUsuario/${id}`, data)
+    return this.http.put<any>(URL + `modificarUsuario/${id}`, data)
   }
   //lista Usuarios por ID
   listarUsuariosId(id_user: string) {

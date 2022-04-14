@@ -38,7 +38,6 @@ module.exports = {
             }
         })
 
-
     },
     eliminarPersonal: function (req, res) {
         const id_persona = req.params.id_persona;
