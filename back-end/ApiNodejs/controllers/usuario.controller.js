@@ -24,7 +24,7 @@ module.exports = {
     eliminarUsuario: function (req, res) {
         var id_user = req.params.id_user;
         usuarioModule.eliminarUsuario(id_user, function (data) {
-           console.log("Usuario eliminado exitosamente");
+            console.log("Usuario eliminado exitosamente");
         });
     },
     //MODIFICAR USUARIO
@@ -46,28 +46,19 @@ module.exports = {
         const password = req.body.password;
         const id_role = req.body.id_role;
         const passHash = await bcryptjs.hash(password, 8);
-         
-        //console.log(req.body)
-        console.log(user, email, password, id_role)
-        
-        if (!user || !email || !password || !id_role) {
-            return res.status(501).send('Falta información');
-        }else{
-            usuarioModule.buscarUsuario(user, email, function (data) {
-                console.log('validar si Usuario Existe')
-                if (data != undefined) {
-                    console.log('aqui no')
-                    return res.status(501).send('Usuario y/o Email ya Registrado');                    
-                } else {
-                    console.log('aqui registra')
-                    usuarioModule.registrarUsuario(user, email, passHash, id_role, function (resp) {            
-                        return res.status(200).send('Usuario ingresado con exito');
-                    });
-                }
-            });
-        
-    }
-},
 
+
+        usuarioModule.buscarUsuario(user, email, function (data) {
+            
+            if (data != undefined) {
+                return res.status(501).send('Usuario y/o Email ya Registrado');
+            } else {
+                console.log('aqui registra')
+                usuarioModule.registrarUsuario(user, email, passHash, id_role, function (data) {
+                    return res.status(200).send('Usuario ingresado con exito');
+                });
+            }
+        });
+    }
 };
 

@@ -12,6 +12,7 @@ import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuario.component';
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
+import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -50,15 +51,15 @@ export class ListarUsuariosComponent implements OnInit {
               private http: HttpClient,
               private dialog: MatDialog) {  }
 
-  openDialog() {
-    this.dialog.open(RegistrarUsuarioComponent, {
-      width: '30%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'guardar') {
-        this.cargarUsuarios()
-      }
-    });
-  }
+  // registrarUsuario() {
+  //   this.dialog.open(RegistrarUsuarioComponent, {
+  //     width: '30%'
+  //   }).afterClosed().subscribe(val => {
+  //     if (val === 'guardar') {
+  //       this.cargarUsuarios()
+  //     }
+  //   });
+  // }
 
   ngOnInit(): void {
 
@@ -152,6 +153,25 @@ export class ListarUsuariosComponent implements OnInit {
         this.refreshList();
       }
     })
+  }
+
+  registrarUsuario() {
+    this.dialog.open(RegistrarUsuarioComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'guardar') {
+        this.cargarUsuarios()
+      }
+    });
+  }
+  registrarPersonal() {
+    this.dialog.open(RegistrarPersonalComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'guardar') {
+        this.cargarUsuarios()
+      }
+    });
   }
 
 }

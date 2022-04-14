@@ -10,14 +10,14 @@ const URL = 'http://localhost:3000/'
 })
 export class PersonalService {
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
 
   //elimina Personal
   eliminarPersonal(id_persona: any) {
     return this.http.get(`${URL}eliminarPersonal/${id_persona}`);
   }
-
+  //Lista de personal 
   listarPersonal(): Observable<any> {
     return this.http.get<Personal[]>(URL + 'listarPersonal');
   }
@@ -26,8 +26,11 @@ export class PersonalService {
     return this.http.get(URL + `listarPersonalId/${id_persona}`);
   }
   //Modifica Personal por ID
-  modificarPersonal ( data: any, id : number){
+  modificarPersonal(data: any, id: number) {
     return this.http.put<any>(URL + `modificarPersonal/${id}`, data)
+  }
+  registrarPersonal(personal: any) {
+    return this.http.post<any>(URL + 'registrarPersonal', personal)
   }
 
 }

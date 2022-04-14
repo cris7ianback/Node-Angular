@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 
-
+const URL = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +37,6 @@ export class AuthService {
 
   }
   
-
-  registrarPersonal(personal: any) {
-    return this.http.post<any>(this.URL + 'registrarPersonal', personal)
-  }
-
-
-
   isAdmin() {
     return this.http.get<any>(this.URL + 'isAdmin')
       .subscribe(

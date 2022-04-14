@@ -20,7 +20,7 @@ module.exports = {
     },
 
     registrarPersonal: function (nombre, apellido, correo, callback) {
-        let sql = `INSERT INTO persona(nombre, apellido, correo) values('${nombre}', '${apellido}', '${correo}')`;
+        const sql = `INSERT INTO persona(nombre, apellido, correo) values('${nombre}', '${apellido}', '${correo}')`;
         conexion.query(sql, function (err, rows, fields) {
             if (err) throw err;
             else {

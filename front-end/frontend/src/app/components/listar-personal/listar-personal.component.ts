@@ -45,22 +45,13 @@ export class ListarPersonalComponent implements  OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private personalService: PersonalService,
-              private router: Router,
+  constructor(private router: Router,
               private toast: NgToastService,
               private _personalService: PersonalService,
               private http: HttpClient,
               private dialog: MatDialog ) { }
 
-  openDialog() {
-    this.dialog.open(RegistrarPersonalComponent, {
-      width: '30%'
-    }).afterClosed().subscribe(val =>{
-      if (val === 'guardar'){
-        this.cargarPersonal()
-      }
-    });
-  }
+ 
 
   ngOnInit(): void {
 
@@ -156,6 +147,27 @@ export class ListarPersonalComponent implements  OnInit {
       }
     })
   }
+
+  registrarPersonal() {
+    this.dialog.open(RegistrarPersonalComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val =>{
+      if (val === 'guardar'){
+        this.cargarPersonal()
+      }
+    });
+  }
+
+  registrarUsuario() {
+    this.dialog.open(RegistrarUsuarioComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val =>{
+      if (val === 'guardar'){
+        this.cargarPersonal()
+      }
+    });
+  }
+
 }
 
 

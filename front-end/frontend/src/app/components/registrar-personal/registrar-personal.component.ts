@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
+import { PersonalService } from 'src/app/services/personal.service'
 
 @Component({
   selector: 'app-registrar-personal',
@@ -32,34 +33,44 @@ export class RegistrarPersonalComponent implements OnInit {
   dialogRef: any;
 
 
-  constructor(private authService: AuthService,
+  constructor(private personalService: PersonalService,
     private router: Router,
     private fb: FormBuilder,
     private toast: NgToastService,
     private http: HttpClient) { }
 
-  ngOnInit(): void { 
-    this.http.get<any>(this.URL + '/isAdmin')
-    .subscribe(
-      res => {
-        console.log(res.status);
-      },
-      err => {
-        if (err.status !== 200) {
-          
-          this.estado = false
-          this.toast.error({
-            detail: "Acceso Denegado",
-            summary: "Solo personal Autorizado puede acceder",
-            duration: 3000,
-            position: 'br'
-           })
+  ngOnInit(): void {
 
-          this.router.navigate(['/vistaUsuario'])
+    this.formAgPersonal = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      apellido: ['', [Validators.required, Validators.minLength(3)]],
+      correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
+    })
+
+
+
+
+    this.http.get<any>(this.URL + '/isAdmin')
+      .subscribe(
+        res => {
+          console.log(res.status);
+        },
+        err => {
+          if (err.status !== 200) {
+
+            this.estado = false
+            this.toast.error({
+              detail: "Acceso Denegado",
+              summary: "Solo personal Autorizado puede acceder",
+              duration: 3000,
+              position: 'br'
+            })
+
+            this.router.navigate(['/vistaUsuario'])
+          }
+          this.estado = true
         }
-        this.estado = true
-      }
-    );
+      );
   }
 
   //Funcion que valida que los campos del Formulario no esten vacios.
@@ -69,50 +80,49 @@ export class RegistrarPersonalComponent implements OnInit {
   }
 
   registrarPersonal(): void {
-    this.authService.registrarPersonal(this.personal)
-      .subscribe(
-        res => {
-          this.toast.success({
-            detail: "Personal Registrado",
-            summary: "personal Registrado con Exito",
-            duration: 3000,
-            position: 'br'
-          })
-          console.log(res);
-
-          localStorage.setItem('token', res.token);
-          this.router.navigate(['/listarPersonal']);
-
-        },
-        err => {
-          console.log(err)
-          //console.log ("Usuario ya Existe")   
-          this.toast.warning({
-            detail: "Atención",
-            summary: "Personal ya se encuentra  Registrado",
-            duration: 3000,
-            position: 'br'
-          })
+    if (this.formAgPersonal.valid) {
+      this.personalService.registrarPersonal(this.formAgPersonal.value)
+        .subscribe({
+          next: (res) => { },
+          error: (err) => {
+            if (err.status === 200) {
+              this.toast.success({
+                detail: "Usuario Registrado",
+                summary: "Usuario Registrado con Exito",
+                duration: 3000,
+                position: 'br'
+              })
+            } else {
+              this.toast.error({
+                detail: "Atención",
+                summary: "Usuario ya se encuentra  Registrado",
+                duration: 3000,
+                position: 'br'
+              })
+            }
+          }
         }
-      )
-    if (this.formAgPersonal.invalid) {
-      this.formAgPersonal.markAllAsTouched();
-      return;
+        )
+      if (this.formAgPersonal.invalid) {
+        this.formAgPersonal.markAllAsTouched();
+        return;
+      }
     }
   }
 
 
-  cancelar() {
-    this.toast.warning({
-      detail: "Atención",
-      summary: "Acción Cancelada",
-      duration: 3000,
-      position: 'br'})
-        this.router.navigate(['/listarPersonal']);
-      }
-    
+    cancelar() {
+      this.toast.warning({
+        detail: "Atención",
+        summary: "Acción Cancelada",
+        duration: 3000,
+        position: 'br'
+      })
+      this.router.navigate(['/listarPersonal']);
+    }
 
-}
+
+  }
 
 
 

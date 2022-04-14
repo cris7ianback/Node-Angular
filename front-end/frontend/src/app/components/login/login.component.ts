@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { FormGroup,FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
 
@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   private URL = 'http://localhost:3000/'
   public loginForm!: FormGroup;
 
-  
+
   miFormulario: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   })
   incorrecta!: boolean;
-  
+
 
   user = {
     email: '',
@@ -35,10 +35,10 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
-              private router: Router,
-              private fb: FormBuilder,
-              private toast: NgToastService,
-              private http: HttpClient) { }
+    private router: Router,
+    private fb: FormBuilder,
+    private toast: NgToastService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     localStorage.removeItem('rid_ss0')
@@ -59,8 +59,6 @@ export class LoginComponent implements OnInit {
         res => {
 
           localStorage.setItem('token', res.token);
-          //localStorage.setItem('role', res.roleHash);
-          //localStorage.setItem('rid_ss0', res.rid_ss0);
           console.log(res.token)
 
           this.http.get<any>(this.URL + 'isEditOrAdmin')
@@ -70,20 +68,46 @@ export class LoginComponent implements OnInit {
               },
               err => {
                 if (err.status == 200) {
-                  console.log('aqui entro a listar Personal')
                   this.router.navigate(['listarPersonal']);
+                  this.toast.success({
+                    detail: "Acceso Administrador",
+                    summary: "Bienvenido Administrador",
+                    duration: 3000,
+                    position: 'br'
+                  })
                 } else {
-                  console.log('aqui entro a vista de usuario')
+
+                  this.toast.success({
+                    detail: "Acceso Personal",
+                    summary: "Bienvenido Personal",
+                    duration: 3000,
+                    position: 'br'
+                  })
                   this.router.navigate(['vistaUsuario']);
                 }
               }
             );
+        },
+
+          // En caso de escribir mal o usuario levanta Error en ventana Principal.
+        (serverLoginError: any) => {
+          if (serverLoginError.status != 200) {
+            this.toast.error({
+              summary: "Error de Contraseña o Email",
+              detail: "Acceso Denegado",
+              duration: 3000,
+              position: 'br'
+            })
+            this.incorrecta = true;
+          }
         })
 
     if (this.miFormulario.invalid) {
       this.miFormulario.markAllAsTouched();
       return;
     }
+
+
   }
 
   OnResetForm(): void {
