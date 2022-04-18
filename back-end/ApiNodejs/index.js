@@ -14,6 +14,8 @@ var sessionStore = new MySQLStore({
   password : process.env.DB_PASS,
   mysql_port: process.env.DB_PORT,
   database: process.env.DB_DATABASE,
+  clearExpired: true,
+  checkExpirationInterval: 60000,
 }
 );
 

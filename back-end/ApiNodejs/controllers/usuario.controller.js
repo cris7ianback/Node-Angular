@@ -47,13 +47,14 @@ module.exports = {
         const id_role = req.body.id_role;
         const passHash = await bcryptjs.hash(password, 8);
 
-
+        //buscar si usuario o email Existe
         usuarioModule.buscarUsuario(user, email, function (data) {
             
+            // si  existe usuario o email envia mensaje
             if (data != undefined) {
                 return res.status(501).send('Usuario y/o Email ya Registrado');
             } else {
-                console.log('aqui registra')
+                // si  no existe usuario o email, lo registra
                 usuarioModule.registrarUsuario(user, email, passHash, id_role, function (data) {
                     return res.status(200).send('Usuario ingresado con exito');
                 });

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
 import { PersonalService } from 'src/app/services/personal.service'
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-registrar-personal',
@@ -14,40 +14,30 @@ import { PersonalService } from 'src/app/services/personal.service'
 export class RegistrarPersonalComponent implements OnInit {
 
   private URL = 'http://localhost:3000'
-  estado?: boolean;
-
-  personal = {
-    nombre: '',
-    apellido: '',
-    correo: '',
-  }
-  nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
-
-  formAgPersonal: FormGroup = this.fb.group({
-    nombre: ['', [Validators.required, Validators.minLength(3),]],
-    apellido: ['', [Validators.required, Validators.minLength(3),]],
-    correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
-  })
+  
   currentPersonal?: {};
   currentIndex?: number;
-  dialogRef: any;
+  estado?: boolean;
+  nombreApellidoPattern: string = '([a-zA-Z]+)  ([a-zA-Z]+)';
+  personal = { nombre: '', apellido: '', correo: '' }
 
+
+  formAgPersonal !: FormGroup;
 
   constructor(private personalService: PersonalService,
-    private router: Router,
-    private fb: FormBuilder,
-    private toast: NgToastService,
-    private http: HttpClient) { }
+              private router: Router,
+              private fb: FormBuilder,
+              private toast: NgToastService,
+              private http: HttpClient,
+              private dialogRef: MatDialogRef<RegistrarPersonalComponent>) { }
 
   ngOnInit(): void {
 
     this.formAgPersonal = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      nombre:   ['', [Validators.required, Validators.minLength(3)]],
       apellido: ['', [Validators.required, Validators.minLength(3)]],
-      correo: ['', [Validators.required, Validators.minLength(3), Validators.email]]
+      correo:   ['', [Validators.required, Validators.minLength(3), Validators.email]]
     })
-
-
 
 
     this.http.get<any>(this.URL + '/isAdmin')
@@ -76,7 +66,7 @@ export class RegistrarPersonalComponent implements OnInit {
   //Funcion que valida que los campos del Formulario no esten vacios.
   campoEsValido(campo: string) {
     return this.formAgPersonal.controls[campo].errors
-      && this.formAgPersonal.controls[campo].touched;
+      &&   this.formAgPersonal.controls[campo].touched;
   }
 
   registrarPersonal(): void {
@@ -87,29 +77,27 @@ export class RegistrarPersonalComponent implements OnInit {
           error: (err) => {
             if (err.status === 200) {
               this.toast.success({
-                detail: "Usuario Registrado",
-                summary: "Usuario Registrado con Exito",
+                detail: "Personal Registrado",
+                summary: "Personal Registrado con Exito",
                 duration: 3000,
                 position: 'br'
               })
+
+              this.formAgPersonal.reset();
+              this.dialogRef.close('Registrar Personal')
+
             } else {
               this.toast.error({
                 detail: "Atención",
-                summary: "Usuario ya se encuentra  Registrado",
+                summary: "Personal ya se encuentra  Registrado",
                 duration: 3000,
                 position: 'br'
               })
             }
           }
         }
-        )
-      if (this.formAgPersonal.invalid) {
-        this.formAgPersonal.markAllAsTouched();
-        return;
-      }
-    }
+        )}
   }
-
 
     cancelar() {
       this.toast.warning({
@@ -120,8 +108,6 @@ export class RegistrarPersonalComponent implements OnInit {
       })
       this.router.navigate(['/listarPersonal']);
     }
-
-
   }
 
 

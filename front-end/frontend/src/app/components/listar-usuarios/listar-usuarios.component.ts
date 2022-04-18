@@ -1,18 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuario.component';
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
+import { ListarPersonalComponent } from '../listar-personal/listar-personal.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -20,21 +21,17 @@ import { RegistrarPersonalComponent } from '../registrar-personal/registrar-pers
   styleUrls: ['./listar-usuarios.component.css']
 })
 export class ListarUsuariosComponent implements OnInit {
- 
+
   private URL = 'http://localhost:3000/'
-  estado?: boolean;
-
-  row: any;
-  currentUsuario: Users = {};
-  currentIndex = -1;
-  id_user?: any;
-  listarUsuarios?: any;
-  usuarios: any = [];
-  usuario?: any;
+  
   currentPersonal?: {};
-
-
+  currentIndex = -1;
+  estado?: boolean;
+  id_user?: any;
   listUsuarios!: Observable<Users[]>;
+  listarUsuarios?: any;
+  row: any;
+  //usuario?: any;
 
   displayedColumns: string[] = ['id_user', 'user', 'email', 'id_role', 'acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -44,22 +41,14 @@ export class ListarUsuariosComponent implements OnInit {
 
 
   constructor(
-              private usuarioService: UsuarioService,
-              private router: Router,
-              private toast: NgToastService,
-              private _usuarioService: UsuarioService,
+              private dialog: MatDialog,
               private http: HttpClient,
-              private dialog: MatDialog) {  }
+              private router: Router,
+              private usuarioService: UsuarioService,
+              private _usuarioService: UsuarioService,
+              private toast: NgToastService,
+              ){ }
 
-  // registrarUsuario() {
-  //   this.dialog.open(RegistrarUsuarioComponent, {
-  //     width: '30%'
-  //   }).afterClosed().subscribe(val => {
-  //     if (val === 'guardar') {
-  //       this.cargarUsuarios()
-  //     }
-  //   });
-  // }
 
   ngOnInit(): void {
 
@@ -120,6 +109,7 @@ export class ListarUsuariosComponent implements OnInit {
             position: 'br'
           })
           console.log(res)
+          this.refreshList();
         },
         error => {
           console.log(error);
@@ -129,7 +119,7 @@ export class ListarUsuariosComponent implements OnInit {
             duration: 2000,
             position: 'br'
           })
-          this.refreshList();
+        
         })
 
   }
@@ -159,8 +149,8 @@ export class ListarUsuariosComponent implements OnInit {
     this.dialog.open(RegistrarUsuarioComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
-      if (val === 'guardar') {
-        this.cargarUsuarios()
+      if (val === 'Registrar Usuario') {
+        this.refreshList();
       }
     });
   }
@@ -168,11 +158,24 @@ export class ListarUsuariosComponent implements OnInit {
     this.dialog.open(RegistrarPersonalComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
-      if (val === 'guardar') {
-        this.cargarUsuarios()
+      if (val === 'Registrar Personal') {
+        this.refreshList();
       }
     });
   }
+
+  deleteUsuario (){
+    this.dialog.open( ListarPersonalComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === ' Eliminar Personal') {
+        this.refreshList();
+      }
+    });
+    }
+
+
+
 
 }
 

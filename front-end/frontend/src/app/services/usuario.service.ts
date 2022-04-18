@@ -10,7 +10,7 @@ const URL = 'http://localhost:3000/'
 })
 export class UsuarioService {
 
-  
+
 
   constructor(private http: HttpClient) { }
   //Conecta con lista Usuarios back-end y front-end
@@ -27,7 +27,7 @@ export class UsuarioService {
     return this.http.get(`${URL}eliminarUsuario/${id_user}`);
   }
   //modifica Usuario
-  modificarUsuario ( data: any, id : number){
+  modificarUsuario(data: any, id: number) {
     return this.http.put<any>(URL + `modificarUsuario/${id}`, data)
   }
   //lista Usuarios por ID
@@ -39,8 +39,8 @@ export class UsuarioService {
     return this.http.get(URL + `modificarUsuario/${id_user}`);
   }
 
-  
-  
+
+
 }
 
 
