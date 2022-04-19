@@ -24,6 +24,7 @@ module.exports = {
     eliminarUsuario: function (req, res) {
         var id_user = req.params.id_user;
         usuarioModule.eliminarUsuario(id_user, function (data) {
+            res.send(data);
             console.log("Usuario eliminado exitosamente");
         });
     },

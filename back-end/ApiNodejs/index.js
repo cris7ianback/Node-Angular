@@ -64,6 +64,7 @@ app.use(express.urlencoded({ extended: true }));
 //llamar al router
 app.use('/', require('./routes/persona.routes'));
 app.use('/', require('./routes/usuario.routes'));
+app.use('/', require('./routes/inventario.routes'));
 
 //Para eliminar la cache 
 app.use(function (req, res, next) {

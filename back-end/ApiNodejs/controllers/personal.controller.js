@@ -42,6 +42,7 @@ module.exports = {
     eliminarPersonal: function (req, res) {
         const id_persona = req.params.id_persona;
         personalModule.eliminarPersonal(id_persona, function (data) {
+            res.send(data);
             console.log("Personal eliminado exitosamente");
         });
     },

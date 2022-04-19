@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-14 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h1 mat-dialog-title>Modificar Producto</h1>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="formModInventario">
+                        <!--FORMULARIO NOMBRE -->
+                        <div mat-dialog-content>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input formControlName="nombre" matInput placeholder="Ingrese Nombre" />
+                            </mat-form-field>
+
+                        </div>
+                        <!-- FORMULARIO CANTIDAD -->
+                        <div mat-dialog-content>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cantidad</mat-label>
+                                <input formControlName="cantidad" matInput placeholder=" Ingrese Cantidad" />
+                            </mat-form-field>
+                        </div>
+                        <!-- FORMULARIO UNIDAD -->
+                        <div mat-dialog-content>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Unidad</mat-label>
+                                <input formControlName="unidad" matInput placeholder="Ingrese unidad" />
+                            </mat-form-field>
+                        </div>
+
+                        <div mat-dialog-actions [align]="'end'">
+                            <button mat-raised-button class="btn btn-warning" mat-dialog-close
+                                (click)="cancelar()">Cancelar</button>
+                            <button style="margin-left: 8px" mat-raised-button class="btn btn-success"
+                                [disabled]="formModInventario.invalid" (click)="actualizarInventario()">
+                                Modificar Producto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

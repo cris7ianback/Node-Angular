@@ -12,6 +12,7 @@ import { ModificarUsuarioComponent } from './components/modificar-usuario/modifi
 import { RegistrarUsuarioComponent } from './components/registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from './components/registrar-personal/registrar-personal.component';
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
+import { ListarInventarioComponent } from './components/listar-inventario/listar-inventario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'login',                          component: LoginComponent },
   { path: 'modificarPersonal/:id_persona',  component: ModificarPersonalComponent, canActivate: [AuthGuard] },
   { path: 'modificarUsuario/:id_user',      component: ModificarUsuarioComponent, canActivate: [AuthGuard] },
-  { path: 'vistaUsuario',                   component: VistaUsuarioComponent, canActivate: [AuthGuard] }
+  { path: 'vistaUsuario',                   component: VistaUsuarioComponent, canActivate: [AuthGuard] },
+  { path: 'listarInventario',              component: ListarInventarioComponent, canActivate: [AuthGuard]}
 
 
 ];
