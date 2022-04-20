@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';

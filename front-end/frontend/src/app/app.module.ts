@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon'
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -93,6 +94,7 @@ import { RegistrarInventarioComponent } from './components/registrar-inventario/
     MatCardModule,
     MatSelectModule,
     MatDialogModule,
+    MatTableExporterModule
     
 
   ],
