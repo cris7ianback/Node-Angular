@@ -137,7 +137,7 @@ export class ListarUsuariosComponent implements OnInit {
 
   editUsuarios(row: any) {
     this.dialog.open(ModificarUsuarioComponent, {
-      width: '30%',
+      width: '50%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'Modificar Usuario') {
@@ -148,7 +148,7 @@ export class ListarUsuariosComponent implements OnInit {
 
   registrarUsuario() {
     this.dialog.open(RegistrarUsuarioComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {
         this.refreshList();
@@ -157,7 +157,7 @@ export class ListarUsuariosComponent implements OnInit {
   }
   registrarPersonal() {
     this.dialog.open(RegistrarPersonalComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Personal') {
         this.refreshList();
@@ -167,7 +167,7 @@ export class ListarUsuariosComponent implements OnInit {
 
   deleteUsuario (){
     this.dialog.open( ListarPersonalComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === ' Eliminar Personal') {
         this.refreshList();

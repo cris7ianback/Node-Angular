@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     if (this.authService.loggedIn()) {
       if (this.authService.isAdmin()) {
-        
+
         return true;
       } else {
         console.log('USER')
@@ -23,7 +23,8 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
+    window.alert(' prohibido el ingreso')
     return false;
   }
 

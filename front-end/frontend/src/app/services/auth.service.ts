@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { Usuario } from '../models/users';
 
 const URL = 'http://localhost:3000/'
 
@@ -18,9 +19,8 @@ export class AuthService {
                private router: Router,
                private toast: NgToastService) { }
 
-  login(usuario: any) {
-    return this.http.post<any>(this.URL + 'login', usuario)
-  }
+  login(usuario: any) { return this.http.post<any>(this.URL + 'login', usuario) }
+
   loggedIn() { return !!localStorage.getItem('token'); }
 
   logout() {
@@ -40,6 +40,11 @@ export class AuthService {
     localStorage.removeItem('token');
     return this.router.navigate(['login']);
 
+  }
+
+  private getUser (token: string): Usuario {
+    return JSON.parse (atob(token.split('.')[1])) as Usuario;
+    
   }
 
   isAdmin() {

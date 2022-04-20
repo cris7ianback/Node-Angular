@@ -8,6 +8,7 @@
             matTooltip="Listar Personal">list</span>
         <span class="material-icons" style="cursor: pointer;" routerLink="/listarUsuarios"
             matTooltip="Listar Usuarios">list</span>
+            <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons" matTooltip="Exportar Tabla">file_download</span>  
     </mat-toolbar>
 
 </div>
@@ -19,7 +20,7 @@
 
 <div class="mat-elevation-z8">
 
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter">
 
         <!--  Columna ID INVENTARIO -->
         <ng-container matColumnDef="id_inventario">

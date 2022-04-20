@@ -13,6 +13,7 @@ import { RegistrarUsuarioComponent } from './components/registrar-usuario/regist
 import { RegistrarPersonalComponent } from './components/registrar-personal/registrar-personal.component';
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
 import { ListarInventarioComponent } from './components/listar-inventario/listar-inventario.component';
+import { HasRoleGuard } from './has-role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
