@@ -53,14 +53,10 @@ export class LoginComponent implements OnInit {
   login(): void {
 
     this.incorrecta = false;
-
     this.authService.login(this.user)
       .subscribe(
         res => {
-
           localStorage.setItem('token', res.token);
-          console.log(res.token)
-
           this.http.get<any>(this.URL + 'isEditOrAdmin')
             .subscribe(
               res => {
@@ -89,7 +85,7 @@ export class LoginComponent implements OnInit {
             );
         },
 
-          // En caso de escribir mal o usuario levanta Error en ventana Principal.
+        // En caso de escribir mal o usuario levanta Error en ventana Principal.
         (serverLoginError: any) => {
           if (serverLoginError.status != 200) {
             this.toast.error({
@@ -112,5 +108,15 @@ export class LoginComponent implements OnInit {
 
   OnResetForm(): void {
     this.loginForm.reset();
+  }
+
+  logIn() {
+   // console.log(this.user);
+    this.authService.login(this.user).subscribe((res: any) => {
+      //console.log(res);
+      localStorage.setItem('token',res.token);
+      this.router.navigate(['listarPersonal']);
+
+    })
   }
 }

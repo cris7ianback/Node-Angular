@@ -44,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HasRoleGuard } from './has-role.guard';
 
+import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -90,16 +91,14 @@ import { HasRoleGuard } from './has-role.guard';
     MatSelectModule,
     MatTableExporterModule
     
-
+    
   ],
   providers: [
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    JwtHelperService,
     AuthGuard,
     FormBuilder,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
     HasRoleGuard
 
   ],
