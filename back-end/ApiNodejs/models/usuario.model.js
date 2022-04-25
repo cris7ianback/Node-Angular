@@ -61,7 +61,8 @@ module.exports = {
                     return callback(rows[0]);
                 }
             })
-    },
+    }
+
 
 
 };

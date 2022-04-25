@@ -6,7 +6,7 @@
           Ingresar
         </div>
         <div class="card-body">
-          <form (ngSubmit)="logIn()" [formGroup]="miFormulario">
+          <form (ngSubmit)="login()" [formGroup]="miFormulario">
             <div class="form-group">
               <label for="email">Email:</label>
               <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email"

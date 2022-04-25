@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 
@@ -18,19 +19,19 @@ export class LoginComponent implements OnInit {
   private URL = 'http://localhost:3000/'
   public loginForm!: FormGroup;
 
-
   miFormulario: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]]
   })
   incorrecta!: boolean;
 
-
   user = {
     email: '',
     password: ''
   }
   formBuilder: any;
+  isLoggedIn = false;
+  roles: string[] = [];
 
 
 
@@ -38,10 +39,18 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private toast: NgToastService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
     localStorage.removeItem('rid_ss0')
+
+    if (this.authService.getToken()) {
+      this.isLoggedIn = true;
+      this.roles = this.usuarioService.getUser().roles;
+
+    }
+
 
   }
 
@@ -53,10 +62,13 @@ export class LoginComponent implements OnInit {
   login(): void {
 
     this.incorrecta = false;
+
     this.authService.login(this.user)
       .subscribe(
         res => {
           localStorage.setItem('token', res.token);
+          console.log(res.token)
+
           this.http.get<any>(this.URL + 'isEditOrAdmin')
             .subscribe(
               res => {
@@ -108,15 +120,5 @@ export class LoginComponent implements OnInit {
 
   OnResetForm(): void {
     this.loginForm.reset();
-  }
-
-  logIn() {
-   // console.log(this.user);
-    this.authService.login(this.user).subscribe((res: any) => {
-      //console.log(res);
-      localStorage.setItem('token',res.token);
-      this.router.navigate(['listarPersonal']);
-
-    })
   }
 }

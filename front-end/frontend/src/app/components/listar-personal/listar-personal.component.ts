@@ -51,25 +51,26 @@ export class ListarPersonalComponent implements OnInit {
 
     //aquí veriricamos si es Usuario o Administrador.
 
-    // this.http.get<any>(this.URL + 'isEditOrAdmin')
-    //   .subscribe(
-    //     res => {
-    //     },
-    //     err => {
-    //       // Si intenta ingresar alguna ruta y no es Administrador, salta alerta la cual lo devuelve a la vista Usuario
-    //       if (err.status !== 200) {
-    //         this.estado = false
-    //         this.toast.error({
-    //           detail: "Acceso Denegado",
-    //           summary: "Solo personal Autorizado puede acceder",
-    //           duration: 3000,
-    //           position: 'br'
-    //         })
-    //           //navega a ruta VistaUsuario
-    //         this.router.navigate(['vistaUsuario'])
-    //       }
-    //       this.estado = true
-    //     });
+    this.http.get<any>(this.URL + 'isEditOrAdmin')
+      .subscribe(
+        res => {
+        },
+        err => {
+          // Si intenta ingresar alguna ruta y no es Administrador, salta alerta la cual lo devuelve a la vista Usuario
+          if (err.status !== 200) {
+            this.estado = false
+            this.toast.error({
+              detail: "Acceso Denegado",
+              summary: "Solo personal Autorizado puede acceder",
+              duration: 3000,
+              position: 'br'
+            })
+            
+            this.router.navigate(['vistaUsuario'])
+              //navega a ruta VistaUsuario
+          }
+          this.estado = true
+        });
 
         //carga la lista personal
     this.cargarPersonal();

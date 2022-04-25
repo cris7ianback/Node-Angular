@@ -1,0 +1,41 @@
+<div fxLayoutAlign="center center" class="card-center">
+  <div fxFlex="40%">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Sign up</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="RegistrationFrom" (ngSubmit)="onSignup()">
+          <div class="example-container">
+            <mat-form-field>
+              <input matInput formControlName="FirstName" placeholder="First Name">
+              <mat-error *ngIf="hasError('FirstName', 'required')">FirstName is required</mat-error>
+            </mat-form-field>  
+            <mat-form-field>
+              <input matInput formControlName="LastName" placeholder="Last Name">
+              <mat-error *ngIf="hasError('LastName', 'required')">LastName is required</mat-error>
+            </mat-form-field> 
+            <mat-form-field>
+              <input matInput formControlName="Email" placeholder="Email">
+              <mat-error *ngIf="hasError('Email', 'required')">Email is required</mat-error>
+            </mat-form-field> 
+            <mat-form-field>
+              <input matInput type="password" formControlName="Password" placeholder="Password">
+              <mat-error *ngIf="hasError('Password', 'required')">Password is required</mat-error>
+            </mat-form-field>   
+            <mat-form-field>
+              <input matInput type="password" formControlName="ConfirmPassword" placeholder="Confirm Password" [errorStateMatcher]="errorMatcher">
+              <mat-error *ngIf="RegistrationFrom.hasError('passwordsDoNotMatch')">
+                Passwords do not match!
+              </mat-error>
+              <mat-error *ngIf="hasError('ConfirmPassword', 'required')">ConfirmPassword is required</mat-error>
+            </mat-form-field>          
+          </div>
+          <div fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" type="submit" class="btn">Sign up</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

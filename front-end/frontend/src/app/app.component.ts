@@ -4,6 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Users } from 'src/app/models/users';
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +17,8 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
   private URL = 'http://localhost:3000/'
   estado?: boolean;
+
+  user? :string;
 
   constructor(public authService: AuthService,
     private http: HttpClient) { }

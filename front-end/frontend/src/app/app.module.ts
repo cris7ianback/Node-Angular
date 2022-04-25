@@ -1,6 +1,5 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { catchError, retry } from 'rxjs/operators';
 import { DataTablesModule } from "angular-datatables";
@@ -43,8 +42,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HasRoleGuard } from './has-role.guard';
-
-import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
+import { CambioPasswordComponent } from './components/cambio-password/cambio-password.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -61,6 +61,8 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     RegistrarPersonalComponent,
     RegistrarUsuarioComponent,
     VistaUsuarioComponent,
+    CambioPasswordComponent,
+    PerfilComponent,
     
 
   ],
@@ -89,16 +91,19 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     NgSelectModule,
     MatSelectSearchModule,
     MatSelectModule,
-    MatTableExporterModule
+    MatTableExporterModule,
     
     
+
   ],
   providers: [
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
-    JwtHelperService,
     AuthGuard,
     FormBuilder,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
     HasRoleGuard
 
   ],

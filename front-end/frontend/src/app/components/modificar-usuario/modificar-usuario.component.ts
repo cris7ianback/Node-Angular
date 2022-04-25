@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CustomValidationService } from 'src/app/services/custom-validation.service';
 
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Users } from 'src/app/models/users';
@@ -17,6 +18,9 @@ export class ModificarUsuarioComponent implements OnInit {
   
   private URL = 'http://localhost:3000'
   estado?: boolean;
+  hide = true;
+
+
 
   usuarios: Users = {
     id_user: '',
@@ -34,15 +38,23 @@ export class ModificarUsuarioComponent implements OnInit {
                 @Inject(MAT_DIALOG_DATA) public editData: any,
                 private toast: NgToastService,
                 private http: HttpClient,
-                private dialogRef: MatDialogRef<ModificarUsuarioComponent>
+                private dialogRef: MatDialogRef<ModificarUsuarioComponent>,
+                private customValidator :CustomValidationService
   ) {
 
     this.formModUsuario = this.fb.group({
       user: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
+      newPassword: ['', [Validators.required, Validators.minLength(3)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
       id_role: ['', [Validators.required, Validators.minLength(3)]]
-    });
+    },{
+       validators : [ this.customValidator.camposIguales('newPassword', 'confirmPassword')]
+
+  });
+
+    
 
 
     if (this.editData) {
@@ -121,6 +133,8 @@ export class ModificarUsuarioComponent implements OnInit {
     })
     this.router.navigate(['/listarUsuarios']);
   }
-
+  public hasError = (controlName: string, errorName: string) => {
+    return this.formModUsuario.controls[controlName].hasError(errorName);
+  }
 
 }

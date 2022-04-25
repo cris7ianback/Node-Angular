@@ -15,6 +15,7 @@ import { ModificarUsuarioComponent } from '../modificar-usuario/modificar-usuari
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 import { ListarPersonalComponent } from '../listar-personal/listar-personal.component';
+import { CambioPasswordComponent } from '../cambio-password/cambio-password.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -137,6 +138,18 @@ export class ListarUsuariosComponent implements OnInit {
 
   editUsuarios(row: any) {
     this.dialog.open(ModificarUsuarioComponent, {
+      width: '50%',
+      data: row
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Usuario') {
+        this.refreshList();
+      }
+    })
+  }
+
+
+  editPassword(row: any) {
+    this.dialog.open(CambioPasswordComponent, {
       width: '50%',
       data: row
     }).afterClosed().subscribe(val => {

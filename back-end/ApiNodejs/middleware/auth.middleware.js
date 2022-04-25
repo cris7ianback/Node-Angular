@@ -24,7 +24,7 @@ module.exports = {
                         return res.status(401).send('No Autorizado otro texto');
                     }
                     else {
-                        const expiresNew = Math.round ((Date.now() + process.env.TIEMPO_EXTRA*60*1000)/1000)
+                        const expiresNew = Math.round ((Date.now() + process.env.TIEMPO_EXTRA*60*60*1000)/1000)
                         models.tiempoExtra(expiresNew, idr, function (data) {} )
                         req.session_id = idr;                       
                         return next()

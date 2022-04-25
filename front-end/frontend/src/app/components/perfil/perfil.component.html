@@ -3,16 +3,16 @@
         <div class="col-md-14 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h1 mat-dialog-title>Modificar de Usuario</h1>
+                    <h1 mat-dialog-title>Modificar Perfil.</h1>
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="formModUsuario">
+                    <form [formGroup]="formModUsuario" autocomplete="off">
                         <!--FORMULARIO USUARIO -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Usuario</mat-label>
                                 <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
-                            
+                                <mat-error >Debe Escribir nombre & Apellido</mat-error>
                             </mat-form-field>
 
                         </div>
@@ -21,19 +21,23 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
                                 <input formControlName="email" matInput placeholder="Ejemplo@test.cl" />
+                                <mat-error >Escriba el formato ejemplo@test.cl</mat-error>
                             </mat-form-field>
                         </div>
-                        <!-- FORMULARIO PASSWORD -->
+                        <!-- FORMULARIO OLD PASSWORD -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Password</mat-label>
-                                <input [type]="hide ? 'password': 'text'" formControlName="password" matInput placeholder="password" />
-                            <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
+                                <input [type]="hide ? 'password': 'text'" formControlName="password" matInput
+                                    placeholder="password" />
+                                <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
+                                </mat-icon>
+                                <mat-error >Escriba su contraseña Actual</mat-error>
                             </mat-form-field>
                         </div>
 
-                           <!-- FORMULARIO PASSWORD NEW -->
-                           <div mat-dialog-content>
+                        <!-- FORMULARIO PASSWORD NEW -->
+                        <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Nueva Password</mat-label>
                                 <input [type]="hide ? 'confirmPassword': 'text'" formControlName="newPassword" matInput
@@ -57,6 +61,8 @@
                             </mat-form-field>
                         </div>
 
+                     
+
                         <!-- FORMULARIO ROL -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
@@ -71,7 +77,7 @@
                             <button mat-raised-button class="btn btn-warning" mat-dialog-close
                                 (click)="cancelar()">Cancelar</button>
                             <button style="margin-left: 8px" mat-raised-button class="btn btn-success"
-                                [disabled]="formModUsuario.invalid" (click)="actualizarUsuario()">
+                                [disabled]="formModUsuario.invalid">
                                 Modificar Usuario</button>
                         </div>
                     </form>
@@ -80,3 +86,8 @@
         </div>
     </div>
 </div>
+<div>
+
+
+
+    

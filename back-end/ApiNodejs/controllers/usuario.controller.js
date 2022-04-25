@@ -29,13 +29,14 @@ module.exports = {
         });
     },
     //MODIFICAR USUARIO
-    modificarUsuario: function (req, res) {
+    modificarUsuario: async (req, res) => {
         const id_user = req.params.id_user;
         const user = req.body.user;
         const email = req.body.email;
         const password = req.body.password;
         const id_role = req.body.id_role;
-        usuarioModule.modificarUsuario(id_user, user, email, password, id_role, function (data) {
+        const passHash = await bcryptjs.hash(password, 8);
+        usuarioModule.modificarUsuario(id_user, user, email, passHash, id_role, function (data) {
             res.send(data);
             console.log("Datos Actualizados Correctamente");
         });
@@ -61,6 +62,6 @@ module.exports = {
                 });
             }
         });
-    }
+    },
 };
 

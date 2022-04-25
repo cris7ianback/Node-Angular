@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Personal } from '../models/personal';
 
+
 const URL = 'http://localhost:3000/'
 
 @Injectable({
@@ -32,5 +33,7 @@ export class PersonalService {
   registrarPersonal(personal: any) {
     return this.http.post<any>(URL + 'registrarPersonal', personal)
   }
+
+  
 
 }

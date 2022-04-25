@@ -5,6 +5,10 @@ import { Users } from '../models/users';
 
 const URL = 'http://localhost:3000/'
 
+
+const TOKEN_KEY = 'auth-token';
+const USER_KEY = 'auth-user';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,6 +43,15 @@ export class UsuarioService {
     return this.http.get(URL + `modificarUsuario/${id_user}`);
   }
 
+  public getUser():any{
+    const user =window.sessionStorage.getItem(USER_KEY);
+    if (user){
+      return JSON.parse(user);
+    }
+    return{}
+  }
+
+  actualizarPassword (){}
 
 
 }
