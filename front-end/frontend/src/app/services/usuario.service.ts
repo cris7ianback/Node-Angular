@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Users } from '../models/users';
+import { environment } from 'src/environments/environment';
 
 const URL = 'http://localhost:3000/'
 
@@ -14,7 +15,7 @@ const USER_KEY = 'auth-user';
 })
 export class UsuarioService {
 
-
+  url = environment.URL;
 
   constructor(private http: HttpClient) { }
   //Conecta con lista Usuarios back-end y front-end
@@ -43,15 +44,19 @@ export class UsuarioService {
     return this.http.get(URL + `modificarUsuario/${id_user}`);
   }
 
-  public getUser():any{
-    const user =window.sessionStorage.getItem(USER_KEY);
-    if (user){
+  public getUser(): any {
+    const user = window.sessionStorage.getItem(USER_KEY);
+    if (user) {
       return JSON.parse(user);
     }
-    return{}
+    return {}
   }
 
-  actualizarPassword (){}
+  cambioPassword(data: any) {
+    return this.http.post(URL + 'cambioPass', data, {
+      headers: new HttpHeaders().set('Content-Type', "application/json")
+    });
+  }
 
 
 }

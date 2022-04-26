@@ -45,4 +45,11 @@ export class AppComponent {
       )
   }
 
+
+  cambioPass(){
+    
+
+  }
+
+  
 }

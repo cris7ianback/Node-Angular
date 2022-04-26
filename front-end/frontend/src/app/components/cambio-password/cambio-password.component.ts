@@ -5,6 +5,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { NgToastService } from 'ng-angular-popup';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule,  MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cambio-password',
@@ -30,6 +31,7 @@ export class CambioPasswordComponent implements OnInit {
     private usuarioService: UsuarioService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<CambioPasswordComponent>,
+    private snakBarService: NgxUiLoaderService,
     private toast: NgToastService,
     private ngxService: NgxUiLoaderService) {
 
@@ -84,7 +86,7 @@ export class CambioPasswordComponent implements OnInit {
   ngOnInit(): void {
 
     this.cambioPasswordForm = this.fb.group({
-      oldPassword: [null, [Validators.required]],
+      password: [null, [Validators.required]],
       newPassword: [null, [Validators.required]],
       confirmPassword: [null, [Validators.required]],
     })
@@ -93,8 +95,7 @@ export class CambioPasswordComponent implements OnInit {
   validateSubmit() {
     if (this.cambioPasswordForm.controls['newPassword'].value != this.cambioPasswordForm.controls['confirmPassword ']) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -108,26 +109,25 @@ export class CambioPasswordComponent implements OnInit {
       confirmPassword: formData.confirmPassword
     }
 
-    this.usuarioService.actualizarPassword(data).subscribe((response: any) => {
+    this.usuarioService.cambioPassword(data)
+    .subscribe((response:any)=>{
       this.ngxService.stop();
       this.responseMessage = response?.message;
       this.dialogRef.close();
-      this.snakbarService.openSnacBack(this.responseMessage, "success");
+      //this.snakBarService.openSnackBar(this.responseMessage, "success")
     }, (error)=>{
       console.log(error);
       this.ngxService.stop();
-      if(error.error?.message){
+      if (error.error?.message){
         this.responseMessage = error.error?.message;
       }
-      else{
-        this.responseMessage = GlobalConstants.genericError;
+      else {
+        //this.responseMessage = GlobalConstants.genericError
       }
-      this.snackBarService.openSnacBack(this.responseMessage, GlobalConstants.error);
+      //this.snakBarService.openSnackBar(this.responseMessage,GlobalConstants.error);
+
     })
   }
-
-
-
 
 
   cancelar() {

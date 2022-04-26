@@ -1,3 +1,5 @@
+
+<link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <h1>Lista de Personal</h1>
 <div style="height: 100%;">
   <mat-toolbar>
@@ -7,6 +9,8 @@
     <span class="material-icons" style="cursor: pointer;" routerLink="/listarInventario" matTooltip="Listar Inventario">inventory_2</span> 
     <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons" matTooltip="Exportar Tabla">file_download</span>   
   </mat-toolbar>
+
+  <span (click)="cambioPass()"  class="material-symbols-outlined" matTooltip="cambioPass">password</span>
 
   
 

@@ -15,6 +15,7 @@ import { PersonalService } from 'src/app/services/personal.service';
 import { ModificarPersonalComponent } from '../modificar-personal/modificar-personal.component';
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
+import { CambioPasswordComponent } from '../cambio-password/cambio-password.component';
 
 @Component({
   selector: 'app-listar-personal',
@@ -159,6 +160,16 @@ export class ListarPersonalComponent implements OnInit {
 //Modal Registra Usuario
   registrarUsuario() {
     this.dialog.open(RegistrarUsuarioComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'Registrar Usuario') {
+        this.refreshList();
+      }
+    });
+  }
+
+  cambioPass() {
+    this.dialog.open(CambioPasswordComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {

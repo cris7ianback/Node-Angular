@@ -15,7 +15,9 @@ module.exports = {
             
                 console.log(req.headers.authorization)
                 const session_id = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_SECRETO).idr
+                const email = await jwt.verify(req.headers.authorization.substr(7), process.env.JWT_secreto).email
                 console.log('Session : '+session_id)
+                console.log(email)
                 const idr = cryptr.decrypt(session_id)
                 console.log('IDR: '+idr)
                 models.validarSesion(idr, function (data) {

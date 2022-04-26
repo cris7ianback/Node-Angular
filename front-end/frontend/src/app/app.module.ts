@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { NgToastModule } from 'ng-angular-popup';
 
 
+
 import { AuthGuard } from './auth.guard';
 import { ListarInventarioComponent } from './components/listar-inventario/listar-inventario.component';
 import { ListarPersonalComponent } from './components/listar-personal/listar-personal.component';
@@ -92,6 +93,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatSelectSearchModule,
     MatSelectModule,
     MatTableExporterModule,
+    MatDialogModule
     
     
 
