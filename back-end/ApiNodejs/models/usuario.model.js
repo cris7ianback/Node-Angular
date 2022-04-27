@@ -52,8 +52,7 @@ module.exports = {
     
     buscarUsuario: function (user, email, callback) {
         conexion.query('SELECT user, email FROM users WHERE user =? or email =?',
-            [user, email] ,
-            
+            [user, email] ,            
             (err, rows, fields) => {
                 
                 if (err) throw err;
@@ -61,7 +60,31 @@ module.exports = {
                     return callback(rows[0]);
                 }
             })
-    }
+    },
+
+    modificarPass: function ( email, password, callback) {
+        const sql = `UPDATE users SET
+        password = '${password}'
+        WHERE email = '${email}'`;
+        conexion.query( sql, function (err, rows, fields){
+            if (err) throw err;
+            return callback(rows);
+            
+        })
+        console.log('password modificada.')
+    },
+
+    buscarEmail: function (password, email, callback) {
+        conexion.query('SELECT email, password FROM users WHERE password =? or email =?',
+            [password, email] ,            
+            (err, rows, fields) => {
+                
+                if (err) throw err;
+                else {
+                    return callback(rows[0]);
+                }
+            })
+    },
 
 
 

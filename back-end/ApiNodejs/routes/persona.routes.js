@@ -26,6 +26,7 @@ router.get ('/listarPersonalId/:id_persona', middlewareController.isAuthenticate
 
 
 
+
 router.get('/isAdmin', middlewareController.isAuthenticated, middlewareController.isRoleAdmin );
 router.get ('/isEditOrAdmin', middlewareController.isAuthenticated, middlewareController.isRoleEditorAdmin)
 module.exports = router;

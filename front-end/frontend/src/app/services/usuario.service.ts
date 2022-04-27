@@ -52,12 +52,11 @@ export class UsuarioService {
     return {}
   }
 
-  cambioPassword(data: any) {
-    return this.http.post(URL + 'cambioPass', data, {
-      headers: new HttpHeaders().set('Content-Type', "application/json")
-    });
+  modificarPass(data: string, email: string) {
+    return this.http.put<any>(URL + `modificarPass/${email}`, data)
   }
-
+  
+  
 
 }
 

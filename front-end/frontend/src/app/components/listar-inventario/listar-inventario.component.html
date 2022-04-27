@@ -3,12 +3,9 @@
     <mat-toolbar>
 
 
-        <span (click)="registrarInventario()" class="material-icons" matTooltip="Registrar Usuario">person</span>
-        <span class="material-icons" style="cursor: pointer;" routerLink="/listarPersonal"
-            matTooltip="Listar Personal">list</span>
-        <span class="material-icons" style="cursor: pointer;" routerLink="/listarUsuarios"
-            matTooltip="Listar Usuarios">list</span>
-            <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons" matTooltip="Exportar Tabla">file_download</span>  
+        <span (click)="registrarInventario()" class="material-icons" matTooltip="Registrar Producto">inventory_2</span>
+        <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons"
+            matTooltip="Exportar Tabla">file_download</span>
     </mat-toolbar>
 
 </div>
@@ -52,9 +49,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
             <td mat-cell *matCellDef="let inventario ; let index" style="text-align: right;">
 
-                <span mat-icon-button  (click)="editInventario(inventario)"  matTooltip="Editar Usuario" style="color: #1878b0;" class="pointers">
+                <span mat-icon-button (click)="editInventario(inventario)" matTooltip="Editar Usuario"
+                    style="color: #1878b0;" class="pointers">
                     <mat-icon>edit</mat-icon>
-               </span>
+                </span>
 
                 <span class="pointer" (click)="eliminarInventario(inventario.id_inventario)"
                     matTooltip="Eliminar Usuario" style="color: #e15639;">

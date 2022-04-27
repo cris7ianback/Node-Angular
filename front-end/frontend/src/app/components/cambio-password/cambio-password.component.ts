@@ -36,14 +36,14 @@ export class CambioPasswordComponent implements OnInit {
     private ngxService: NgxUiLoaderService) {
 
     this.formModUsuario = this.fb.group({
-      user: ['', [Validators.required, Validators.minLength(3)]],
+      //user: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
-      newPassword: ['', [Validators.required, Validators.minLength(3)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
-      id_role: ['', [Validators.required, Validators.minLength(3)]]
+      //newPassword: ['', [Validators.required, Validators.minLength(3)]],
+      //confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
+      //id_role: ['', [Validators.required, Validators.minLength(3)]]
     }, {
-      validators: [this.customValidator.camposIguales('newPassword', 'confirmPassword')]
+     // validators: [this.customValidator.camposIguales('password', 'confirmPassword')]
 
     });
 
@@ -57,31 +57,34 @@ export class CambioPasswordComponent implements OnInit {
   }
 
 
-  actualizarUsuario() {
-    this.usuarioService.modificarUsuario(this.formModUsuario.value, this.editData.id_user)
-      .subscribe({
-        next: (res) => {
+  modificarPass(){
 
-          this.toast.success({
-            detail: "Usuario Modificado",
-            summary: "Usuario Modificado con Exito",
-            duration: 3000,
-            position: 'br'
-          })
+    this.usuarioService.modificarPass(this.formModUsuario.value, this.cambioPasswordForm.email)
+    .subscribe({
+      next:(res) =>{
+        console.log ("pass modificada");
+        this.toast.success({
+          detail: "Contraseña Modificada",
+          summary: "Su Contraseña fue Modificada con Exito",
+          duration: 3000,
+          position: 'br'
+        })
+        
+      },
+      error: () =>{
+        console.log( "error al modificar pass");
+        this.toast.error({
+          detail: "Error al Modificar",
+          summary: "Favor verificar sus Correo o Email",
+          duration: 3000,
+          position: 'br'
+        })
+      }
+    })
 
-          this.formModUsuario.reset();
-          this.dialogRef.close('Modificar Usuario')
-        },
-        error: () => {
-          this.toast.error({
-            detail: "Error de Solicitud",
-            summary: "Error Al modificar Usuario",
-            duration: 3000,
-            position: 'br'
-          })
-        }
-      })
   }
+
+
 
   ngOnInit(): void {
 
@@ -109,24 +112,6 @@ export class CambioPasswordComponent implements OnInit {
       confirmPassword: formData.confirmPassword
     }
 
-    this.usuarioService.cambioPassword(data)
-    .subscribe((response:any)=>{
-      this.ngxService.stop();
-      this.responseMessage = response?.message;
-      this.dialogRef.close();
-      //this.snakBarService.openSnackBar(this.responseMessage, "success")
-    }, (error)=>{
-      console.log(error);
-      this.ngxService.stop();
-      if (error.error?.message){
-        this.responseMessage = error.error?.message;
-      }
-      else {
-        //this.responseMessage = GlobalConstants.genericError
-      }
-      //this.snakBarService.openSnackBar(this.responseMessage,GlobalConstants.error);
-
-    })
   }
 
 

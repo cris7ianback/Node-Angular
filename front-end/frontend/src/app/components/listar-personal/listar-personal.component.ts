@@ -103,26 +103,37 @@ export class ListarPersonalComponent implements OnInit {
   }
 
   //elimina personal.
-  eliminarPersonal(id_persona: any): void {
-    this._personalService.eliminarPersonal(id_persona)
-      .subscribe(
-        res => {
-          this.toast.success({
-            detail: "Accion Ejecutada",
-            summary: "Personal Eliminado",
-            duration: 2000,
-            position: 'br'
-          })
-          this.refreshList();
-        },
-        error => {
-          this.toast.warning({
-            detail: "Atencion",
-            summary: "Personal Eliminado",
-            duration: 2000,
-            position: 'br'
-          })
-        })
+  // eliminarPersonal(id_persona: any): void {
+  //   this._personalService.eliminarPersonal(id_persona)
+  //     .subscribe(
+  //       res => {
+  //         this.toast.success({
+  //           detail: "Accion Ejecutada",
+  //           summary: "Personal Eliminado",
+  //           duration: 2000,
+  //           position: 'br'
+  //         })
+  //         this.refreshList();
+  //       },
+  //       error => {
+  //         this.toast.warning({
+  //           detail: "Atencion",
+  //           summary: "Personal Eliminado",
+  //           duration: 2000,
+  //           position: 'br'
+  //         })
+  //       })
+  // }
+
+  eliminarPersonal(id_persona: any): void{
+    if(confirm ('seguro que desea eliminar')){
+      this._personalService.eliminarPersonal(id_persona)
+      .subscribe((data)=>{
+        this.refreshList();
+      },(error)=>{
+        console.log(error)
+      })
+    }
   }
 
   //cancela acción.
@@ -170,7 +181,8 @@ export class ListarPersonalComponent implements OnInit {
 
   cambioPass() {
     this.dialog.open(CambioPasswordComponent, {
-      width: '30%'
+      width: '50%',
+      
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {
         this.refreshList();

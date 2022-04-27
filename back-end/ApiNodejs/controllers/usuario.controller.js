@@ -51,7 +51,7 @@ module.exports = {
 
         //buscar si usuario o email Existe
         usuarioModule.buscarUsuario(user, email, function (data) {
-            
+
             // si  existe usuario o email envia mensaje
             if (data != undefined) {
                 return res.status(501).send('Usuario y/o Email ya Registrado');
@@ -63,5 +63,40 @@ module.exports = {
             }
         });
     },
+
+    // modificarPass: async (req, res) => {
+    //     const email = req.body.email;
+    //     const password = req.body.password;
+    //     const passHash = await bcryptjs.hash(password, 8);
+    //     usuarioModule.modificarPass(email, passHash, function (data) {
+    //         res.send(data);
+    //         console.log("Contraseña Actualizada");
+    //     });
+    // },
+
+    modificarPass: async (req, res) => {
+        try {
+            const email = req.body.email;
+            const password = req.body.password;
+            const passHash = await bcryptjs.hash(password, 8);
+
+            conexion.query('SELECT email , password FROM users WHERE email =? ',
+                [email],
+                async (error, results) => {
+                    if (results.length == 0  || !(await bcryptjs.compare(password, results[0].password))) {
+                        res.status(401).send('No Autorizado');
+                        console.log('Email o contraseña erronea ')
+                    } else {
+                        usuarioModule.modificarPass(email, passHash, function (data) {
+                            res.send(data);
+                            console.log("Contraseña Actualizada");
+                        });
+                    };
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 };
 
