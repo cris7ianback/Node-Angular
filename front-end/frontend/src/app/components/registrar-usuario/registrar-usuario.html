@@ -6,13 +6,14 @@
                     <h1 mat-dialog-title>Registro de Usuario</h1>
                 </div>
                 <div class="card-body">
-                    <form [formGroup]="formAgUsuario">                      
+                    <form [formGroup]="formAgUsuario">
 
                         <!--FORMULARIO USUARIO -->
-                        <div mat-dialog-content >
-                            <mat-form-field appearance="outline" >
+                        <div mat-dialog-content>
+                            <mat-form-field appearance="outline">
                                 <mat-label>Usuario</mat-label>
                                 <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
+                                <mat-error>Escriba su Nombre & Apellido.cl</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO EMAIL -->
@@ -20,13 +21,16 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
                                 <input formControlName="email" matInput placeholder="Ejemplo@test.cl" />
+                                <mat-error>Escriba su Correo Formato ejemplo@prueba.cl</mat-error>
                             </mat-form-field>
+
                         </div>
                         <!-- FORMULARIO PASSWORD -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Password</mat-label>
-                                <input type="password"formControlName="password" matInput placeholder="password" />
+                                <input type="password" formControlName="password" matInput placeholder="password" />
+                                <mat-error>Escriba su Contraseña</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO ROL -->
@@ -37,11 +41,14 @@
                                     <mat-option value="admin">Administrador</mat-option>
                                     <mat-option value="user">Usuario</mat-option>
                                 </mat-select>
+                                <mat-error>Debe seleccionar un Rol</mat-error>
                             </mat-form-field>
                         </div>
                         <div mat-dialog-actions [align]="'end'">
-                            <button mat-raised-button class="btn btn-warning" mat-dialog-close (click)="cancelar()">Cancelar</button>
-                            <button style="margin-left: 8px" mat-raised-button class="btn btn-success" [disabled]="formAgUsuario.invalid" (click)="registrarUsuario()">
+                            <button mat-raised-button class="btn btn-warning" mat-dialog-close
+                                (click)="cancelar()">Cancelar</button>
+                            <button style="margin-left: 8px" mat-raised-button class="btn btn-success"
+                                [disabled]="formAgUsuario.invalid" (click)="registrarUsuario()">
                                 Registrar Usuario </button>
                         </div>
                     </form>

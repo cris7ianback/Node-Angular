@@ -12,7 +12,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Usuario</mat-label>
                                 <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
-                            
+                                <mat-error >Escriba su Nombre & Apellido</mat-error>
                             </mat-form-field>
 
                         </div>
@@ -21,6 +21,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
                                 <input formControlName="email" matInput placeholder="Ejemplo@test.cl" />
+                                <mat-error >Escriba su Correo ejemplo@test.cl</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO PASSWORD -->
@@ -29,7 +30,8 @@
                                 <mat-label>Password</mat-label>
                                 <input [type]="hide ? 'password': 'text'" formControlName="password" matInput placeholder="password" />
                             <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
-                            </mat-form-field>
+                            <mat-error >Escriba su Contraseña Actual</mat-error>    
+                        </mat-form-field>
                         </div>
 
                            <!-- FORMULARIO PASSWORD NEW -->
@@ -40,7 +42,7 @@
                                     placeholder="Nueva Password" />
                                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
                                 </mat-icon>
-                                <mat-error >Escriba su contraseña</mat-error>
+                                <mat-error >Escriba su Nueva Contraseña </mat-error>
                             </mat-form-field>
 
                         </div>
@@ -53,7 +55,7 @@
                                     matInput placeholder="Confirmar Password" />
                                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
                                 </mat-icon>                            
-                                <mat-error >Password deben ser iguales</mat-error>
+                                <mat-error >Contraseña deben ser iguales</mat-error>
                             </mat-form-field>
                         </div>
 

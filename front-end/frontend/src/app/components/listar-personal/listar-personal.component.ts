@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+
 
 
 import { Personal } from 'src/app/models/personal';
@@ -16,6 +17,7 @@ import { ModificarPersonalComponent } from '../modificar-personal/modificar-pers
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 import { CambioPasswordComponent } from '../cambio-password/cambio-password.component';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-listar-personal',
@@ -42,11 +44,14 @@ export class ListarPersonalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,
-              private http: HttpClient,
-              private _personalService: PersonalService,
-              private router: Router,
-              private toast: NgToastService ) { }
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient,
+    private _personalService: PersonalService,
+    private router: Router,
+    private toast: NgToastService,
+    private dialogService: DialogService
+  ) { }
 
   ngOnInit(): void {
 
@@ -66,14 +71,14 @@ export class ListarPersonalComponent implements OnInit {
               duration: 3000,
               position: 'br'
             })
-            
+
             this.router.navigate(['vistaUsuario'])
-              //navega a ruta VistaUsuario
+            //navega a ruta VistaUsuario
           }
           this.estado = true
         });
 
-        //carga la lista personal
+    //carga la lista personal
     this.cargarPersonal();
     this._personalService.listarPersonal().subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
@@ -86,7 +91,7 @@ export class ListarPersonalComponent implements OnInit {
     this.listPersonal = this._personalService.listarPersonal();
   }
 
-    //aplica filtro para la tabla
+  //aplica filtro para la tabla
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
@@ -125,16 +130,36 @@ export class ListarPersonalComponent implements OnInit {
   //       })
   // }
 
-  eliminarPersonal(id_persona: any): void{
-    if(confirm ('seguro que desea eliminar')){
-      this._personalService.eliminarPersonal(id_persona)
-      .subscribe((data)=>{
-        this.refreshList();
-      },(error)=>{
-        console.log(error)
-      })
-    }
-  }
+  eliminarPersonal(id_persona: any): void {
+
+    this.dialogService.openConfirmDialog('¿Esta seguro de Eliminar Personal?')
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this._personalService.eliminarPersonal(id_persona)
+            .subscribe((data) => {
+              this.toast.success({
+                detail: "Accion Ejecutada",
+                summary: "Personal Eliminado",
+                duration: 2000,
+                position: 'br'
+              })
+
+              this.refreshList();
+
+            }, (error) => {
+              this.toast.warning({
+                detail: "Atencion",
+                summary: "Error al Eliminar Personal",
+                duration: 2000,
+                position: 'br'
+              })
+            })
+        }
+      });
+
+
+  };
+
 
   //cancela acción.
   cancelar() {
@@ -149,7 +174,7 @@ export class ListarPersonalComponent implements OnInit {
   //edita Personal en listar personal.
   editPersonal(row: any) {
     this.dialog.open(ModificarPersonalComponent, {
-      width: '30%',
+      width: '50%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'Modificar Personal') {
@@ -161,17 +186,17 @@ export class ListarPersonalComponent implements OnInit {
   //Modal Registra Personal
   registrarPersonal() {
     this.dialog.open(RegistrarPersonalComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Personal') {
         this.refreshList();
       }
     });
   }
-//Modal Registra Usuario
+  //Modal Registra Usuario
   registrarUsuario() {
     this.dialog.open(RegistrarUsuarioComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {
         this.refreshList();
@@ -182,7 +207,7 @@ export class ListarPersonalComponent implements OnInit {
   cambioPass() {
     this.dialog.open(CambioPasswordComponent, {
       width: '50%',
-      
+
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {
         this.refreshList();

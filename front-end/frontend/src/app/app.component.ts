@@ -62,7 +62,7 @@ export class AppComponent {
       width: '50%',
 
     }).afterClosed().subscribe(val => {
-      if (val === 'Modificar Contraseña') {
+      if (val === 'Modificar Contraseña Usuario') {
         this.refreshList();
       }
     });

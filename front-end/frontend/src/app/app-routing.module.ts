@@ -18,7 +18,7 @@ import  {CambioPasswordComponent} from './components/cambio-password/cambio-pass
 import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'listarPersonal', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'listarPersonal',                 component: ListarPersonalComponent, canActivate: [AuthGuard] },
   { path: 'listarUsuarios',                 component: ListarUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'registrarUsuario',               component: RegistrarUsuarioComponent, },
@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'modificarUsuario/:id_user',      component: ModificarUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'vistaUsuario',                   component: VistaUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'listarInventario',               component: ListarInventarioComponent, canActivate: [AuthGuard]},
-  { path: 'perfil'  ,               component: PerfilComponent}
+  { path: 'perfil'  ,                       component: PerfilComponent}
 
 ];
 

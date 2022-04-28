@@ -96,7 +96,55 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-    }
+    },
+
+    // modificarpass2: async (req, res)=>{
+    //     const {email, oldPassword, newPassword } = request.body
+    //     const selectUserQuery =  `SELECT email , password FROM users WHERE email = '${email}'; `;
+    //     const dbUser = await db.get(selectUserQuery);
+    //     id(dbUser === undefined) {
+    //         response.status (400);
+    //         response.send("Invalid user");
+    //     }else{
+
+    //     }
+    // }
+
+
+    modificarPass2: async (request, response) => {
+        const { email, oldPassword, newPassword } = request.body;
+        const selectUserQuery = `SELECT * FROM users WHERE email = '${email}';`;
+        const dbUser = await db.get(selectUserQuery);
+        if (dbUser === undefined) {
+            console.log("entra al if")
+            response.status(400);
+          response.send("Invalid user");
+        } else {
+            console.log("entra al else")
+          const isPasswordMatch = await bcrypt.compare(oldPassword, dbUser.password);
+          if (isPasswordMatch === true) {
+            if (validatePassword(newPassword)) {
+              const hashedPassword = await bcrypt.hash(newPassword, 10);
+              const updateUserQuery = `UPDATE 
+                    users
+                    set 
+                    password = '${hashedPassword}'
+                    WHERE emmail = '${email}';`;
+              const user = await db.run(updateUserQuery);
+              response.send("Password updated");
+            } else {
+              response.status(400);
+              response.send("Password is too short");
+              console.log(" password cota")
+            }
+          } else {
+            response.status(400);
+            response.send("Invalid current password");
+            console.log("invalid password")
+          }
+        }
+      } 
+
 
 };
 

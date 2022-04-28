@@ -4,10 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog.service';
 
 import { Users } from 'src/app/models/users';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -25,7 +25,7 @@ import { CambioPasswordComponent } from '../cambio-password/cambio-password.comp
 export class ListarUsuariosComponent implements OnInit {
 
   private URL = 'http://localhost:3000/'
-  
+
   currentPersonal?: {};
   currentIndex = -1;
   estado?: boolean;
@@ -43,13 +43,14 @@ export class ListarUsuariosComponent implements OnInit {
 
 
   constructor(
-              private dialog: MatDialog,
-              private http: HttpClient,
-              private router: Router,
-              private usuarioService: UsuarioService,
-              private _usuarioService: UsuarioService,
-              private toast: NgToastService,
-              ){ }
+    private dialog: MatDialog,
+    private http: HttpClient,
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private _usuarioService: UsuarioService,
+    private toast: NgToastService,
+    private dialogService: DialogService,
+  ) { }
 
 
   ngOnInit(): void {
@@ -100,31 +101,33 @@ export class ListarUsuariosComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  eliminarUsuario(id_user: any): void {
-    this.usuarioService.eliminarUsuario(id_user)
-      .subscribe(
-        res => {
-          this.toast.success({
-            detail: "Accion Ejecutada",
-            summary: "Usuario Eliminado",
-            duration: 2000,
-            position: 'br'
-          })
-          console.log(res)
-          this.refreshList();
-        },
-        error => {
-          console.log(error);
-          this.toast.warning({
-            detail: "Atencion",
-            summary: "Personal Eliminado",
-            duration: 2000,
-            position: 'br'
-          })
-        
-        })
 
+  eliminarUsuario(id_user: any) {
+    this.dialogService.openConfirmDialog('¿Está seguro de eliminar Este Usuario?')
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.usuarioService.eliminarUsuario(id_user)
+            .subscribe((data) => {
+              this.toast.success({
+                detail: "Accion Ejecutada",
+                summary: "Usuario Eliminado",
+                duration: 2000,
+                position: 'br'
+              })
+              this.refreshList();
+
+            }, (error) => {
+              this.toast.warning({
+                detail: "Atencion",
+                summary: "Error al Eliminar Usuario",
+                duration: 2000,
+                position: 'br'
+              })
+            })
+        }
+      })
   }
+
   // cancelar acción
   cancelar() {
     this.toast.warning({
@@ -178,15 +181,15 @@ export class ListarUsuariosComponent implements OnInit {
     });
   }
 
-  deleteUsuario (){
-    this.dialog.open( ListarPersonalComponent, {
+  deleteUsuario() {
+    this.dialog.open(ListarPersonalComponent, {
       width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === ' Eliminar Personal') {
         this.refreshList();
       }
     });
-    }
+  }
 
 
 

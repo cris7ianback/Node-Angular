@@ -13,6 +13,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Nombre</mat-label>
                                 <input formControlName="nombre" matInput placeholder="Ingrese Nombre" />
+                                <mat-error >Escriba su Nombre</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO APELLIDO -->
@@ -20,14 +21,16 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Apellido</mat-label>
                                 <input formControlName="apellido" matInput placeholder=" Ingrese Apellido" />
+                                <mat-error >Escriba su Apellido</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO CORREO -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Correo</mat-label>
-                                <input formControlName="correo" matInput placeholder="ejemplo@prueba.cl" />
-                            </mat-form-field>
+                                <input formControlName="correo" matInput placeholder="ejemplo@prueba.cl" />                                
+                                <mat-error >Escriba su Correo Formato ejemplo@prueba.cl</mat-error>
+                            </mat-form-field>   
                         </div>
 
                         <div mat-dialog-actions [align]="'end'">
@@ -43,3 +46,4 @@
         </div>
     </div>
 </div>
+

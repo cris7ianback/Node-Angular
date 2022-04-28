@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog.service';
+
 
 import { InventarioServices } from 'src/app/services/inventario.service';
 import { Inventario } from 'src/app/models/inventario';
@@ -40,7 +42,8 @@ export class ListarInventarioComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private inventarioService: InventarioServices,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
@@ -66,40 +69,46 @@ export class ListarInventarioComponent implements OnInit {
     this.listInventario = this.inventarioService.listarInventario();
   }
 
-  eliminarInventario( id_inventario: any): void{
-    this.inventarioService.eliminarInventario(id_inventario)
-    .subscribe(
-      res => {
-        this.toast.success({
-          detail: "Accion Ejecutada",
-          summary: "Usuario Eliminado",
-          duration: 2000,
-          position: 'br'
-        })
-        console.log(res)
-        this.refreshList();
+  eliminarInventario(id_inventario: any): void {
+    this.dialogService.openConfirmDialog('¿Está seguro de eliminar Este Producto?')
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.inventarioService.eliminarInventario(id_inventario)
+            .subscribe((data) => {
+              this.toast.success({
+                detail: "Accion Ejecutada",
+                summary: "Usuario Eliminado",
+                duration: 2000,
+                position: 'br'
+              })
+              this.refreshList();
+            },
+              (error) => {
 
-      },
-      error =>{
-        console.log(error);
-        this.toast.warning({
-          detail: "Atencion",
-          summary: "Personal Eliminado",
-          duration: 2000,
-          position: 'br'
-        })
+                this.toast.warning({
+                  detail: "Atencion",
+                  summary: "Personal Eliminado",
+                  duration: 2000,
+                  position: 'br'
+                })
 
-      }
-    )
+              })
+        }
 
+
+
+
+      })
   }
 
-  editInventario (row: any){
-    this.dialog.open(ModificarInventarioComponent,{
-      width:'30%',
+
+
+  editInventario(row: any) {
+    this.dialog.open(ModificarInventarioComponent, {
+      width: '30%',
       data: row
-    }).afterClosed().subscribe(val =>{
-      if (val === 'Modificar Producto'){
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Producto') {
         this.refreshList();
       }
     })

@@ -1,0 +1,15 @@
+<div>
+    <div class="content-container">
+        <mat-icon id="close-icon" (click)="closeDialog()">close</mat-icon>
+        <span class="content-span full width"> {{ data.message }}</span>
+    </div>
+    <br>
+    <br>
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button class="btn btn-warning" mat-dialog-close
+        (click)="cancelar()">Cancelar</button>
+        
+        <button mat-raised-button class="btn btn-success" style="margin-left: 8px"
+            [mat-dialog-close]="true">Confirmar</button>
+    </div>
+</div>

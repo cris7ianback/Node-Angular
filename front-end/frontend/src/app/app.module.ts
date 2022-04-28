@@ -45,7 +45,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { HasRoleGuard } from './has-role.guard';
 import { CambioPasswordComponent } from './components/cambio-password/cambio-password.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatConfirmDialogComponent } from './components/mat-confirm-dialog/mat-confirm-dialog.component';
 
 
 @NgModule({
@@ -64,7 +65,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     VistaUsuarioComponent,
     CambioPasswordComponent,
     PerfilComponent,
-    
+    MatConfirmDialogComponent,
+
+
 
   ],
   imports: [
@@ -93,22 +96,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatSelectSearchModule,
     MatSelectModule,
     MatTableExporterModule,
-    MatDialogModule
-    
-    
+    BrowserAnimationsModule
+
+
 
   ],
   providers: [
     AuthGuard,
     FormBuilder,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true
-    },
-    HasRoleGuard
-
-  ],
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    HasRoleGuard],
+  entryComponents: [MatConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
