@@ -12,7 +12,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Usuario</mat-label>
                                 <input formControlName="user" matInput placeholder="Ingrese Nombre & Apellido" />
-                                <mat-error >Escriba su Nombre & Apellido</mat-error>
+                                <mat-error>Escriba su Nombre & Apellido</mat-error>
                             </mat-form-field>
 
                         </div>
@@ -21,28 +21,30 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
                                 <input formControlName="email" matInput placeholder="Ejemplo@test.cl" />
-                                <mat-error >Escriba su Correo ejemplo@test.cl</mat-error>
+                                <mat-error>Escriba su Correo ejemplo@test.cl</mat-error>
                             </mat-form-field>
                         </div>
                         <!-- FORMULARIO PASSWORD -->
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Password</mat-label>
-                                <input [type]="hide ? 'password': 'text'" formControlName="password" matInput placeholder="password" />
-                            <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
-                            <mat-error >Escriba su Contraseña Actual</mat-error>    
-                        </mat-form-field>
+                                <input [type]="hide ? 'password': 'text'" formControlName="password" matInput
+                                    placeholder="password" />
+                                <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
+                                </mat-icon>
+                                <mat-error>Escriba su Contraseña Actual</mat-error>
+                            </mat-form-field>
                         </div>
 
-                           <!-- FORMULARIO PASSWORD NEW -->
-                           <div mat-dialog-content>
+                        <!-- FORMULARIO PASSWORD NEW -->
+                        <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Nueva Password</mat-label>
-                                <input [type]="hide ? 'confirmPassword': 'text'" formControlName="newPassword" matInput
+                                <input [type]="hide ? 'newPassword': 'text'" formControlName="newPassword" matInput
                                     placeholder="Nueva Password" />
                                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
                                 </mat-icon>
-                                <mat-error >Escriba su Nueva Contraseña </mat-error>
+                                <mat-error>Escriba su Nueva Contraseña </mat-error>
                             </mat-form-field>
 
                         </div>
@@ -54,8 +56,8 @@
                                 <input [type]="hide ? 'confirmPassword': 'text'" formControlName="confirmPassword"
                                     matInput placeholder="Confirmar Password" />
                                 <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}
-                                </mat-icon>                            
-                                <mat-error >Contraseña deben ser iguales</mat-error>
+                                </mat-icon>
+                                <mat-error>Contraseña deben ser iguales</mat-error>
                             </mat-form-field>
                         </div>
 

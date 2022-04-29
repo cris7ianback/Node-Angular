@@ -150,18 +150,6 @@ export class ListarUsuariosComponent implements OnInit {
     })
   }
 
-
-  editPassword(row: any) {
-    this.dialog.open(CambioPasswordComponent, {
-      width: '50%',
-      data: row
-    }).afterClosed().subscribe(val => {
-      if (val === 'Modificar Usuario') {
-        this.refreshList();
-      }
-    })
-  }
-
   registrarUsuario() {
     this.dialog.open(RegistrarUsuarioComponent, {
       width: '50%'
@@ -191,8 +179,16 @@ export class ListarUsuariosComponent implements OnInit {
     });
   }
 
-
-
+  modificarPass() {
+    this.dialog.open(CambioPasswordComponent, {
+      width: '50%',
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Password') {
+        this.refreshList();
+  
+      }
+    });
+  }
 
 }
 

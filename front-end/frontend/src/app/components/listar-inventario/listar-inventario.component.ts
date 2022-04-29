@@ -16,6 +16,7 @@ import { ModificarInventarioComponent } from '../modificar-inventario/modificar-
 import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuario.component';
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 import { RegistrarInventarioComponent } from '../registrar-inventario/registrar-inventario.component';
+import { CambioPasswordComponent } from '../cambio-password/cambio-password.component';
 
 @Component({
   selector: 'app-listar-inventario',
@@ -105,7 +106,7 @@ export class ListarInventarioComponent implements OnInit {
 
   editInventario(row: any) {
     this.dialog.open(ModificarInventarioComponent, {
-      width: '30%',
+      width: '50%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'Modificar Producto') {
@@ -115,7 +116,7 @@ export class ListarInventarioComponent implements OnInit {
   }
   registrarUsuario() {
     this.dialog.open(RegistrarUsuarioComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Usuario') {
         this.refreshList();
@@ -124,7 +125,7 @@ export class ListarInventarioComponent implements OnInit {
   }
   registrarPersonal() {
     this.dialog.open(RegistrarPersonalComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Personal') {
         this.refreshList();
@@ -133,7 +134,7 @@ export class ListarInventarioComponent implements OnInit {
   }
   registrarInventario() {
     this.dialog.open(RegistrarInventarioComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'Registrar Producto') {
         this.refreshList();
@@ -146,7 +147,16 @@ export class ListarInventarioComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-
+  modificarPass() {
+    this.dialog.open(CambioPasswordComponent, {
+      width: '50%',
+    }).afterClosed().subscribe(val => {
+      if (val === 'Modificar Password') {
+        this.refreshList();
+  
+      }
+    });
+  }
 
 
 }

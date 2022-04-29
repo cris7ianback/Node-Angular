@@ -1,13 +1,15 @@
 <h1>Lista de Usuarios</h1>
 <div style="height: 100%;">
   <mat-toolbar>
-  
+
     <span (click)="registrarUsuario()" class="material-icons" matTooltip="Registrar Usuario">person</span>
     <span (click)="registrarPersonal()" class="material-icons" matTooltip="Registrar Personal">people</span>
-    <span class="material-icons" style="cursor: pointer;" routerLink="/listarPersonal" matTooltip="Listar Personal">list</span> 
-    <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons" matTooltip="Exportar Tabla">file_download</span>  
-    
-    
+    <span class="material-icons" style="cursor: pointer;" routerLink="/listarPersonal"
+      matTooltip="Listar Personal">list</span>
+    <span mat-raised-button (click)="exporter.exportTable('csv')" class="material-icons"
+      matTooltip="Exportar Tabla">file_download</span>
+
+
   </mat-toolbar>
 
 </div>
@@ -51,11 +53,17 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
       <td mat-cell *matCellDef="let user ; let index" style="text-align: right;">
-        
-  
-        <span mat-icon-button  matTooltip="Editar Usuario" (click)="editUsuarios(user)" style="color: #1878b0;" class="pointers"><mat-icon>edit</mat-icon></span>      
-        <span class="pointer" (click)="eliminarUsuario(user.id_user)" matTooltip="Eliminar Usuario" style="color: #e15639;">  <mat-icon>delete</mat-icon></span>
-        
+
+
+        <span mat-icon-button matTooltip="Editar Usuario" (click)="editUsuarios(user)" style="color: #1878b0;"
+          class="pointers">
+          <mat-icon>edit</mat-icon>
+        </span>
+        <span class="pointer" (click)="eliminarUsuario(user.id_user)" matTooltip="Eliminar Usuario"
+          style="color: #e15639;">
+          <mat-icon>delete</mat-icon>
+        </span>
+
       </td>
     </ng-container>
 

@@ -29,7 +29,17 @@
                         <div mat-dialog-content>
                             <mat-form-field appearance="outline">
                                 <mat-label>Password</mat-label>
-                                <input type="password" formControlName="password" matInput placeholder="password" />
+                                <input [type]="hide ? 'password': 'text'"  formControlName="password" matInput placeholder="password" />
+                                <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                <mat-error>Escriba su Password</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- FORMULARIO CONFIRMAR PASSWORD -->
+                        <div mat-dialog-content>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Confirmar Password</mat-label>
+                                <input [type]="hide ? 'password': 'text'" formControlName="password" matInput placeholder="Confirmar password" />
+                                <mat-icon matSuffix (click)="hide = !hide"> {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                 <mat-error>Escriba su Contraseña</mat-error>
                             </mat-form-field>
                         </div>

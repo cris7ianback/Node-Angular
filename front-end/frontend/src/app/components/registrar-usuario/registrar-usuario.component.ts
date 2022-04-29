@@ -21,7 +21,7 @@ export class RegistrarUsuarioComponent implements OnInit {
   estado?: boolean;
   formAgUsuario !: FormGroup;
   usuarios: Users = { id_user: '', user: '', email: '', password: '', id_role: ''  };
-  
+  hide = true;  
 
   constructor(private router: Router,
               private fb: FormBuilder,

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 
+
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Users } from 'src/app/models/users';
 import { CambioPasswordComponent } from './components/cambio-password/cambio-password.component';
@@ -27,7 +28,9 @@ export class AppComponent {
 
   constructor(public authService: AuthService,
     private http: HttpClient,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private router: Router
+    ) { }
   title = 'frontend';
 
   ngOnInit() {
@@ -57,13 +60,14 @@ export class AppComponent {
     this.currentIndex = -1;
   }
 
-  cambioPass() {
+  modificarPass() {
     this.dialog.open(CambioPasswordComponent, {
       width: '50%',
-
     }).afterClosed().subscribe(val => {
-      if (val === 'Modificar Contraseña Usuario') {
-        this.refreshList();
+      if (val === 'Modificar Password') {
+        localStorage.removeItem('token');
+        this.router.navigate(['/login'])
+  
       }
     });
   }

@@ -204,17 +204,17 @@ export class ListarPersonalComponent implements OnInit {
     });
   }
 
-  cambioPass() {
+  modificarPass() {
     this.dialog.open(CambioPasswordComponent, {
       width: '50%',
-
     }).afterClosed().subscribe(val => {
-      if (val === 'Registrar Usuario') {
+      if (val === 'Modificar Password') {
         this.refreshList();
+  
       }
     });
-  }
 
+  }
 }
 
 

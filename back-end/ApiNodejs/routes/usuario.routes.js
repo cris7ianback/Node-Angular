@@ -25,7 +25,7 @@ router.get('/eliminarUsuario/:id_user', middlewareController.isAuthenticated, mi
 router.put('/modificarUsuario/:id_user', middlewareController.isAuthenticated, middlewareController.isAuthRoleEditorAdmin, controllerUsuario.modificarUsuario);
 router.get('/listarUsuariosId/:id_user', middlewareController.isAuthenticated, controllerUsuario.listarUsuariosId);
 router.put('/modificarPass/:email', controllerUsuario.modificarPass);
-router.put('change-password', controllerUsuario.modificarPass2);
+
 
 
 
