@@ -33,6 +33,16 @@
                             </mat-form-field>
                         </div>
 
+                        <div class="form-group row">
+                            <mat-label for="photo" class="sol-sm-2 col-form-label">Photo</mat-label>
+                            <div class="col-sm-9">
+                            
+                            </div>   
+                        </div>
+
+                        <input type="file" class="file-upload" onchange="console.log(event.target.files)">
+
+
                         <div mat-dialog-actions [align]="'end'">
                             <button mat-raised-button class="btn btn-warning" mat-dialog-close
                                 (click)="cancelar()">Cancelar</button>
@@ -40,6 +50,11 @@
                                 [disabled]="formAgInventario.invalid" (click)="registrarInventario()">
                                 Registrar Producto </button>
                         </div>
+
+
+                        
+
+                   
                     </form>
                 </div>
             </div>

@@ -3,6 +3,12 @@ const conexion = require('../config/conexion');
 const inventarioModule = require('../models/inventario.model');
 const jwt = require('jsonwebtoken');
 
+const multer = require('multer');
+    //upload = multer ({ dest: './archivos'});
+    const upload = multer ({storage:multer.memoryStorage()});
+
+
+
 
 module.exports = {
 
@@ -17,6 +23,7 @@ module.exports = {
     listarInventario: function (req, res) {
         inventarioModule.listarInventario(function (data) {
             res.send(data);
+            console.log(data)
         });
     },
 
@@ -35,15 +42,20 @@ module.exports = {
 
 
     registrarInventario: async (req, res) => {
+       
+        //const imagenes = req.file.buffer.toString('base64');
+        imagenes = req.file.buffer.toString('base64');
         const nombre = req.body.nombre;
         const cantidad = req.body.cantidad;
         const unidad = req.body.unidad;
+        
+        
 
         inventarioModule.buscarInventario(nombre, function (data) {
             if (data != undefined) {
                 return res.status(501).send('Producto ya existente en inventario');
             } else {
-                inventarioModule.registrarInventario(nombre, cantidad, unidad, function (data) {
+                inventarioModule.registrarInventario(nombre, cantidad, unidad, imagenes, function (data) {
                     return (res.status(200).send('Producto Ingresado con exito'))
                 })
             }

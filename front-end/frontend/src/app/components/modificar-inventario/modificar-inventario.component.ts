@@ -35,6 +35,7 @@ export class ModificarInventarioComponent implements OnInit {
       this.formModInventario.controls['nombre'].setValue(this.editData.nombre);
       this.formModInventario.controls['cantidad'].setValue(this.editData.cantidad);
       this.formModInventario.controls['unidad'].setValue(this.editData.unidad);
+      
     }
   }
 

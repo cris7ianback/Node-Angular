@@ -47,8 +47,8 @@ module.exports = {
 
     },
 
-    registrarInventario: function (nombre, cantidad, unidad, callback) {
-        const sql = `INSERT INTO inventario(nombre, cantidad, unidad) VALUES('${nombre}', '${cantidad}','${unidad}')`;
+    registrarInventario: function (nombre, cantidad, unidad, imagenes, callback) {
+        const sql = `INSERT INTO inventario(nombre, cantidad, unidad, imagenes) VALUES('${nombre}', '${cantidad}','${unidad}', '${imagenes}')`;
         conexion.query(sql, function (err, rows, fields) {
             if (err) throw err;
             else {

@@ -17,6 +17,7 @@ import { RegistrarUsuarioComponent } from '../registrar-usuario/registrar-usuari
 import { RegistrarPersonalComponent } from '../registrar-personal/registrar-personal.component';
 import { RegistrarInventarioComponent } from '../registrar-inventario/registrar-inventario.component';
 import { CambioPasswordComponent } from '../cambio-password/cambio-password.component';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-listar-inventario',
@@ -30,7 +31,9 @@ export class ListarInventarioComponent implements OnInit {
   currentPersonal?: {};
   currentIndex = -1;
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['nombre', 'cantidad', 'unidad', 'acciones'];
+  displayedColumns: string[] = ['nombre', 'cantidad', 'unidad', 'acciones','imagenes'];
+
+
   estado?: boolean;
   listInventario!: Observable<Inventario[]>;
   row: any;
@@ -54,6 +57,12 @@ export class ListarInventarioComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      
+      // var imagenes = this.dataSource.filteredData[0]['imagenes']
+      // console.log('imagen:', imagenes);
+
+
+      
     });
   }
 
