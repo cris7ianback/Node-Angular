@@ -47,6 +47,7 @@ import { CambioPasswordComponent } from './components/cambio-password/cambio-pas
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatConfirmDialogComponent } from './components/mat-confirm-dialog/mat-confirm-dialog.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { MatConfirmDialogComponent } from './components/mat-confirm-dialog/mat-c
     MatSelectSearchModule,
     MatSelectModule,
     MatTableExporterModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMatFileInputModule
 
 
 

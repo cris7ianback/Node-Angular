@@ -1,22 +1,12 @@
 const express = require('express');
 const app = express();
-const multer = require("multer") ;
-
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 dotenv.config({ path: './env/.env' });
 const session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
-
-
-
-    //upload = multer ({ dest: './archivos'});
-    
-
 const cors = require('cors');
-
-
 
 var sessionStore = new MySQLStore({
   host     : process.env.DB_HOST,
@@ -28,14 +18,6 @@ var sessionStore = new MySQLStore({
   checkExpirationInterval: 60000,
 }
 );
-
-const upload = multer ({storage: multer.memoryStorage()});
-
-app.post("/photoDB",upload.single('ProductImage'),(req,res)=>{
-  
-  imagenes = req.file
-  console.log(imagenes)
-})
 
 app.use(session({
   secret: 'secreto',
@@ -96,10 +78,3 @@ app.listen(3000, () => {
   console.log('SERVER UP running in http://localhost:3000');
 });
 
-/* app.use(function(req,res,next){
-  res.header("Access-control-Allow-Origin", "*");
-  res.header("Access-control-Allow-headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
- */

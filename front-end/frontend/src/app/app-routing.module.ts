@@ -15,7 +15,8 @@ import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.
 import { ListarInventarioComponent } from './components/listar-inventario/listar-inventario.component';
 import { HasRoleGuard } from './has-role.guard';
 import  {CambioPasswordComponent} from './components/cambio-password/cambio-password.component';
-import { PerfilComponent } from './components/perfil/perfil.component';
+
+import { RegistrarInventarioComponent } from './components/registrar-inventario/registrar-inventario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'modificarUsuario/:id_user',      component: ModificarUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'vistaUsuario',                   component: VistaUsuarioComponent, canActivate: [AuthGuard] },
   { path: 'listarInventario',               component: ListarInventarioComponent, canActivate: [AuthGuard]},
-  { path: 'perfil'  ,                       component: PerfilComponent}
+  { path: 'registrarinventario'  ,          component: RegistrarInventarioComponent}
 
 ];
 

@@ -3,12 +3,6 @@ const conexion = require('../config/conexion');
 const inventarioModule = require('../models/inventario.model');
 const jwt = require('jsonwebtoken');
 
-const multer = require('multer');
-    //upload = multer ({ dest: './archivos'});
-    const upload = multer ({storage:multer.memoryStorage()});
-
-
-
 
 module.exports = {
 
@@ -23,7 +17,6 @@ module.exports = {
     listarInventario: function (req, res) {
         inventarioModule.listarInventario(function (data) {
             res.send(data);
-            console.log(data)
         });
     },
 
@@ -42,14 +35,10 @@ module.exports = {
 
 
     registrarInventario: async (req, res) => {
-       
-        //const imagenes = req.file.buffer.toString('base64');
-        imagenes = req.file.buffer.toString('base64');
         const nombre = req.body.nombre;
         const cantidad = req.body.cantidad;
         const unidad = req.body.unidad;
-        
-        
+        const imagenes = req.body.imagenes;
 
         inventarioModule.buscarInventario(nombre, function (data) {
             if (data != undefined) {
